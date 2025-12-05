@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUICKSHELF - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>QUICKSHELF</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#products">Products</a>
+            <a href="#">About Us</a>
+        </nav>
+    </header>
+
+    <main id="products">
+        <h2>Our Products</h2>
+        <div class="product-grid">
+            <div class="product-card" data-product-id="1" data-price="24.99" data-name="Premium Widget">
+                <img src="placeholder-image-1.jpg" alt="Premium Widget">
+                <h3>Premium Widget</h3>
+                <p>
+                    A high-quality item with excellent features.
+                </p>
+                <p class="price">
+                    $24.99
+                </p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+
+            <div class="product-card" data-product-id="2" data-price="12.50" data-name="Standard Gizmo">
+                <img src="placeholder-image-2.jpg" alt="Standard Gizmo">
+                <h3>Standard Gizmo</h3>
+                <p>
+                    Reliable and cost-effective.
+                </p>
+                <p class="price">
+                    $12.50
+                </p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+
+    <aside id="floating-cart">
+        <h3>🛒 Your Cart</h3>
+        <div id="cart-items">
+            <p>
+                Your cart is empty.
+            </p>
+        </div>
+        <div class="cart-summary">
+            <p>
+                Total Items: <span id="cart-count">0</span>
+            </p>
+            <p>
+                Total: $<span id="cart-total">0.00</span>
+            </p>
+        </div>
+        <button id="checkout-btn">Checkout</button>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+</html>
