@@ -1,0 +1,1387 @@
+/* ================================================
+   VESSEL TRACKING STYLES
+   ================================================ */
+
+/* Vessel Dashboard */
+.vessel-dashboard {
+    min-height: calc(100vh - 75px);
+    background: var(--light);
+}
+
+.vessel-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 3rem 0;
+    box-shadow: var(--shadow-lg);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.vessel-icon-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    font-size: 2.5rem;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.dashboard-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Vessel Search */
+.vessel-search {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.vessel-search .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+    font-size: 1.25rem;
+}
+
+.vessel-search .search-input {
+    width: 100%;
+    padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1rem;
+    box-shadow: var(--shadow-lg);
+    font-family: inherit;
+}
+
+.vessel-search .search-input:focus {
+    outline: none;
+    box-shadow: var(--shadow-xl);
+}
+
+/* Stats Grid */
+.vessel-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+/* Vessel Grid */
+.vessel-grid {
+    padding: 3rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+/* Loading State */
+.loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border: 4px solid var(--gray-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.empty-icon {
+    font-size: 5rem;
+    color: var(--gray-light);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+/* Vessel Card */
+.vessel-card {
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: all var(--transition);
+    border: 2px solid transparent;
+}
+
+.vessel-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary);
+}
+
+.vessel-card-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 1.5rem;
+}
+
+.vessel-card-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.vessel-card-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.vessel-card-icon {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.vessel-card-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem 0;
+}
+
+.vessel-card-imo {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.vessel-delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.vessel-delete-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.vessel-card-body {
+    padding: 1.5rem;
+}
+
+.vessel-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.vessel-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.in-transit {
+    background: #3B82F6;
+}
+.status-dot.at-port {
+    background: #10B981;
+}
+.status-dot.anchored {
+    background: #F59E0B;
+}
+.status-dot.delayed {
+    background: #EF4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.vessel-speed {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    font-weight: 600;
+}
+
+.vessel-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.vessel-info-item {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.vessel-info-item i {
+    color: var(--primary);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.vessel-info-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.vessel-info-value {
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.vessel-card-actions {
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--light);
+}
+
+.vessel-view-btn {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 0.875rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.vessel-view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.vessel-update-time {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 1rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    padding: 1rem;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-xl);
+    max-width: 500px;
+    width: 100%;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-large {
+    max-width: 900px;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 1.5rem 1.5rem 0 0;
+    position: relative;
+}
+
+.modal-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.75rem;
+    font-weight: 900;
+}
+
+.modal-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.vessel-ids {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: background var(--transition);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--gray-light);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color var(--transition);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-group small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    padding: 1rem;
+    justify-content: center;
+}
+
+/* Detail Modal Specific */
+.status-banner {
+    background: linear-gradient(135deg, var(--light) 0%, #E5E7EB 100%);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.status-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0;
+}
+
+.status-right .status-value {
+    color: var(--primary);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.detail-card {
+    background: var(--white);
+    border: 2px solid var(--light);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    transition: border-color var(--transition);
+}
+
+.detail-card:hover {
+    border-color: var(--primary);
+}
+
+.detail-card i {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.detail-card p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gray);
+    margin: 0;
+}
+
+.map-placeholder {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    padding: 3rem;
+    border-radius: 1rem;
+    border: 2px solid #93C5FD;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.map-placeholder i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.map-placeholder h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.map-placeholder p {
+    color: var(--gray);
+    margin: 0 0 0.5rem 0;
+}
+
+.map-placeholder small {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.activity-log {
+    margin-top: 2rem;
+}
+
+.activity-log h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.activity-log i {
+    color: var(--primary);
+}
+
+.activity-item {
+    background: var(--light);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.activity-item.success {
+    border-left-color: var(--secondary);
+}
+
+.activity-item h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 0.25rem 0;
+}
+
+.activity-item p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 1.75rem;
+    }
+
+    .vessel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vessel-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-banner {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+/* ================================================
+   VESSEL TRACKING STYLES
+   ================================================ */
+
+/* Vessel Dashboard */
+.vessel-dashboard {
+    min-height: calc(100vh - 75px);
+    background: var(--light);
+}
+
+.vessel-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 3rem 0;
+    box-shadow: var(--shadow-lg);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.vessel-icon-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    font-size: 2.5rem;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.dashboard-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0.25rem 0 0 0;
+}
+
+/* Vessel Search */
+.vessel-search {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.vessel-search .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray);
+    font-size: 1.25rem;
+}
+
+.vessel-search .search-input {
+    width: 100%;
+    padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1rem;
+    box-shadow: var(--shadow-lg);
+    font-family: inherit;
+}
+
+.vessel-search .search-input:focus {
+    outline: none;
+    box-shadow: var(--shadow-xl);
+}
+
+/* Stats Grid */
+.vessel-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+/* Vessel Grid */
+.vessel-grid {
+    padding: 3rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+/* Loading State */
+.loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border: 4px solid var(--gray-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.empty-icon {
+    font-size: 5rem;
+    color: var(--gray-light);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: var(--gray);
+    margin-bottom: 2rem;
+}
+
+/* Vessel Card */
+.vessel-card {
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: all var(--transition);
+    border: 2px solid transparent;
+}
+
+.vessel-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary);
+}
+
+.vessel-card-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 1.5rem;
+}
+
+.vessel-card-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.vessel-card-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.vessel-card-icon {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.vessel-card-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem 0;
+}
+
+.vessel-card-imo {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.vessel-delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.vessel-delete-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.vessel-card-body {
+    padding: 1.5rem;
+}
+
+.vessel-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.vessel-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.in-transit {
+    background: #3B82F6;
+}
+.status-dot.at-port {
+    background: #10B981;
+}
+.status-dot.anchored {
+    background: #F59E0B;
+}
+.status-dot.delayed {
+    background: #EF4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.vessel-speed {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    font-weight: 600;
+}
+
+.vessel-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.vessel-info-item {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.vessel-info-item i {
+    color: var(--primary);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.vessel-info-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.vessel-info-value {
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.vessel-card-actions {
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--light);
+}
+
+.vessel-view-btn {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 0.875rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.vessel-view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.vessel-update-time {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 1rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    padding: 1rem;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-xl);
+    max-width: 500px;
+    width: 100%;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-large {
+    max-width: 900px;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 1.5rem 1.5rem 0 0;
+    position: relative;
+}
+
+.modal-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.75rem;
+    font-weight: 900;
+}
+
+.modal-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.vessel-ids {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: background var(--transition);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--gray-light);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color var(--transition);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-group small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    padding: 1rem;
+    justify-content: center;
+}
+
+/* Detail Modal Specific */
+.status-banner {
+    background: linear-gradient(135deg, var(--light) 0%, #E5E7EB 100%);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+}
+
+.status-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0;
+}
+
+.status-right .status-value {
+    color: var(--primary);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.detail-card {
+    background: var(--white);
+    border: 2px solid var(--light);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    transition: border-color var(--transition);
+}
+
+.detail-card:hover {
+    border-color: var(--primary);
+}
+
+.detail-card i {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.detail-card p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gray);
+    margin: 0;
+}
+
+.map-placeholder {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    padding: 3rem;
+    border-radius: 1rem;
+    border: 2px solid #93C5FD;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.map-placeholder i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.map-placeholder h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.map-placeholder p {
+    color: var(--gray);
+    margin: 0 0 0.5rem 0;
+}
+
+.map-placeholder small {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.activity-log {
+    margin-top: 2rem;
+}
+
+.activity-log h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.activity-log i {
+    color: var(--primary);
+}
+
+.activity-item {
+    background: var(--light);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.activity-item.success {
+    border-left-color: var(--secondary);
+}
+
+.activity-item h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 0.25rem 0;
+}
+
+.activity-item p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-title {
+        font-size: 1.75rem;
+    }
+
+    .vessel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vessel-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-banner {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+}

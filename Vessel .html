@@ -1,0 +1,276 @@
+<!-- vessels.html - New page for Vessel Tracking -->
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quickshelf - Vessel Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="vessel-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-box-open"></i>
+                <span>Quickshelf</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="catalogue.html" class="nav-link">Catalogue</a></li>
+                <li><a href="vessels.html" class="nav-link active">Vessel Tracking</a></li>
+                <li><a href="index.html#signin-section" class="nav-link nav-cta">Sign In</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Vessel Tracking Dashboard -->
+    <section class="vessel-dashboard">
+        <!-- Dashboard Header -->
+        <div class="vessel-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-left">
+                        <div class="vessel-icon-box">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div>
+                            <h1 class="dashboard-title">Vessel Tracking</h1>
+                            <p class="dashboard-subtitle">
+                                Real-time shipment monitoring
+                            </p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="addVesselBtn">
+                        <i class="fas fa-plus"></i> Add Vessel
+                    </button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="vessel-search">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="vesselSearchInput"
+                    placeholder="Search by vessel name, IMO, or MMSI..."
+                    class="search-input">
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="vessel-stats">
+                    <div class="stat-card">
+                        <p class="stat-label">
+                            Total Vessels
+                        </p>
+                        <p class="stat-value" id="totalVessels">
+                            0
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">
+                            In Transit
+                        </p>
+                        <p class="stat-value" id="inTransit">
+                            0
+                        </p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">
+                            At Port
+                        </p>
+                        <p class="stat-value" id="atPort">
+                            0
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vessels Grid -->
+        <div class="container">
+            <div class="vessel-grid" id="vesselGrid">
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>
+                        Loading vessels...
+                    </p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-ship empty-icon"></i>
+                    <h3>No Vessels Found</h3>
+                    <p>
+                        Start by adding your first vessel
+                    </p>
+                    <button class="btn btn-primary" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i> Add Your First Vessel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Vessel Modal -->
+    <div class="modal" id="addVesselModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Vessel</h2>
+                <button class="close-btn" onclick="closeAddModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <p class="modal-subtitle">
+                    Track your shipments in real-time
+                </p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Vessel Name *</label>
+                    <input type="text" id="vesselName" placeholder="e.g., Pacific Star" required>
+                </div>
+                <div class="form-group">
+                    <label>IMO Number *</label>
+                    <input type="text" id="vesselIMO" placeholder="e.g., 9876543"
+                    pattern="[0-9]{7}" maxlength="7" required>
+                    <small>7-digit International Maritime Organization number</small>
+                </div>
+                <div class="form-group">
+                    <label>MMSI Number *</label>
+                    <input type="text" id="vesselMMSI" placeholder="e.g., 123456789"
+                    pattern="[0-9]{9}" maxlength="9" required>
+                    <small>9-digit Maritime Mobile Service Identity</small>
+                </div>
+                <div class="form-group">
+                    <label>Expected Arrival (Optional)</label>
+                    <input type="datetime-local" id="vesselETA">
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+                    <button class="btn btn-primary" id="submitVessel">Add Vessel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vessel Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="detailVesselName"></h2>
+                <button class="close-btn" onclick="closeDetailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="vessel-ids">
+                    <span id="detailIMO"></span>
+                    <span>•</span>
+                    <span id="detailMMSI"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="status-banner" id="statusBanner">
+                    <div class="status-left">
+                        <div class="status-indicator" id="statusIndicator"></div>
+                        <div>
+                            <p class="status-label">
+                                Current Status
+                            </p>
+                            <p class="status-value" id="detailStatus"></p>
+                        </div>
+                    </div>
+                    <div class="status-right">
+                        <p class="status-label">
+                            Speed
+                        </p>
+                        <p class="status-value" id="detailSpeed"></p>
+                    </div>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Position</h4>
+                        <p id="detailPosition"></p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-compass"></i>
+                        <h4>Heading</h4>
+                        <p id="detailHeading"></p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>ETA</h4>
+                        <p id="detailETA"></p>
+                    </div>
+                </div>
+
+                <div class="map-placeholder">
+                    <i class="fas fa-map"></i>
+                    <h3>Interactive Map View</h3>
+                    <p id="mapPosition"></p>
+                    <small>Map integration with Mapbox/Leaflet would display here</small>
+                </div>
+
+                <div class="activity-log">
+                    <h3><i class="fas fa-anchor"></i> Recent Activity</h3>
+                    <div id="activityList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <div class="footer-brand">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <p class="footer-description">
+                    Your trusted partner for next-generation supply chain solutions.
+                </p>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="catalogue.html">Catalogue</a></li>
+                    <li><a href="vessels.html">Vessel Tracking</a></li>
+                    <li><a href="index.html#signin-section">Sign In</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/shipping">Shipping Info</a></li>
+                    <li><a href="/returns">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/cookies">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>
+                &copy; 2025 Quickshelf. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="vessel-tracking.js"></script>
+</body>
+</html>
