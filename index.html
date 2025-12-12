@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quickshelf - Your Next-Generation Supply Partner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        .nav-cta {
+            background: white;
+            color: #667eea;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        .hero-visual {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .hero-card i {
+            font-size: 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section.light {
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .featured {
+            border: 2px solid #667eea;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 1rem auto;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .step-description {
+            color: #666;
+        }
+
+        .process-arrow {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 5rem 2rem;
+            color: white;
+        }
+
+        .cta-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.125rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            color: #333;
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-chooser {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .form-footer {
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            opacity: 0.8;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: #666;
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Catalogue Page */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem;
+            max-width: 600px;
+            align-items: center;
+        }
+
+        .search-icon {
+            padding: 0 1rem;
+            color: #666;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+
+        .search-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Category Tabs */
+        .category-tabs-wrapper {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+        }
+
+        .category-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .category-tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Products */
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .products-title {
+            font-size: 1.75rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .product-badge.new {
+            background: #28a745;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .products-cta {
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-large {
+            padding: 1.25rem 3rem;
+            font-size: 1.125rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .process-steps {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+
+            .login-chooser {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active" onclick="showPage('homePage')">Home</a></li>
+                    <li><a href="#" class="nav-link" onclick="showPage('cataloguePage')">Catalogue</a></li>
+                    <li><a href="#" class="nav-link" onclick="showPage('cataloguePage'); setTimeout(() => document.getElementById('b2b-services').scrollIntoView({behavior: 'smooth'}), 100)">B2B Services</a></li>
+                    <li><a href="#" class="nav-link nav-cta" onclick="openLoginModal()">Sign In</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        Next-Generation Procurement
+                    </div>
+                    <h1 class="hero-title">Simplify Your Supply Chain</h1>
+                    <p class="hero-subtitle">
+                        Get what you need, when you need it. Streamlined sourcing for modern businesses with 99% on-time delivery.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary" onclick="showPage('cataloguePage'); openLoginModal('register');">
+                            Get Started <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#" class="btn btn-secondary" onclick="showPage('cataloguePage')">
+                            <i class="fas fa-search"></i> Browse Catalogue
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Products</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">99%</div>
+                            <div class="stat-label">On-Time Delivery</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>Fast Shipping</span>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Quality Assured</span>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section light">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Why Choose Us</span>
+                    <h2 class="section-title">Built For Modern Businesses</h2>
+                    <p class="section-subtitle">
+                        Focus on what matters. We'll handle your supply needs with precision and care.
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="feature-title">Lightning Fast Delivery</h3>
+                        <p class="feature-description">
+                            Same-day and next-day delivery options available. Track your orders in real-time.
+                        </p>
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="feature-card featured">
+                        <span class="featured-badge">Most Popular</span>
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="feature-title">Curated Quality</h3>
+                        <p class="feature-description">
+                            Every product is hand-selected and verified. Only the best makes it to our catalogue.
+                        </p>
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">Dedicated Support</h3>
+                        <p class="feature-description">
+                            Your success is our priority. Get personalized assistance from our expert team.
+                        </p>
+                        <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">How It Works</span>
+                    <h2 class="section-title">Three Steps To Success</h2>
+                </div>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3 class="step-title">Create Account</h3>
+                        <p class="step-description">
+                            Sign up in seconds and get instant access to our complete catalogue.
+                        </p>
+                    </div>
+                    <div class="process-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3 class="step-title">Browse & Order</h3>
+                        <p class="step-description">
+                            Find exactly what you need from thousands of quality products.
+                        </p>
+                    </div>
+                    <div class="process-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="step-title">Fast Delivery</h3>
+                        <p class="step-description">
+                            Receive your order quickly with real-time tracking updates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('homePage')">Home</a></li>
+                        <li><a href="#" onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a href="#" onclick="openLoginModal()">Sign In</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Catalogue Page -->
+    <div id="cataloguePage" class="page">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link" onclick="showPage('homePage')">Home</a></li>
+                    <li><a href="#" class="nav-link active" onclick="showPage('cataloguePage')">Catalogue</a></li>
+                    <li><a href="#b2b-services" class="nav-link">B2B Services</a></li>
+                    <li><a href="#" class="nav-link nav-cta" onclick="openLoginModal()">Sign In</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" onclick="showPage('homePage')">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Catalogue</span>
+                </div>
+                <h1 class="page-title">Explore Our Catalogue</h1>
+                <p class="page-subtitle">
+                    Thousands of quality products across every business category
+                </p>
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search products, categories, or brands..." class="search-input">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Tabs Section -->
+        <section class="section light">
+            <div class="container">
+                <div class="category-tabs-wrapper">
+                    <button class="category-tab active">
+                        <i class="fas fa-pen"></i>
+                        <span>Office Supplies</span>
+                    </button>
+                    <button class="category-tab">
+                        <i class="fas fa-broom"></i>
+                        <span>Janitorial & Safety</span>
+                    </button>
+                    <button class="category-tab">
+                        <i class="fas fa-laptop"></i>
+                        <span>Electronics & IT</span>
+                    </button>
+                    <button class="category-tab">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Warehouse & Shipping</span>
+                    </button>
+                </div>
+
+                <div class="products-display">
+                    <div class="products-header">
+                        <h3 class="products-title">Featured Products</h3>
+                        <select class="filter-select">
+                            <option>Sort by: Popular</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest First</option>
+                        </select>
+                    </div>
+
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="product-badge">Best Seller</div>
+                            <div class="product-image">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <h4 class="product-name">Premium Office Bundle</h4>
+                            <p class="product-description">Complete office essentials package</p>
+                            <div class="product-footer">
+                                <span class="product-price">$149.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="fas fa-print"></i>
+                            </div>
+                            <h4 class="product-name">Business Printer</h4>
+                            <p class="product-description">High-speed color printer</p>
+                            <div class="product-footer">
+                                <span class="product-price">$299.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-badge new">New</div>
+                            <div class="product-image">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h4 class="product-name">Ergonomic Workstation</h4>
+                            <p class="product-description">Complete desk setup</p>
+                            <div class="product-footer">
+                                <span class="product-price">$449.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <h4 class="product-name">Filing System</h4>
+                            <p class="product-description">Professional organization</p>
+                            <div class="product-footer">
+                                <span class="product-price">$79.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="fas fa-keyboard"></i>
+                            </div>
+                            <h4 class="product-name">Wireless Keyboard Set</h4>
+                            <p class="product-description">Premium input devices</p>
+                            <div class="product-footer">
+                                <span class="product-price">$89.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <h4 class="product-name">Office Headphones</h4>
+                            <p class="product-description">Noise-cancelling audio</p>
+                            <div class="product-footer">
+                                <span class="product-price">$159.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <i class="fas fa-monitor"></i>
+                            </div>
+                            <h4 class="product-name">4K Monitor</h4>
+                            <p class="product-description">Ultra high-definition display</p>
+                            <div class="product-footer">
+                                <span class="product-price">$399.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-badge new">New</div>
+                            <div class="product-image">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h4 class="product-name">Conference Camera</h4>
+                            <p class="product-description">Professional video conferencing</p>
+                            <div class="product-footer">
+                                <span class="product-price">$549.99</span>
+                                <button class="btn btn-small btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="products-cta">
+                        <button class="btn btn-outline btn-large">
+                            View All Products <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- B2B Services Section -->
+        <section class="section" id="b2b-services">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Enterprise Solutions</span>
+                    <h2 class="section-title">Business Services</h2>
+                    <p class="section-subtitle">
+                        Comprehensive B2B solutions designed to scale with your business
+                    </p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="feature-title">Dedicated Account Management</h3>
+                        <p class="feature-description">
+                            Your personal procurement specialist with priority support and strategic insights.
+                        </p>
+                    </div>
+
+                    <div class="feature-card featured">
+                        <span class="featured-badge">Most Popular</span>
+                        <div class="feature-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3 class="feature-title">Volume Pricing & Discounts</h3>
+                        <p class="feature-description">
+                            Unlock substantial savings with our tiered pricing structure and custom bulk packages.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <h3 class="feature-title">System Integration</h3>
+                        <p class="feature-description">
+                            Seamlessly connect with your ERP and purchasing systems via API and EDI.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('homePage')">Home</a></li>
+                        <li><a href="#" onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a href="#" onclick="openLoginModal()">Sign In</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Welcome to Quickshelf</h2>
+                <p class="modal-subtitle">Sign in to access your account</p>
+            </div>
+
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchTab('customer')">
+                    <i class="fas fa-user"></i> Customer
+                </button>
+                <button class="login-tab" onclick="switchTab('vendor')">
+                    <i class="fas fa-industry"></i> Vendor
+                </button>
+            </div>
+
+            <!-- Customer Login Form -->
+            <form id="customerForm" style="display: block;">
+                <div class="form-group">
+                    <label for="customerEmail">Email Address</label>
+                    <input type="email" id="customerEmail" class="form-input" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerPassword">Password</label>
+                    <input type="password" id="customerPassword" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Sign In as Customer
+                </button>
+            </form>
+
+            <!-- Vendor Login Form -->
+            <form id="vendorForm" style="display: none;">
+                <div class="form-group">
+                    <label for="vendorEmail">Vendor Email</label>
+                    <input type="email" id="vendorEmail" class="form-input" placeholder="vendor@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="vendorPassword">Password</label>
+                    <input type="password" id="vendorPassword" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Sign In as Vendor
+                </button>
+            </form>
+
+            <div class="modal-footer">
+                <p>New to Quickshelf? <a href="#" class="form-link" onclick="showRegisterForm()">Create an account</a></p>
+                <a href="#" class="form-link">Forgot password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Modal Functions
+        function openLoginModal(mode = 'login') {
+            document.getElementById('loginModal').classList.add('active');
+            if (mode === 'register') {
+                showRegisterForm();
+            }
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginModal();
+            }
+        });
+
+        // Tab Switching
+        function switchTab(type) {
+            const tabs = document.querySelectorAll('.login-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            if (type === 'customer') {
+                tabs[0].classList.add('active');
+                document.getElementById('customerForm').style.display = 'block';
+                document.getElementById('vendorForm').style.display = 'none';
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('customerForm').style.display = 'none';
+                document.getElementById('vendorForm').style.display = 'block';
+            }
+        }
+
+        // Form Submissions
+        document.getElementById('customerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Customer login successful! Redirecting to catalogue...');
+            closeLoginModal();
+            showPage('cataloguePage');
+        });
+
+        document.getElementById('vendorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Vendor login successful! Redirecting to vendor dashboard...');
+            closeLoginModal();
+        });
+
+        function showRegisterForm() {
+            alert('Registration form would open here. After registration, user will be directed to the catalogue page with login popup.');
+            showPage('cataloguePage');
+            openLoginModal();
+        }
+
+        // Category Tab Functionality
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
