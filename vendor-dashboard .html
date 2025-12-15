@@ -1,0 +1,3127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard - Quickshelf</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand i {
+            font-size: 2rem;
+        }
+
+        .brand-text h1 {
+            font-size: 1.5rem;
+        }
+
+        .brand-text p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 10px;
+            height: 10px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-left: 1.5rem;
+            border-left: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-details p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .nav-tabs {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            color: #666;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-icon.green {
+            background: #10b981;
+        }
+
+        .stat-icon.blue {
+            background: #3b82f6;
+        }
+
+        .stat-icon.purple {
+            background: #8b5cf6;
+        }
+
+        .stat-icon.orange {
+            background: #f59e0b;
+        }
+
+        .stat-change {
+            color: #10b981;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bar {
+            width: 100%;
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.processing {
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+
+        .status-badge.shipped {
+            background: #e9d5ff;
+            color: #581c87;
+        }
+
+        .status-badge.delivered {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.low {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.out {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #e5e7eb;
+            color: #667eea;
+        }
+
+        .action-btn.delete:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .top-products {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-rank {
+            font-weight: bold;
+            color: #9ca3af;
+            font-size: 1.125rem;
+        }
+
+        .product-details h4 {
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .product-details p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .order-id {
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .order-amount {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .order-details {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .order-product {
+            font-weight: 600;
+        }
+
+        .view-link {
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-box:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .stat-box-label {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 1.25rem;
+        }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .user-info {
+                border-left: none;
+                padding-left: 0;
+            }
+
+            .nav-container {
+                overflow-x: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="brand">
+                <i class="fas fa-box-open"></i>
+                <div class="brand-text">
+                    <h1>Quickshelf</h1>
+                    <p>
+                        Vendor Dashboard
+                    </p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+                <div class="user-info">
+                    <div class="user-details">
+                        <strong>Vendor Partner</strong>
+                        <p>
+                            vendor@company.com
+                        </p>
+                    </div>
+                    <div class="user-avatar">
+                        VP
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <div class="nav-container">
+            <button class="tab-btn active" onclick="switchTab('overview')">
+                <i class="fas fa-chart-line"></i> Overview
+            </button>
+            <button class="tab-btn" onclick="switchTab('orders')">
+                <i class="fas fa-shopping-cart"></i> Orders
+            </button>
+            <button class="tab-btn" onclick="switchTab('products')">
+                <i class="fas fa-box"></i> Products
+            </button>
+            <button class="tab-btn" onclick="switchTab('customers')">
+                <i class="fas fa-users"></i> Customers
+            </button>
+            <button class="tab-btn" onclick="switchTab('settings')">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <span class="stat-change">+12.5%</span>
+                    </div>
+                    <p class="stat-label">
+                        Total Revenue
+                    </p>
+                    <p class="stat-value">
+                        $24,580
+                    </p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <span class="stat-change">+8.2%</span>
+                    </div>
+                    <p class="stat-label">
+                        Active Orders
+                    </p>
+                    <p class="stat-value">
+                        42
+                    </p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <span class="stat-change">+3.1%</span>
+                    </div>
+                    <p class="stat-label">
+                        Products Listed
+                    </p>
+                    <p class="stat-value">
+                        156
+                    </p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="stat-change">+0.3</span>
+                    </div>
+                    <p class="stat-label">
+                        Customer Rating
+                    </p>
+                    <p class="stat-value">
+                        4.8
+                    </p>
+                </div>
+            </div>
+
+            <!-- Charts and Top Products -->
+            <div class="grid-2">
+                <!-- Sales Chart -->
+                <div class="card">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">Sales Overview</h2>
+                        </div>
+                        <select class="filter-select">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 3 months</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 65%"></div>
+                            <span class="bar-label">Mon</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 78%"></div>
+                            <span class="bar-label">Tue</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 90%"></div>
+                            <span class="bar-label">Wed</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 81%"></div>
+                            <span class="bar-label">Thu</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 56%"></div>
+                            <span class="bar-label">Fri</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 85%"></div>
+                            <span class="bar-label">Sat</span>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="bar" style="height: 95%"></div>
+                            <span class="bar-label">Sun</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="card">
+                    <h2 class="section-title" style="margin-bottom: 1.5rem;">Top Products</h2>
+                    <div class="top-products">
+                        <div class="product-item">
+                            <div class="product-info">
+                                <span class="product-rank">1</span>
+                                <div class="product-details">
+                                    <h4>Premium Office Bundle</h4>
+                                    <p>
+                                        234 sales
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="product-price">$149.99</span>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-info">
+                                <span class="product-rank">2</span>
+                                <div class="product-details">
+                                    <h4>Filing System</h4>
+                                    <p>
+                                        312 sales
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="product-price">$79.99</span>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-info">
+                                <span class="product-rank">3</span>
+                                <div class="product-details">
+                                    <h4>Wireless Keyboard Set</h4>
+                                    <p>
+                                        198 sales
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="product-price">$89.99</span>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-info">
+                                <span class="product-rank">4</span>
+                                <div class="product-details">
+                                    <h4>Business Printer</h4>
+                                    <p>
+                                        156 sales
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="product-price">$299.99</span>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-info">
+                                <span class="product-rank">5</span>
+                                <div class="product-details">
+                                    <h4>4K Monitor</h4>
+                                    <p>
+                                        145 sales
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="product-price">$399.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="card">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Recent Orders</h2>
+                    </div>
+                    <a href="#" class="view-link" onclick="switchTab('orders'); return false;">View All →</a>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>#ORD-2041</strong></td>
+                                <td>Acme Corp</td>
+                                <td>Premium Office Bundle</td>
+                                <td><strong>$149.99</strong></td>
+                                <td><span class="status-badge pending"><i class="fas fa-clock"></i> Pending</span></td>
+                                <td>2 hours ago</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD-2040</strong></td>
+                                <td>Tech Solutions</td>
+                                <td>Business Printer</td>
+                                <td><strong>$299.99</strong></td>
+                                <td><span class="status-badge processing"><i class="fas fa-box"></i> Processing</span></td>
+                                <td>5 hours ago</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD-2039</strong></td>
+                                <td>StartUp Inc</td>
+                                <td>Ergonomic Workstation</td>
+                                <td><strong>$449.99</strong></td>
+                                <td><span class="status-badge shipped"><i class="fas fa-truck"></i> Shipped</span></td>
+                                <td>1 day ago</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD-2038</strong></td>
+                                <td>Global Enterprises</td>
+                                <td>4K Monitor</td>
+                                <td><strong>$399.99</strong></td>
+                                <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                <td>2 days ago</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#ORD-2037</strong></td>
+                                <td>Creative Studio</td>
+                                <td>Office Headphones</td>
+                                <td><strong>$159.99</strong></td>
+                                <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                <td>3 days ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Order Management</h2>
+                    <p class="section-subtitle">
+                        Track and manage all your orders
+                    </p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-calendar"></i> Date Range
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <p class="stat-box-label">
+                        All Orders
+                    </p>
+                    <p class="stat-box-value">
+                        156
+                    </p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-box-label">
+                        Pending
+                    </p>
+                    <p class="stat-box-value">
+                        23
+                    </p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-box-label">
+                        Processing
+                    </p>
+                    <p class="stat-box-value">
+                        19
+                    </p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-box-label">
+                        Completed
+                    </p>
+                    <p class="stat-box-value">
+                        114
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Search orders...">
+                    </div>
+                    <select class="filter-select"><!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Vendor Dashboard - Quickshelf</title>
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                            <style>
+                                * {
+                                    margin: 0;
+                                    padding: 0;
+                                    box-sizing: border-box;
+                                }
+
+                                body {
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                                    background: #f8f9fa;
+                                    color: #333;
+                                }
+
+                                .header {
+                                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                    color: white;
+                                    padding: 1.5rem 0;
+                                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                                }
+
+                                .header-container {
+                                    max-width: 1400px;
+                                    margin: 0 auto;
+                                    padding: 0 2rem;
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                }
+
+                                .brand {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 0.75rem;
+                                }
+
+                                .brand i {
+                                    font-size: 2rem;
+                                }
+
+                                .brand-text h1 {
+                                    font-size: 1.5rem;
+                                }
+
+                                .brand-text p {
+                                    font-size: 0.875rem;
+                                    opacity: 0.9;
+                                }
+
+                                .header-actions {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 1.5rem;
+                                }
+
+                                .notification-btn {
+                                    position: relative;
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    padding: 0.75rem;
+                                    border-radius: 8px;
+                                    color: white;
+                                    cursor: pointer;
+                                    font-size: 1.25rem;
+                                }
+
+                                .notification-badge {
+                                    position: absolute;
+                                    top: 5px;
+                                    right: 5px;
+                                    width: 10px;
+                                    height: 10px;
+                                    background: #ef4444;
+                                    border-radius: 50%;
+                                }
+
+                                .user-info {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 1rem;
+                                    padding-left: 1.5rem;
+                                    border-left: 1px solid rgba(255,255,255,0.3);
+                                }
+
+                                .user-details {
+                                    text-align: right;
+                                }
+
+                                .user-details p {
+                                    font-size: 0.875rem;
+                                    opacity: 0.9;
+                                }
+
+                                .user-avatar {
+                                    width: 45px;
+                                    height: 45px;
+                                    background: rgba(255,255,255,0.3);
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-weight: bold;
+                                    font-size: 1.125rem;
+                                }
+
+                                .logout-btn {
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    padding: 0.75rem;
+                                    border-radius: 8px;
+                                    color: white;
+                                    cursor: pointer;
+                                    font-size: 1.25rem;
+                                }
+
+                                .nav-tabs {
+                                    background: white;
+                                    border-bottom: 1px solid #e0e0e0;
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                                    position: sticky;
+                                    top: 0;
+                                    z-index: 100;
+                                }
+
+                                .nav-container {
+                                    max-width: 1400px;
+                                    margin: 0 auto;
+                                    padding: 0 2rem;
+                                    display: flex;
+                                    gap: 2rem;
+                                }
+
+                                .tab-btn {
+                                    background: none;
+                                    border: none;
+                                    padding: 1rem 0;
+                                    cursor: pointer;
+                                    color: #666;
+                                    font-weight: 600;
+                                    border-bottom: 3px solid transparent;
+                                    transition: all 0.3s;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 0.5rem;
+                                }
+
+                                .tab-btn:hover {
+                                    color: #667eea;
+                                }
+
+                                .tab-btn.active {
+                                    color: #667eea;
+                                    border-bottom-color: #667eea;
+                                }
+
+                                .main-content {
+                                    max-width: 1400px;
+                                    margin: 0 auto;
+                                    padding: 2rem;
+                                }
+
+                                .tab-content {
+                                    display: none;
+                                }
+
+                                .tab-content.active {
+                                    display: block;
+                                }
+
+                                .stats-grid {
+                                    display: grid;
+                                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                                    gap: 1.5rem;
+                                    margin-bottom: 2rem;
+                                }
+
+                                .stat-card {
+                                    background: white;
+                                    padding: 1.5rem;
+                                    border-radius: 12px;
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                    transition: transform 0.3s, box-shadow 0.3s;
+                                }
+
+                                .stat-card:hover {
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+                                }
+
+                                .stat-header {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 1rem;
+                                }
+
+                                .stat-icon {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 10px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 1.5rem;
+                                    color: white;
+                                }
+
+                                .stat-icon.green {
+                                    background: #10b981;
+                                }
+
+                                .stat-icon.blue {
+                                    background: #3b82f6;
+                                }
+
+                                .stat-icon.purple {
+                                    background: #8b5cf6;
+                                }
+
+                                .stat-icon.orange {
+                                    background: #f59e0b;
+                                }
+
+                                .stat-change {
+                                    color: #10b981;
+                                    font-size: 0.875rem;
+                                    font-weight: 600;
+                                }
+
+                                .stat-label {
+                                    color: #666;
+                                    font-size: 0.875rem;
+                                    margin-bottom: 0.5rem;
+                                }
+
+                                .stat-value {
+                                    font-size: 2rem;
+                                    font-weight: bold;
+                                }
+
+                                .section-header {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    margin-bottom: 1.5rem;
+                                }
+
+                                .section-title {
+                                    font-size: 1.5rem;
+                                    font-weight: bold;
+                                }
+
+                                .section-subtitle {
+                                    color: #666;
+                                    font-size: 0.875rem;
+                                }
+
+                                .btn {
+                                    padding: 0.75rem 1.5rem;
+                                    border: none;
+                                    border-radius: 8px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    transition: all 0.3s;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    gap: 0.5rem;
+                                }
+
+                                .btn-primary {
+                                    background: #667eea;
+                                    color: white;
+                                }
+
+                                .btn-primary:hover {
+                                    background: #5568d3;
+                                }
+
+                                .btn-secondary {
+                                    background: white;
+                                    border: 2px solid #e0e0e0;
+                                    color: #666;
+                                }
+
+                                .btn-secondary:hover {
+                                    border-color: #667eea;
+                                    color: #667eea;
+                                }
+
+                                .card {
+                                    background: white;
+                                    border-radius: 12px;
+                                    padding: 1.5rem;
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                    margin-bottom: 2rem;
+                                }
+
+                                .chart-container {
+                                    height: 300px;
+                                    display: flex;
+                                    align-items: flex-end;
+                                    justify-content: space-around;
+                                    gap: 1rem;
+                                    margin-top: 2rem;
+                                }
+
+                                .chart-bar {
+                                    flex: 1;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    gap: 0.5rem;
+                                }
+
+                                .bar {
+                                    width: 100%;
+                                    background: linear-gradient(to top, #667eea, #764ba2);
+                                    border-radius: 8px 8px 0 0;
+                                    transition: all 0.3s;
+                                }
+
+                                .bar:hover {
+                                    opacity: 0.8;
+                                }
+
+                                .bar-label {
+                                    font-size: 0.75rem;
+                                    color: #666;
+                                }
+
+                                .table-container {
+                                    overflow-x: auto;
+                                }
+
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                }
+
+                                thead {
+                                    background: #f8f9fa;
+                                }
+
+                                th {
+                                    text-align: left;
+                                    padding: 1rem;
+                                    font-weight: 600;
+                                    color: #666;
+                                    font-size: 0.875rem;
+                                }
+
+                                td {
+                                    padding: 1rem;
+                                    border-bottom: 1px solid #e0e0e0;
+                                }
+
+                                tbody tr:hover {
+                                    background: #f8f9fa;
+                                }
+
+                                .status-badge {
+                                    display: inline-flex;
+                                    align-items: center;
+                                    gap: 0.25rem;
+                                    padding: 0.375rem 0.75rem;
+                                    border-radius: 20px;
+                                    font-size: 0.75rem;
+                                    font-weight: 600;
+                                }
+
+                                .status-badge.pending {
+                                    background: #fef3c7;
+                                    color: #92400e;
+                                }
+
+                                .status-badge.processing {
+                                    background: #dbeafe;
+                                    color: #1e3a8a;
+                                }
+
+                                .status-badge.shipped {
+                                    background: #e9d5ff;
+                                    color: #581c87;
+                                }
+
+                                .status-badge.delivered {
+                                    background: #d1fae5;
+                                    color: #065f46;
+                                }
+
+                                .status-badge.active {
+                                    background: #d1fae5;
+                                    color: #065f46;
+                                }
+
+                                .status-badge.low {
+                                    background: #fef3c7;
+                                    color: #92400e;
+                                }
+
+                                .status-badge.out {
+                                    background: #fee2e2;
+                                    color: #991b1b;
+                                }
+
+                                .action-btns {
+                                    display: flex;
+                                    gap: 0.5rem;
+                                }
+
+                                .action-btn {
+                                    width: 32px;
+                                    height: 32px;
+                                    border: none;
+                                    background: #f3f4f6;
+                                    border-radius: 6px;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: #666;
+                                    transition: all 0.3s;
+                                }
+
+                                .action-btn:hover {
+                                    background: #e5e7eb;
+                                    color: #667eea;
+                                }
+
+                                .action-btn.delete:hover {
+                                    background: #fee2e2;
+                                    color: #dc2626;
+                                }
+
+                                .search-container {
+                                    display: flex;
+                                    gap: 1rem;
+                                    margin-bottom: 1.5rem;
+                                    align-items: center;
+                                }
+
+                                .search-box {
+                                    flex: 1;
+                                    max-width: 400px;
+                                    position: relative;
+                                }
+
+                                .search-box input {
+                                    width: 100%;
+                                    padding: 0.75rem 1rem 0.75rem 3rem;
+                                    border: 2px solid #e0e0e0;
+                                    border-radius: 8px;
+                                    font-size: 1rem;
+                                }
+
+                                .search-box input:focus {
+                                    outline: none;
+                                    border-color: #667eea;
+                                }
+
+                                .search-icon {
+                                    position: absolute;
+                                    left: 1rem;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    color: #666;
+                                }
+
+                                .filter-select {
+                                    padding: 0.75rem 1rem;
+                                    border: 2px solid #e0e0e0;
+                                    border-radius: 8px;
+                                    background: white;
+                                    cursor: pointer;
+                                    font-size: 0.875rem;
+                                }
+
+                                .top-products {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 1rem;
+                                }
+
+                                .product-item {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    padding: 0.75rem 0;
+                                }
+
+                                .product-info {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 1rem;
+                                }
+
+                                .product-rank {
+                                    font-weight: bold;
+                                    color: #9ca3af;
+                                    font-size: 1.125rem;
+                                }
+
+                                .product-details h4 {
+                                    font-size: 0.875rem;
+                                    margin-bottom: 0.25rem;
+                                }
+
+                                .product-details p {
+                                    font-size: 0.75rem;
+                                    color: #666;
+                                }
+
+                                .product-price {
+                                    font-weight: bold;
+                                    color: #667eea;
+                                }
+
+                                .grid-2 {
+                                    display: grid;
+                                    grid-template-columns: 2fr 1fr;
+                                    gap: 2rem;
+                                }
+
+                                .order-card {
+                                    background: white;
+                                    border: 1px solid #e0e0e0;
+                                    border-radius: 12px;
+                                    padding: 1.5rem;
+                                    margin-bottom: 1rem;
+                                    transition: all 0.3s;
+                                }
+
+                                .order-card:hover {
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                }
+
+                                .order-header {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    margin-bottom: 1rem;
+                                }
+
+                                .order-id {
+                                    font-family: monospace;
+                                    font-weight: bold;
+                                    font-size: 1.125rem;
+                                }
+
+                                .order-amount {
+                                    font-size: 1.25rem;
+                                    font-weight: bold;
+                                    color: #667eea;
+                                }
+
+                                .order-details {
+                                    color: #666;
+                                    font-size: 0.875rem;
+                                    margin-bottom: 1rem;
+                                }
+
+                                .order-footer {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: center;
+                                    padding-top: 1rem;
+                                    border-top: 1px solid #e0e0e0;
+                                }
+
+                                .order-product {
+                                    font-weight: 600;
+                                }
+
+                                .view-link {
+                                    color: #667eea;
+                                    font-weight: 600;
+                                    text-decoration: none;
+                                    font-size: 0.875rem;
+                                }
+
+                                .view-link:hover {
+                                    text-decoration: underline;
+                                }
+
+                                .stat-grid {
+                                    display: grid;
+                                    grid-template-columns: repeat(4, 1fr);
+                                    gap: 1rem;
+                                    margin-bottom: 2rem;
+                                }
+
+                                .stat-box {
+                                    background: white;
+                                    padding: 1.5rem;
+                                    border-radius: 10px;
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                    cursor: pointer;
+                                    transition: all 0.3s;
+                                }
+
+                                .stat-box:hover {
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+                                }
+
+                                .stat-box-label {
+                                    color: #666;
+                                    font-size: 0.875rem;
+                                    margin-bottom: 0.5rem;
+                                }
+
+                                .stat-box-value {
+                                    font-size: 2rem;
+                                    font-weight: bold;
+                                }
+
+                                .product-image {
+                                    width: 50px;
+                                    height: 50px;
+                                    background: #f3f4f6;
+                                    border-radius: 8px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: #667eea;
+                                    font-size: 1.25rem;
+                                }
+
+                                .product-cell {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 1rem;
+                                }
+
+                                @media (max-width: 1024px) {
+                                    .grid-2 {
+                                        grid-template-columns: 1fr;
+                                    }
+
+                                    .stat-grid {
+                                        grid-template-columns: repeat(2, 1fr);
+                                    }
+                                }
+
+                                @media (max-width: 768px) {
+                                    .header-container {
+                                        flex-direction: column;
+                                        gap: 1rem;
+                                    }
+
+                                    .user-info {
+                                        border-left: none;
+                                        padding-left: 0;
+                                    }
+
+                                    .nav-container {
+                                        overflow-x: auto;
+                                    }
+
+                                    .stats-grid {
+                                        grid-template-columns: 1fr;
+                                    }
+
+                                    .search-container {
+                                        flex-direction: column;
+                                    }
+
+                                    .search-box {
+                                        max-width: 100%;
+                                    }
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <!-- Header -->
+                            <header class="header">
+                                <div class="header-container">
+                                    <div class="brand">
+                                        <i class="fas fa-box-open"></i>
+                                        <div class="brand-text">
+                                            <h1>Quickshelf</h1>
+                                            <p>
+                                                Vendor Dashboard
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="header-actions">
+                                        <button class="notification-btn">
+                                            <i class="fas fa-bell"></i>
+                                            <span class="notification-badge"></span>
+                                        </button>
+                                        <div class="user-info">
+                                            <div class="user-details">
+                                                <strong>Vendor Partner</strong>
+                                                <p>
+                                                    vendor@company.com
+                                                </p>
+                                            </div>
+                                            <div class="user-avatar">
+                                                VP
+                                            </div>
+                                        </div>
+                                        <button class="logout-btn" onclick="window.location.href='index.html'">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </header>
+
+                            <!-- Navigation Tabs -->
+                            <nav class="nav-tabs">
+                                <div class="nav-container">
+                                    <button class="tab-btn active" onclick="switchTab('overview')">
+                                        <i class="fas fa-chart-line"></i> Overview
+                                    </button>
+                                    <button class="tab-btn" onclick="switchTab('orders')">
+                                        <i class="fas fa-shopping-cart"></i> Orders
+                                    </button>
+                                    <button class="tab-btn" onclick="switchTab('products')">
+                                        <i class="fas fa-box"></i> Products
+                                    </button>
+                                    <button class="tab-btn" onclick="switchTab('customers')">
+                                        <i class="fas fa-users"></i> Customers
+                                    </button>
+                                    <button class="tab-btn" onclick="switchTab('settings')">
+                                        <i class="fas fa-cog"></i> Settings
+                                    </button>
+                                </div>
+                            </nav>
+
+                            <!-- Main Content -->
+                            <main class="main-content">
+                                <!-- Overview Tab -->
+                                <div id="overview" class="tab-content active">
+                                    <!-- Stats Grid -->
+                                    <div class="stats-grid">
+                                        <div class="stat-card">
+                                            <div class="stat-header">
+                                                <div class="stat-icon green">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </div>
+                                                <span class="stat-change">+12.5%</span>
+                                            </div>
+                                            <p class="stat-label">
+                                                Total Revenue
+                                            </p>
+                                            <p class="stat-value">
+                                                $24,580
+                                            </p>
+                                        </div>
+
+                                        <div class="stat-card">
+                                            <div class="stat-header">
+                                                <div class="stat-icon blue">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </div>
+                                                <span class="stat-change">+8.2%</span>
+                                            </div>
+                                            <p class="stat-label">
+                                                Active Orders
+                                            </p>
+                                            <p class="stat-value">
+                                                42
+                                            </p>
+                                        </div>
+
+                                        <div class="stat-card">
+                                            <div class="stat-header">
+                                                <div class="stat-icon purple">
+                                                    <i class="fas fa-box"></i>
+                                                </div>
+                                                <span class="stat-change">+3.1%</span>
+                                            </div>
+                                            <p class="stat-label">
+                                                Products Listed
+                                            </p>
+                                            <p class="stat-value">
+                                                156
+                                            </p>
+                                        </div>
+
+                                        <div class="stat-card">
+                                            <div class="stat-header">
+                                                <div class="stat-icon orange">
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <span class="stat-change">+0.3</span>
+                                            </div>
+                                            <p class="stat-label">
+                                                Customer Rating
+                                            </p>
+                                            <p class="stat-value">
+                                                4.8
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Charts and Top Products -->
+                                    <div class="grid-2">
+                                        <!-- Sales Chart -->
+                                        <div class="card">
+                                            <div class="section-header">
+                                                <div>
+                                                    <h2 class="section-title">Sales Overview</h2>
+                                                </div>
+                                                <select class="filter-select">
+                                                    <option>Last 7 days</option>
+                                                    <option>Last 30 days</option>
+                                                    <option>Last 3 months</option>
+                                                </select>
+                                            </div>
+                                            <div class="chart-container">
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 65%"></div>
+                                                    <span class="bar-label">Mon</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 78%"></div>
+                                                    <span class="bar-label">Tue</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 90%"></div>
+                                                    <span class="bar-label">Wed</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 81%"></div>
+                                                    <span class="bar-label">Thu</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 56%"></div>
+                                                    <span class="bar-label">Fri</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 85%"></div>
+                                                    <span class="bar-label">Sat</span>
+                                                </div>
+                                                <div class="chart-bar">
+                                                    <div class="bar" style="height: 95%"></div>
+                                                    <span class="bar-label">Sun</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Top Products -->
+                                        <div class="card">
+                                            <h2 class="section-title" style="margin-bottom: 1.5rem;">Top Products</h2>
+                                            <div class="top-products">
+                                                <div class="product-item">
+                                                    <div class="product-info">
+                                                        <span class="product-rank">1</span>
+                                                        <div class="product-details">
+                                                            <h4>Premium Office Bundle</h4>
+                                                            <p>
+                                                                234 sales
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="product-price">$149.99</span>
+                                                </div>
+                                                <div class="product-item">
+                                                    <div class="product-info">
+                                                        <span class="product-rank">2</span>
+                                                        <div class="product-details">
+                                                            <h4>Filing System</h4>
+                                                            <p>
+                                                                312 sales
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="product-price">$79.99</span>
+                                                </div>
+                                                <div class="product-item">
+                                                    <div class="product-info">
+                                                        <span class="product-rank">3</span>
+                                                        <div class="product-details">
+                                                            <h4>Wireless Keyboard Set</h4>
+                                                            <p>
+                                                                198 sales
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="product-price">$89.99</span>
+                                                </div>
+                                                <div class="product-item">
+                                                    <div class="product-info">
+                                                        <span class="product-rank">4</span>
+                                                        <div class="product-details">
+                                                            <h4>Business Printer</h4>
+                                                            <p>
+                                                                156 sales
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="product-price">$299.99</span>
+                                                </div>
+                                                <div class="product-item">
+                                                    <div class="product-info">
+                                                        <span class="product-rank">5</span>
+                                                        <div class="product-details">
+                                                            <h4>4K Monitor</h4>
+                                                            <p>
+                                                                145 sales
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="product-price">$399.99</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Recent Orders -->
+                                    <div class="card">
+                                        <div class="section-header">
+                                            <div>
+                                                <h2 class="section-title">Recent Orders</h2>
+                                            </div>
+                                            <a href="#" class="view-link" onclick="switchTab('orders'); return false;">View All →</a>
+                                        </div>
+                                        <div class="table-container">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Order ID</th>
+                                                        <th>Customer</th>
+                                                        <th>Product</th>
+                                                        <th>Amount</th>
+                                                        <th>Status</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>#ORD-2041</strong></td>
+                                                        <td>Acme Corp</td>
+                                                        <td>Premium Office Bundle</td>
+                                                        <td><strong>$149.99</strong></td>
+                                                        <td><span class="status-badge pending"><i class="fas fa-clock"></i> Pending</span></td>
+                                                        <td>2 hours ago</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#ORD-2040</strong></td>
+                                                        <td>Tech Solutions</td>
+                                                        <td>Business Printer</td>
+                                                        <td><strong>$299.99</strong></td>
+                                                        <td><span class="status-badge processing"><i class="fas fa-box"></i> Processing</span></td>
+                                                        <td>5 hours ago</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#ORD-2039</strong></td>
+                                                        <td>StartUp Inc</td>
+                                                        <td>Ergonomic Workstation</td>
+                                                        <td><strong>$449.99</strong></td>
+                                                        <td><span class="status-badge shipped"><i class="fas fa-truck"></i> Shipped</span></td>
+                                                        <td>1 day ago</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#ORD-2038</strong></td>
+                                                        <td>Global Enterprises</td>
+                                                        <td>4K Monitor</td>
+                                                        <td><strong>$399.99</strong></td>
+                                                        <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                                        <td>2 days ago</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#ORD-2037</strong></td>
+                                                        <td>Creative Studio</td>
+                                                        <td>Office Headphones</td>
+                                                        <td><strong>$159.99</strong></td>
+                                                        <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                                        <td>3 days ago</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Orders Tab -->
+                                <div id="orders" class="tab-content">
+                                    <div class="section-header">
+                                        <div>
+                                            <h2 class="section-title">Order Management</h2>
+                                            <p class="section-subtitle">
+                                                Track and manage all your orders
+                                            </p>
+                                        </div>
+                                        <div style="display: flex; gap: 1rem;">
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-calendar"></i> Date Range
+                                            </button>
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-download"></i> Export
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="stat-grid">
+                                        <div class="stat-box">
+                                            <p class="stat-box-label">
+                                                All Orders
+                                            </p>
+                                            <p class="stat-box-value">
+                                                156
+                                            </p>
+                                        </div>
+                                        <div class="stat-box">
+                                            <p class="stat-box-label">
+                                                Pending
+                                            </p>
+                                            <p class="stat-box-value">
+                                                23
+                                            </p>
+                                        </div>
+                                        <div class="stat-box">
+                                            <p class="stat-box-label">
+                                                Processing
+                                            </p>
+                                            <p class="stat-box-value">
+                                                19
+                                            </p>
+                                        </div>
+                                        <div class="stat-box">
+                                            <p class="stat-box-label">
+                                                Completed
+                                            </p>
+                                            <p class="stat-box-value">
+                                                114
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="search-container">
+                                            <div class="search-box">
+                                                <i class="fas fa-search search-icon"></i>
+                                                <input type="text" placeholder="Search orders...">
+                                            </div>
+                                            <select class="filter-select"><!DOCTYPE html>
+                                                <html lang="en">
+                                                <head>
+                                                    <meta charset="UTF-8">
+                                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                                    <title>Vendor Dashboard - Quickshelf</title>
+                                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                                                    <style>
+                                                        * {
+                                                            margin: 0;
+                                                            padding: 0;
+                                                            box-sizing: border-box;
+                                                        }
+
+                                                        body {
+                                                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                                                            background: #f8f9fa;
+                                                            color: #333;
+                                                        }
+
+                                                        .header {
+                                                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                                            color: white;
+                                                            padding: 1.5rem 0;
+                                                            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                                                        }
+
+                                                        .header-container {
+                                                            max-width: 1400px;
+                                                            margin: 0 auto;
+                                                            padding: 0 2rem;
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                        }
+
+                                                        .brand {
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 0.75rem;
+                                                        }
+
+                                                        .brand i {
+                                                            font-size: 2rem;
+                                                        }
+
+                                                        .brand-text h1 {
+                                                            font-size: 1.5rem;
+                                                        }
+
+                                                        .brand-text p {
+                                                            font-size: 0.875rem;
+                                                            opacity: 0.9;
+                                                        }
+
+                                                        .header-actions {
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 1.5rem;
+                                                        }
+
+                                                        .notification-btn {
+                                                            position: relative;
+                                                            background: rgba(255,255,255,0.2);
+                                                            border: none;
+                                                            padding: 0.75rem;
+                                                            border-radius: 8px;
+                                                            color: white;
+                                                            cursor: pointer;
+                                                            font-size: 1.25rem;
+                                                        }
+
+                                                        .notification-badge {
+                                                            position: absolute;
+                                                            top: 5px;
+                                                            right: 5px;
+                                                            width: 10px;
+                                                            height: 10px;
+                                                            background: #ef4444;
+                                                            border-radius: 50%;
+                                                        }
+
+                                                        .user-info {
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 1rem;
+                                                            padding-left: 1.5rem;
+                                                            border-left: 1px solid rgba(255,255,255,0.3);
+                                                        }
+
+                                                        .user-details {
+                                                            text-align: right;
+                                                        }
+
+                                                        .user-details p {
+                                                            font-size: 0.875rem;
+                                                            opacity: 0.9;
+                                                        }
+
+                                                        .user-avatar {
+                                                            width: 45px;
+                                                            height: 45px;
+                                                            background: rgba(255,255,255,0.3);
+                                                            border-radius: 50%;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            font-weight: bold;
+                                                            font-size: 1.125rem;
+                                                        }
+
+                                                        .logout-btn {
+                                                            background: rgba(255,255,255,0.2);
+                                                            border: none;
+                                                            padding: 0.75rem;
+                                                            border-radius: 8px;
+                                                            color: white;
+                                                            cursor: pointer;
+                                                            font-size: 1.25rem;
+                                                        }
+
+                                                        .nav-tabs {
+                                                            background: white;
+                                                            border-bottom: 1px solid #e0e0e0;
+                                                            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                                                            position: sticky;
+                                                            top: 0;
+                                                            z-index: 100;
+                                                        }
+
+                                                        .nav-container {
+                                                            max-width: 1400px;
+                                                            margin: 0 auto;
+                                                            padding: 0 2rem;
+                                                            display: flex;
+                                                            gap: 2rem;
+                                                        }
+
+                                                        .tab-btn {
+                                                            background: none;
+                                                            border: none;
+                                                            padding: 1rem 0;
+                                                            cursor: pointer;
+                                                            color: #666;
+                                                            font-weight: 600;
+                                                            border-bottom: 3px solid transparent;
+                                                            transition: all 0.3s;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 0.5rem;
+                                                        }
+
+                                                        .tab-btn:hover {
+                                                            color: #667eea;
+                                                        }
+
+                                                        .tab-btn.active {
+                                                            color: #667eea;
+                                                            border-bottom-color: #667eea;
+                                                        }
+
+                                                        .main-content {
+                                                            max-width: 1400px;
+                                                            margin: 0 auto;
+                                                            padding: 2rem;
+                                                        }
+
+                                                        .tab-content {
+                                                            display: none;
+                                                        }
+
+                                                        .tab-content.active {
+                                                            display: block;
+                                                        }
+
+                                                        .stats-grid {
+                                                            display: grid;
+                                                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                                                            gap: 1.5rem;
+                                                            margin-bottom: 2rem;
+                                                        }
+
+                                                        .stat-card {
+                                                            background: white;
+                                                            padding: 1.5rem;
+                                                            border-radius: 12px;
+                                                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                                            transition: transform 0.3s, box-shadow 0.3s;
+                                                        }
+
+                                                        .stat-card:hover {
+                                                            transform: translateY(-5px);
+                                                            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+                                                        }
+
+                                                        .stat-header {
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            margin-bottom: 1rem;
+                                                        }
+
+                                                        .stat-icon {
+                                                            width: 50px;
+                                                            height: 50px;
+                                                            border-radius: 10px;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            font-size: 1.5rem;
+                                                            color: white;
+                                                        }
+
+                                                        .stat-icon.green {
+                                                            background: #10b981;
+                                                        }
+
+                                                        .stat-icon.blue {
+                                                            background: #3b82f6;
+                                                        }
+
+                                                        .stat-icon.purple {
+                                                            background: #8b5cf6;
+                                                        }
+
+                                                        .stat-icon.orange {
+                                                            background: #f59e0b;
+                                                        }
+
+                                                        .stat-change {
+                                                            color: #10b981;
+                                                            font-size: 0.875rem;
+                                                            font-weight: 600;
+                                                        }
+
+                                                        .stat-label {
+                                                            color: #666;
+                                                            font-size: 0.875rem;
+                                                            margin-bottom: 0.5rem;
+                                                        }
+
+                                                        .stat-value {
+                                                            font-size: 2rem;
+                                                            font-weight: bold;
+                                                        }
+
+                                                        .section-header {
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            margin-bottom: 1.5rem;
+                                                        }
+
+                                                        .section-title {
+                                                            font-size: 1.5rem;
+                                                            font-weight: bold;
+                                                        }
+
+                                                        .section-subtitle {
+                                                            color: #666;
+                                                            font-size: 0.875rem;
+                                                        }
+
+                                                        .btn {
+                                                            padding: 0.75rem 1.5rem;
+                                                            border: none;
+                                                            border-radius: 8px;
+                                                            font-weight: 600;
+                                                            cursor: pointer;
+                                                            transition: all 0.3s;
+                                                            display: inline-flex;
+                                                            align-items: center;
+                                                            gap: 0.5rem;
+                                                        }
+
+                                                        .btn-primary {
+                                                            background: #667eea;
+                                                            color: white;
+                                                        }
+
+                                                        .btn-primary:hover {
+                                                            background: #5568d3;
+                                                        }
+
+                                                        .btn-secondary {
+                                                            background: white;
+                                                            border: 2px solid #e0e0e0;
+                                                            color: #666;
+                                                        }
+
+                                                        .btn-secondary:hover {
+                                                            border-color: #667eea;
+                                                            color: #667eea;
+                                                        }
+
+                                                        .card {
+                                                            background: white;
+                                                            border-radius: 12px;
+                                                            padding: 1.5rem;
+                                                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                                            margin-bottom: 2rem;
+                                                        }
+
+                                                        .chart-container {
+                                                            height: 300px;
+                                                            display: flex;
+                                                            align-items: flex-end;
+                                                            justify-content: space-around;
+                                                            gap: 1rem;
+                                                            margin-top: 2rem;
+                                                        }
+
+                                                        .chart-bar {
+                                                            flex: 1;
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                            align-items: center;
+                                                            gap: 0.5rem;
+                                                        }
+
+                                                        .bar {
+                                                            width: 100%;
+                                                            background: linear-gradient(to top, #667eea, #764ba2);
+                                                            border-radius: 8px 8px 0 0;
+                                                            transition: all 0.3s;
+                                                        }
+
+                                                        .bar:hover {
+                                                            opacity: 0.8;
+                                                        }
+
+                                                        .bar-label {
+                                                            font-size: 0.75rem;
+                                                            color: #666;
+                                                        }
+
+                                                        .table-container {
+                                                            overflow-x: auto;
+                                                        }
+
+                                                        table {
+                                                            width: 100%;
+                                                            border-collapse: collapse;
+                                                        }
+
+                                                        thead {
+                                                            background: #f8f9fa;
+                                                        }
+
+                                                        th {
+                                                            text-align: left;
+                                                            padding: 1rem;
+                                                            font-weight: 600;
+                                                            color: #666;
+                                                            font-size: 0.875rem;
+                                                        }
+
+                                                        td {
+                                                            padding: 1rem;
+                                                            border-bottom: 1px solid #e0e0e0;
+                                                        }
+
+                                                        tbody tr:hover {
+                                                            background: #f8f9fa;
+                                                        }
+
+                                                        .status-badge {
+                                                            display: inline-flex;
+                                                            align-items: center;
+                                                            gap: 0.25rem;
+                                                            padding: 0.375rem 0.75rem;
+                                                            border-radius: 20px;
+                                                            font-size: 0.75rem;
+                                                            font-weight: 600;
+                                                        }
+
+                                                        .status-badge.pending {
+                                                            background: #fef3c7;
+                                                            color: #92400e;
+                                                        }
+
+                                                        .status-badge.processing {
+                                                            background: #dbeafe;
+                                                            color: #1e3a8a;
+                                                        }
+
+                                                        .status-badge.shipped {
+                                                            background: #e9d5ff;
+                                                            color: #581c87;
+                                                        }
+
+                                                        .status-badge.delivered {
+                                                            background: #d1fae5;
+                                                            color: #065f46;
+                                                        }
+
+                                                        .status-badge.active {
+                                                            background: #d1fae5;
+                                                            color: #065f46;
+                                                        }
+
+                                                        .status-badge.low {
+                                                            background: #fef3c7;
+                                                            color: #92400e;
+                                                        }
+
+                                                        .status-badge.out {
+                                                            background: #fee2e2;
+                                                            color: #991b1b;
+                                                        }
+
+                                                        .action-btns {
+                                                            display: flex;
+                                                            gap: 0.5rem;
+                                                        }
+
+                                                        .action-btn {
+                                                            width: 32px;
+                                                            height: 32px;
+                                                            border: none;
+                                                            background: #f3f4f6;
+                                                            border-radius: 6px;
+                                                            cursor: pointer;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            color: #666;
+                                                            transition: all 0.3s;
+                                                        }
+
+                                                        .action-btn:hover {
+                                                            background: #e5e7eb;
+                                                            color: #667eea;
+                                                        }
+
+                                                        .action-btn.delete:hover {
+                                                            background: #fee2e2;
+                                                            color: #dc2626;
+                                                        }
+
+                                                        .search-container {
+                                                            display: flex;
+                                                            gap: 1rem;
+                                                            margin-bottom: 1.5rem;
+                                                            align-items: center;
+                                                        }
+
+                                                        .search-box {
+                                                            flex: 1;
+                                                            max-width: 400px;
+                                                            position: relative;
+                                                        }
+
+                                                        .search-box input {
+                                                            width: 100%;
+                                                            padding: 0.75rem 1rem 0.75rem 3rem;
+                                                            border: 2px solid #e0e0e0;
+                                                            border-radius: 8px;
+                                                            font-size: 1rem;
+                                                        }
+
+                                                        .search-box input:focus {
+                                                            outline: none;
+                                                            border-color: #667eea;
+                                                        }
+
+                                                        .search-icon {
+                                                            position: absolute;
+                                                            left: 1rem;
+                                                            top: 50%;
+                                                            transform: translateY(-50%);
+                                                            color: #666;
+                                                        }
+
+                                                        .filter-select {
+                                                            padding: 0.75rem 1rem;
+                                                            border: 2px solid #e0e0e0;
+                                                            border-radius: 8px;
+                                                            background: white;
+                                                            cursor: pointer;
+                                                            font-size: 0.875rem;
+                                                        }
+
+                                                        .top-products {
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                            gap: 1rem;
+                                                        }
+
+                                                        .product-item {
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            padding: 0.75rem 0;
+                                                        }
+
+                                                        .product-info {
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 1rem;
+                                                        }
+
+                                                        .product-rank {
+                                                            font-weight: bold;
+                                                            color: #9ca3af;
+                                                            font-size: 1.125rem;
+                                                        }
+
+                                                        .product-details h4 {
+                                                            font-size: 0.875rem;
+                                                            margin-bottom: 0.25rem;
+                                                        }
+
+                                                        .product-details p {
+                                                            font-size: 0.75rem;
+                                                            color: #666;
+                                                        }
+
+                                                        .product-price {
+                                                            font-weight: bold;
+                                                            color: #667eea;
+                                                        }
+
+                                                        .grid-2 {
+                                                            display: grid;
+                                                            grid-template-columns: 2fr 1fr;
+                                                            gap: 2rem;
+                                                        }
+
+                                                        .order-card {
+                                                            background: white;
+                                                            border: 1px solid #e0e0e0;
+                                                            border-radius: 12px;
+                                                            padding: 1.5rem;
+                                                            margin-bottom: 1rem;
+                                                            transition: all 0.3s;
+                                                        }
+
+                                                        .order-card:hover {
+                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                                        }
+
+                                                        .order-header {
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            margin-bottom: 1rem;
+                                                        }
+
+                                                        .order-id {
+                                                            font-family: monospace;
+                                                            font-weight: bold;
+                                                            font-size: 1.125rem;
+                                                        }
+
+                                                        .order-amount {
+                                                            font-size: 1.25rem;
+                                                            font-weight: bold;
+                                                            color: #667eea;
+                                                        }
+
+                                                        .order-details {
+                                                            color: #666;
+                                                            font-size: 0.875rem;
+                                                            margin-bottom: 1rem;
+                                                        }
+
+                                                        .order-footer {
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                            padding-top: 1rem;
+                                                            border-top: 1px solid #e0e0e0;
+                                                        }
+
+                                                        .order-product {
+                                                            font-weight: 600;
+                                                        }
+
+                                                        .view-link {
+                                                            color: #667eea;
+                                                            font-weight: 600;
+                                                            text-decoration: none;
+                                                            font-size: 0.875rem;
+                                                        }
+
+                                                        .view-link:hover {
+                                                            text-decoration: underline;
+                                                        }
+
+                                                        .stat-grid {
+                                                            display: grid;
+                                                            grid-template-columns: repeat(4, 1fr);
+                                                            gap: 1rem;
+                                                            margin-bottom: 2rem;
+                                                        }
+
+                                                        .stat-box {
+                                                            background: white;
+                                                            padding: 1.5rem;
+                                                            border-radius: 10px;
+                                                            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                                                            cursor: pointer;
+                                                            transition: all 0.3s;
+                                                        }
+
+                                                        .stat-box:hover {
+                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+                                                        }
+
+                                                        .stat-box-label {
+                                                            color: #666;
+                                                            font-size: 0.875rem;
+                                                            margin-bottom: 0.5rem;
+                                                        }
+
+                                                        .stat-box-value {
+                                                            font-size: 2rem;
+                                                            font-weight: bold;
+                                                        }
+
+                                                        .product-image {
+                                                            width: 50px;
+                                                            height: 50px;
+                                                            background: #f3f4f6;
+                                                            border-radius: 8px;
+                                                            display: flex;
+                                                            align-items: center;
+                                                            justify-content: center;
+                                                            color: #667eea;
+                                                            font-size: 1.25rem;
+                                                        }
+
+                                                        .product-cell {
+                                                            display: flex;
+                                                            align-items: center;
+                                                            gap: 1rem;
+                                                        }
+
+                                                        @media (max-width: 1024px) {
+                                                            .grid-2 {
+                                                                grid-template-columns: 1fr;
+                                                            }
+
+                                                            .stat-grid {
+                                                                grid-template-columns: repeat(2, 1fr);
+                                                            }
+                                                        }
+
+                                                        @media (max-width: 768px) {
+                                                            .header-container {
+                                                                flex-direction: column;
+                                                                gap: 1rem;
+                                                            }
+
+                                                            .user-info {
+                                                                border-left: none;
+                                                                padding-left: 0;
+                                                            }
+
+                                                            .nav-container {
+                                                                overflow-x: auto;
+                                                            }
+
+                                                            .stats-grid {
+                                                                grid-template-columns: 1fr;
+                                                            }
+
+                                                            .search-container {
+                                                                flex-direction: column;
+                                                            }
+
+                                                            .search-box {
+                                                                max-width: 100%;
+                                                            }
+                                                        }
+                                                    </style>
+                                                </head>
+                                                <body>
+                                                    <!-- Header -->
+                                                    <header class="header">
+                                                        <div class="header-container">
+                                                            <div class="brand">
+                                                                <i class="fas fa-box-open"></i>
+                                                                <div class="brand-text">
+                                                                    <h1>Quickshelf</h1>
+                                                                    <p>
+                                                                        Vendor Dashboard
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="header-actions">
+                                                                <button class="notification-btn">
+                                                                    <i class="fas fa-bell"></i>
+                                                                    <span class="notification-badge"></span>
+                                                                </button>
+                                                                <div class="user-info">
+                                                                    <div class="user-details">
+                                                                        <strong>Vendor Partner</strong>
+                                                                        <p>
+                                                                            vendor@company.com
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="user-avatar">
+                                                                        VP
+                                                                    </div>
+                                                                </div>
+                                                                <button class="logout-btn" onclick="window.location.href='index.html'">
+                                                                    <i class="fas fa-sign-out-alt"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </header>
+
+                                                    <!-- Navigation Tabs -->
+                                                    <nav class="nav-tabs">
+                                                        <div class="nav-container">
+                                                            <button class="tab-btn active" onclick="switchTab('overview')">
+                                                                <i class="fas fa-chart-line"></i> Overview
+                                                            </button>
+                                                            <button class="tab-btn" onclick="switchTab('orders')">
+                                                                <i class="fas fa-shopping-cart"></i> Orders
+                                                            </button>
+                                                            <button class="tab-btn" onclick="switchTab('products')">
+                                                                <i class="fas fa-box"></i> Products
+                                                            </button>
+                                                            <button class="tab-btn" onclick="switchTab('customers')">
+                                                                <i class="fas fa-users"></i> Customers
+                                                            </button>
+                                                            <button class="tab-btn" onclick="switchTab('settings')">
+                                                                <i class="fas fa-cog"></i> Settings
+                                                            </button>
+                                                        </div>
+                                                    </nav>
+
+                                                    <!-- Main Content -->
+                                                    <main class="main-content">
+                                                        <!-- Overview Tab -->
+                                                        <div id="overview" class="tab-content active">
+                                                            <!-- Stats Grid -->
+                                                            <div class="stats-grid">
+                                                                <div class="stat-card">
+                                                                    <div class="stat-header">
+                                                                        <div class="stat-icon green">
+                                                                            <i class="fas fa-dollar-sign"></i>
+                                                                        </div>
+                                                                        <span class="stat-change">+12.5%</span>
+                                                                    </div>
+                                                                    <p class="stat-label">
+                                                                        Total Revenue
+                                                                    </p>
+                                                                    <p class="stat-value">
+                                                                        $24,580
+                                                                    </p>
+                                                                </div>
+
+                                                                <div class="stat-card">
+                                                                    <div class="stat-header">
+                                                                        <div class="stat-icon blue">
+                                                                            <i class="fas fa-shopping-cart"></i>
+                                                                        </div>
+                                                                        <span class="stat-change">+8.2%</span>
+                                                                    </div>
+                                                                    <p class="stat-label">
+                                                                        Active Orders
+                                                                    </p>
+                                                                    <p class="stat-value">
+                                                                        42
+                                                                    </p>
+                                                                </div>
+
+                                                                <div class="stat-card">
+                                                                    <div class="stat-header">
+                                                                        <div class="stat-icon purple">
+                                                                            <i class="fas fa-box"></i>
+                                                                        </div>
+                                                                        <span class="stat-change">+3.1%</span>
+                                                                    </div>
+                                                                    <p class="stat-label">
+                                                                        Products Listed
+                                                                    </p>
+                                                                    <p class="stat-value">
+                                                                        156
+                                                                    </p>
+                                                                </div>
+
+                                                                <div class="stat-card">
+                                                                    <div class="stat-header">
+                                                                        <div class="stat-icon orange">
+                                                                            <i class="fas fa-star"></i>
+                                                                        </div>
+                                                                        <span class="stat-change">+0.3</span>
+                                                                    </div>
+                                                                    <p class="stat-label">
+                                                                        Customer Rating
+                                                                    </p>
+                                                                    <p class="stat-value">
+                                                                        4.8
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Charts and Top Products -->
+                                                            <div class="grid-2">
+                                                                <!-- Sales Chart -->
+                                                                <div class="card">
+                                                                    <div class="section-header">
+                                                                        <div>
+                                                                            <h2 class="section-title">Sales Overview</h2>
+                                                                        </div>
+                                                                        <select class="filter-select">
+                                                                            <option>Last 7 days</option>
+                                                                            <option>Last 30 days</option>
+                                                                            <option>Last 3 months</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="chart-container">
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 65%"></div>
+                                                                            <span class="bar-label">Mon</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 78%"></div>
+                                                                            <span class="bar-label">Tue</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 90%"></div>
+                                                                            <span class="bar-label">Wed</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 81%"></div>
+                                                                            <span class="bar-label">Thu</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 56%"></div>
+                                                                            <span class="bar-label">Fri</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 85%"></div>
+                                                                            <span class="bar-label">Sat</span>
+                                                                        </div>
+                                                                        <div class="chart-bar">
+                                                                            <div class="bar" style="height: 95%"></div>
+                                                                            <span class="bar-label">Sun</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Top Products -->
+                                                                <div class="card">
+                                                                    <h2 class="section-title" style="margin-bottom: 1.5rem;">Top Products</h2>
+                                                                    <div class="top-products">
+                                                                        <div class="product-item">
+                                                                            <div class="product-info">
+                                                                                <span class="product-rank">1</span>
+                                                                                <div class="product-details">
+                                                                                    <h4>Premium Office Bundle</h4>
+                                                                                    <p>
+                                                                                        234 sales
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="product-price">$149.99</span>
+                                                                        </div>
+                                                                        <div class="product-item">
+                                                                            <div class="product-info">
+                                                                                <span class="product-rank">2</span>
+                                                                                <div class="product-details">
+                                                                                    <h4>Filing System</h4>
+                                                                                    <p>
+                                                                                        312 sales
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="product-price">$79.99</span>
+                                                                        </div>
+                                                                        <div class="product-item">
+                                                                            <div class="product-info">
+                                                                                <span class="product-rank">3</span>
+                                                                                <div class="product-details">
+                                                                                    <h4>Wireless Keyboard Set</h4>
+                                                                                    <p>
+                                                                                        198 sales
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="product-price">$89.99</span>
+                                                                        </div>
+                                                                        <div class="product-item">
+                                                                            <div class="product-info">
+                                                                                <span class="product-rank">4</span>
+                                                                                <div class="product-details">
+                                                                                    <h4>Business Printer</h4>
+                                                                                    <p>
+                                                                                        156 sales
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="product-price">$299.99</span>
+                                                                        </div>
+                                                                        <div class="product-item">
+                                                                            <div class="product-info">
+                                                                                <span class="product-rank">5</span>
+                                                                                <div class="product-details">
+                                                                                    <h4>4K Monitor</h4>
+                                                                                    <p>
+                                                                                        145 sales
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="product-price">$399.99</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Recent Orders -->
+                                                            <div class="card">
+                                                                <div class="section-header">
+                                                                    <div>
+                                                                        <h2 class="section-title">Recent Orders</h2>
+                                                                    </div>
+                                                                    <a href="#" class="view-link" onclick="switchTab('orders'); return false;">View All →</a>
+                                                                </div>
+                                                                <div class="table-container">
+                                                                    <table>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Order ID</th>
+                                                                                <th>Customer</th>
+                                                                                <th>Product</th>
+                                                                                <th>Amount</th>
+                                                                                <th>Status</th>
+                                                                                <th>Date</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td><strong>#ORD-2041</strong></td>
+                                                                                <td>Acme Corp</td>
+                                                                                <td>Premium Office Bundle</td>
+                                                                                <td><strong>$149.99</strong></td>
+                                                                                <td><span class="status-badge pending"><i class="fas fa-clock"></i> Pending</span></td>
+                                                                                <td>2 hours ago</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><strong>#ORD-2040</strong></td>
+                                                                                <td>Tech Solutions</td>
+                                                                                <td>Business Printer</td>
+                                                                                <td><strong>$299.99</strong></td>
+                                                                                <td><span class="status-badge processing"><i class="fas fa-box"></i> Processing</span></td>
+                                                                                <td>5 hours ago</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><strong>#ORD-2039</strong></td>
+                                                                                <td>StartUp Inc</td>
+                                                                                <td>Ergonomic Workstation</td>
+                                                                                <td><strong>$449.99</strong></td>
+                                                                                <td><span class="status-badge shipped"><i class="fas fa-truck"></i> Shipped</span></td>
+                                                                                <td>1 day ago</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><strong>#ORD-2038</strong></td>
+                                                                                <td>Global Enterprises</td>
+                                                                                <td>4K Monitor</td>
+                                                                                <td><strong>$399.99</strong></td>
+                                                                                <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                                                                <td>2 days ago</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><strong>#ORD-2037</strong></td>
+                                                                                <td>Creative Studio</td>
+                                                                                <td>Office Headphones</td>
+                                                                                <td><strong>$159.99</strong></td>
+                                                                                <td><span class="status-badge delivered"><i class="fas fa-check-circle"></i> Delivered</span></td>
+                                                                                <td>3 days ago</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Orders Tab -->
+                                                        <div id="orders" class="tab-content">
+                                                            <div class="section-header">
+                                                                <div>
+                                                                    <h2 class="section-title">Order Management</h2>
+                                                                    <p class="section-subtitle">
+                                                                        Track and manage all your orders
+                                                                    </p>
+                                                                </div>
+                                                                <div style="display: flex; gap: 1rem;">
+                                                                    <button class="btn btn-secondary">
+                                                                        <i class="fas fa-calendar"></i> Date Range
+                                                                    </button>
+                                                                    <button class="btn btn-secondary">
+                                                                        <i class="fas fa-download"></i> Export
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="stat-grid">
+                                                                <div class="stat-box">
+                                                                    <p class="stat-box-label">
+                                                                        All Orders
+                                                                    </p>
+                                                                    <p class="stat-box-value">
+                                                                        156
+                                                                    </p>
+                                                                </div>
+                                                                <div class="stat-box">
+                                                                    <p class="stat-box-label">
+                                                                        Pending
+                                                                    </p>
+                                                                    <p class="stat-box-value">
+                                                                        23
+                                                                    </p>
+                                                                </div>
+                                                                <div class="stat-box">
+                                                                    <p class="stat-box-label">
+                                                                        Processing
+                                                                    </p>
+                                                                    <p class="stat-box-value">
+                                                                        19
+                                                                    </p>
+                                                                </div>
+                                                                <div class="stat-box">
+                                                                    <p class="stat-box-label">
+                                                                        Completed
+                                                                    </p>
+                                                                    <p class="stat-box-value">
+                                                                        114
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="card">
+                                                                <div class="search-container">
+                                                                    <div class="search-box">
+                                                                        <i class="fas fa-search search-icon"></i>
+                                                                        <input type="text" placeholder="Search orders...">
+                                                                    </div>
+                                                                    <select class="filter-select">
