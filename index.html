@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quickshelf - Your Next-Generation Supply Partner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Floating Buttons */
+        .floating-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .floating-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .facebook-btn {
+            background: #1877F2;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        .nav-cta {
+            background: white;
+            color: #667eea;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        .hero-visual {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .hero-card i {
+            font-size: 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section.light {
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .featured {
+            border: 2px solid #667eea;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 1rem auto;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .step-description {
+            color: #666;
+        }
+
+        .process-arrow {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            opacity: 0.8;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: #666;
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .form-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Contact Page */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-form h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* FAQ Page */
+        .faq-container {
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .faq-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .faq-cta p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .process-steps {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-buttons {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Buttons - Always Visible -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/254742258137" target="_blank" class="floating-btn whatsapp-btn" title="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" class="floating-btn facebook-btn" title="Visit our Facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand" onclick="showPage('homePage')">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><span class="nav-link active" onclick="showPage('homePage')">Home</span></li>
+                    <li><span class="nav-link" onclick="showPage('cataloguePage')">Catalogue</span></li>
+                    <li><span class="nav-link" onclick="showPage('contactPage')">Contact Us</span></li>
+                    <li><span class="nav-link" onclick="showPage('faqPage')">FAQs</span></li>
+                    <li><span class="nav-link nav-cta" onclick="openLoginModal()">Sign In</span></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        Next-Generation Procurement
+                    </div>
+                    <h1 class="hero-title">Simplify Your Supply Chain</h1>
+                    <p class="hero-subtitle">
+                        Get what you need, when you need it. Streamlined sourcing for modern businesses with 99% on-time delivery.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="openLoginModal()">
+                            Get Started <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPage('cataloguePage')">
+                            <i class="fas fa-search"></i> Browse Catalogue
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Products</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">99%</div>
+                            <div class="stat-label">On-Time Delivery</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>Fast Shipping</span>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Quality Assured</span>
+                    </div>
+                    <div class="hero-card">
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section light">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Why Choose Us</span>
+                    <h2 class="section-title">Built For Modern Businesses</h2>
+                    <p class="section-subtitle">
+                        Focus on what matters. We'll handle your supply needs with precision and care.
+                    </p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="feature-title">Lightning Fast Delivery</h3>
+                        <p class="feature-description">
+                            Same-day and next-day delivery options available. Track your orders in real-time.
+                        </p>
+                    </div>
+
+                    <div class="feature-card featured">
+                        <span class="featured-badge">Most Popular</span>
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="feature-title">Curated Quality</h3>
+                        <p class="feature-description">
+                            Every product is hand-selected and verified. Only the best makes it to our catalogue.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">Dedicated Support</h3>
+                        <p class="feature-description">
+                            Your success is our priority. Get personalized assistance from our expert team.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">How It Works</span>
+                    <h2 class="section-title">Three Steps To Success</h2>
+                </div>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3 class="step-title">Create Account</h3>
+                        <p class="step-description">
+                            Sign up in seconds and get instant access to our complete catalogue.
+                        </p>
+                    </div>
+                    <div class="process-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3 class="step-title">Browse & Order</h3>
+                        <p class="step-description">
+                            Find exactly what you need from thousands of quality products.
+                        </p>
+                    </div>
+                    <div class="process-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="step-title">Fast Delivery</h3>
+                        <p class="step-description">
+                            Receive your order quickly with real-time tracking updates.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('homePage')">Home</a></li>
+                        <li><a onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a onclick="showPage('contactPage')">Contact Us</a></li>
+                        <li><a onclick="showPage('faqPage')">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
+                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
+                        <li><a href="https://wa.me/254742258137" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a>Privacy Policy</a></li>
+                        <li><a>Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Catalogue Page (Customer Landing Page) -->
+    <div id="cataloguePage" class="page">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand" onclick="showPage('homePage')">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><span class="nav-link" onclick="showPage('homePage')">Home</span></li>
+                    <li><span class="nav-link active" onclick="showPage('cataloguePage')">Catalogue</span></li>
+                    <li><span class="nav-link" onclick="showPage('contactPage')">Contact Us</span></li>
+                    <li><span class="nav-link" onclick="showPage('faqPage')">FAQs</span></li>
+                    <li><span class="nav-link nav-cta" onclick="logout()">Logout</span></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a onclick="showPage('homePage')">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Catalogue</span>
+                </div>
+                <h1 class="page-title">Explore Our Catalogue</h1>
+                <p class="page-subtitle">
+                    Thousands of quality products across every business category
+                </p>
+            </div>
+        </section>
+
+        <section class="section light">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3 class="feature-title">Premium Office Bundle</h3>
+                        <p class="feature-description">
+                            Complete office essentials package with everything you need.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$149.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <h3 class="feature-title">Business Printer</h3>
+                        <p class="feature-description">
+                            High-speed color printer for all your business needs.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$299.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3 class="feature-title">Ergonomic Workstation</h3>
+                        <p class="feature-description">
+                            Complete desk setup for maximum productivity and comfort.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$449.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <h3 class="feature-title">Filing System</h3>
+                        <p class="feature-description">
+                            Professional organization solution for your office.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$79.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3 class="feature-title">Wireless Keyboard Set</h3>
+                        <p class="feature-description">
+                            Premium input devices for seamless workflow.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$89.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3 class="feature-title">Office Headphones</h3>
+                        <p class="feature-description">
+                            Noise-cancelling audio for focused work sessions.
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$159.99</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('homePage')">Home</a></li>
+                        <li><a onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a onclick="showPage('contactPage')">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
+                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a>Privacy Policy</a></li>
+                        <li><a>Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Contact Us Page -->
+    <div id="contactPage" class="page">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand" onclick="showPage('homePage')">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><span class="nav-link" onclick="showPage('homePage')">Home</span></li>
+                    <li><span class="nav-link" onclick="showPage('cataloguePage')">Catalogue</span></li>
+                    <li><span class="nav-link active" onclick="showPage('contactPage')">Contact Us</span></li>
+                    <li><span class="nav-link" onclick="showPage('faqPage')">FAQs</span></li>
+                    <li><span class="nav-link nav-cta" onclick="openLoginModal()">Sign In</span></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a onclick="showPage('homePage')">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Contact Us</span>
+                </div>
+                <h1 class="page-title">Get In Touch</h1>
+                <p class="page-subtitle">
+                    We're here to help! Reach out to us through any of these channels
+                </p>
+            </div>
+        </section>
+
+        <section class="section light">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2 style="font-size: 1.75rem; margin-bottom: 2rem;">Contact Information</h2>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Phone</h3>
+                                <a href="tel:0742258137">0742258137</a>
+                                <p style="color: #666; margin-top: 0.25rem;">Mon-Fri, 8am-6pm EAT</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <a href="mailto:josephflynn774@gmail.com">josephflynn774@gmail.com</a>
+                                <p style="color: #666; margin-top: 0.25rem;">We'll respond within 24 hours</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>WhatsApp</h3>
+                                <a href="https://wa.me/254742258137" target="_blank">Chat on WhatsApp</a>
+                                <p style="color: #666; margin-top: 0.25rem;">Instant messaging support</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-facebook"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Facebook</h3>
+                                <a href="https://facebook.com" target="_blank">Visit our Facebook Page</a>
+                                <p style="color: #666; margin-top: 0.25rem;">Follow us for updates</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <h2>Send us a Message</h2>
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" class="form-input" placeholder="What's this about?">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea class="form-input" rows="5" placeholder="Tell us how we can help..."></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-full" onclick="alert('Message sent! We will get back to you soon.')">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('homePage')">Home</a></li>
+                        <li><a onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a onclick="showPage('contactPage')">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
+                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a>Privacy Policy</a></li>
+                        <li><a>Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- FAQs Page -->
+    <div id="faqPage" class="page">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand" onclick="showPage('homePage')">
+                    <i class="fas fa-box-open"></i>
+                    <span>Quickshelf</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><span class="nav-link" onclick="showPage('homePage')">Home</span></li>
+                    <li><span class="nav-link" onclick="showPage('cataloguePage')">Catalogue</span></li>
+                    <li><span class="nav-link" onclick="showPage('contactPage')">Contact Us</span></li>
+                    <li><span class="nav-link active" onclick="showPage('faqPage')">FAQs</span></li>
+                    <li><span class="nav-link nav-cta" onclick="openLoginModal()">Sign In</span></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a onclick="showPage('homePage')">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>FAQs</span>
+                </div>
+                <h1 class="page-title">Frequently Asked Questions</h1>
+                <p class="page-subtitle">
+                    Find answers to common questions about our services
+                </p>
+            </div>
+        </section>
+
+        <section class="section light">
+            <div class="container">
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>How do I place an order?</h3>
+                        <p class="faq-answer">Browse our catalogue, add items to your cart, and proceed to checkout. You can also contact us directly for bulk orders or custom requests. Our team is here to help you every step of the way.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>What payment methods do you accept?</h3>
+                        <p class="faq-answer">We accept various payment methods including credit cards, debit cards, mobile money (M-Pesa), bank transfers, and PayPal. For business accounts, we also offer invoice-based payment terms.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>How long does delivery take?</h3>
+                        <p class="faq-answer">Delivery typically takes 2-5 business days depending on your location. We offer same-day delivery for urgent orders within select areas. Track your order in real-time through our system.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>Can I track my order?</h3>
+                        <p class="faq-answer">Yes! You'll receive a tracking number once your order is shipped. You can monitor your delivery status in real-time through our website or by contacting our support team.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>What is your return policy?</h3>
+                        <p class="faq-answer">We offer a 30-day return policy on most items. Products must be in original condition with packaging intact. Contact our support team to initiate a return and we'll guide you through the process.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>Do you offer bulk discounts?</h3>
+                        <p class="faq-answer">Absolutely! We provide special pricing for bulk orders and business accounts. Contact our B2B team for custom quotes and volume discounts tailored to your needs.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question"><i class="fas fa-question-circle" style="color: #667eea; margin-right: 0.5rem;"></i>How can I become a vendor?</h3>
+                        <p class="faq-answer">We're always looking for quality vendors! Sign in with a vendor account or contact us at josephflynn774@gmail.com with details about your products and business. Our team will review your application and get back to you.</p>
+                    </div>
+
+                    <div class="faq-cta">
+                        <h2>Still Have Questions?</h2>
+                        <p>Our support team is ready to help you with any inquiries</p>
+                        <div class="contact-links">
+                            <a href="tel:0742258137" class="contact-link">
+                                <i class="fas fa-phone"></i> 0742258137
+                            </a>
+                            <a href="mailto:josephflynn774@gmail.com" class="contact-link">
+                                <i class="fas fa-envelope"></i> Email Us
+                            </a>
+                            <a href="https://wa.me/254742258137" target="_blank" class="contact-link">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-brand">
+                        <i class="fas fa-box-open"></i>
+                        <span>Quickshelf</span>
+                    </div>
+                    <p class="footer-description">
+                        Your trusted partner for next-generation supply chain solutions.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('homePage')">Home</a></li>
+                        <li><a onclick="showPage('cataloguePage')">Catalogue</a></li>
+                        <li><a onclick="showPage('contactPage')">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
+                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a>Privacy Policy</a></li>
+                        <li><a>Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Welcome to Quickshelf</h2>
+                <p class="modal-subtitle">Sign in to access your account</p>
+            </div>
+
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchTab('customer')">
+                    <i class="fas fa-user"></i> Customer
+                </button>
+                <button class="login-tab" onclick="switchTab('vendor')">
+                    <i class="fas fa-industry"></i> Vendor
+                </button>
+            </div>
+
+            <div id="customerForm" style="display: block;">
+                <div class="form-group">
+                    <label for="customerEmail">Email Address</label>
+                    <input type="email" id="customerEmail" class="form-input" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="customerPassword">Password</label>
+                    <input type="password" id="customerPassword" class="form-input" placeholder="Enter your password">
+                </div>
+                <button type="button" class="btn btn-primary btn-full" onclick="customerLogin()">
+                    Sign In as Customer
+                </button>
+            </div>
+
+            <div id="vendorForm" style="display: none;">
+                <div class="form-group">
+                    <label for="vendorEmail">Vendor Email</label>
+                    <input type="email" id="vendorEmail" class="form-input" placeholder="vendor@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="vendorPassword">Password</label>
+                    <input type="password" id="vendorPassword" class="form-input" placeholder="Enter your password">
+                </div>
+                <button type="button" class="btn btn-primary btn-full" onclick="vendorLogin()">
+                    Sign In as Vendor
+                </button>
+            </div>
+
+            <div class="modal-footer">
+                <p>New to Quickshelf? <a href="#" class="form-link" onclick="alert('Registration coming soon!')">Create an account</a></p>
+                <a href="#" class="form-link">Forgot password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully');
+        });
+
+        // Page Navigation
+        function showPage(pageId) {
+            console.log('Switching to page:', pageId);
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                console.error('Page not found:', pageId);
+            }
+        }
+
+        // Modal Functions
+        function openLoginModal() {
+            console.log('Opening login modal');
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                console.error('Login modal not found');
+            }
+        }
+
+        function closeLoginModal() {
+            console.log('Closing login modal');
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('load', function() {
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                loginModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeLoginModal();
+                    }
+                });
+            }
+        });
+
+        // Tab Switching
+        function switchTab(type) {
+            console.log('Switching to tab:', type);
+            const tabs = document.querySelectorAll('.login-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const customerForm = document.getElementById('customerForm');
+            const vendorForm = document.getElementById('vendorForm');
+            
+            if (type === 'customer') {
+                tabs[0].classList.add('active');
+                if (customerForm) customerForm.style.display = 'block';
+                if (vendorForm) vendorForm.style.display = 'none';
+            } else {
+                tabs[1].classList.add('active');
+                if (customerForm) customerForm.style.display = 'none';
+                if (vendorForm) vendorForm.style.display = 'block';
+            }
+        }
+
+        // Login Functions
+        function customerLogin() {
+            console.log('Customer login initiated');
+            const email = document.getElementById('customerEmail').value;
+            const password = document.getElementById('customerPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            closeLoginModal();
+            showPage('cataloguePage');
+            alert('Customer login successful! Welcome to the catalogue.');
+        }
+
+        function vendorLogin() {
+            console.log('Vendor login initiated');
+            const email = document.getElementById('vendorEmail').value;
+            const password = document.getElementById('vendorPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            closeLoginModal();
+            
+            // Check if vendor-dashboard.html exists, otherwise show a demo dashboard
+            alert('Vendor login successful! Redirecting to vendor dashboard...');
+            
+            // Try to redirect to vendor dashboard
+            // If the file doesn't exist, you can create a simple demo
+            window.location.href = 'vendor-dashboard.html';
+            
+            // Alternative: If you want to test without the separate file, 
+            // you can uncomment this line and comment out the line above:
+            // showVendorDashboardDemo();
+        }
+
+        // Demo Vendor Dashboard (in case separate file doesn't exist yet)
+        function showVendorDashboardDemo() {
+            alert('Vendor Dashboard would open here. Please create vendor-dashboard.html file.');
+            // For now, just show home page
+            showPage('homePage');
+        }
+
+        // Logout Function
+        function logout() {
+            console.log('Logout initiated');
+            showPage('homePage');
+            alert('You have been logged out successfully.');
+        }
+
+        // Test function - you can call this from browser console to test
+        function testModal() {
+            openLoginModal();
+        }
+
+        // Add keyboard support for closing modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('loginModal');
+                if (modal && modal.classList.contains('active')) {
+                    closeLoginModal();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
