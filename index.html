@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quickshelf - Your trusted partner for next-generation supply chain solutions. Get what you need, when you need it with 99% on-time delivery.">
     <title>Quickshelf - Your Next-Generation Supply Partner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -97,14 +98,6 @@
 
         .nav-link:hover { opacity: 0.8; }
 
-        .nav-cta {
-            background: white;
-            color: #667eea;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-        }
-
         .nav-cart {
             position: relative;
             cursor: pointer;
@@ -127,6 +120,16 @@
         }
 
         .cart-badge.show { display: flex; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .cart-shake {
+            animation: shake 0.5s ease-in-out;
+        }
 
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -246,31 +249,6 @@
             margin: 0 auto;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            color: #667eea;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.875rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin: 1rem 0;
-        }
-
-        .section-subtitle {
-            font-size: 1.125rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .catalogue-controls {
             display: flex;
             gap: 1rem;
@@ -356,16 +334,24 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
 
-        .feature-icon {
-            width: 60px;
-            height: 60px;
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-icon {
+            width: 100%;
+            height: 200px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 4rem;
             margin-bottom: 1.5rem;
         }
 
@@ -377,6 +363,16 @@
         .feature-description {
             color: #666;
             margin-bottom: 1.5rem;
+        }
+
+        .stock-info {
+            font-size: 0.875rem;
+            color: #48bb78;
+            margin-bottom: 1rem;
+        }
+
+        .stock-info.low {
+            color: #f59e0b;
         }
 
         .cart-overlay {
@@ -450,6 +446,7 @@
             color: white;
             font-size: 1.5rem;
             flex-shrink: 0;
+            object-fit: cover;
         }
 
         .cart-item-details { flex: 1; }
@@ -611,6 +608,21 @@
         .form-input:focus {
             outline: none;
             border-color: #667eea;
+        }
+
+        .form-input.error {
+            border-color: #ff4757;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
         }
 
         .summary-item {
@@ -805,6 +817,18 @@
             text-decoration: underline;
         }
 
+        .empty-catalogue {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-catalogue i {
+            font-size: 5rem;
+            color: #e0e0e0;
+            margin-bottom: 1.5rem;
+        }
+
         @keyframes slideIn {
             from {
                 transform: translateX(400px);
@@ -846,20 +870,20 @@
 </head>
 <body>
     <div class="floating-buttons">
-        <a href="https://wa.me/254742258137" target="_blank" class="floating-btn whatsapp-btn">
+        <a href="https://wa.me/254742258137" target="_blank" class="floating-btn whatsapp-btn" aria-label="Contact us on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="https://facebook.com" target="_blank" class="floating-btn facebook-btn">
+        <a href="https://facebook.com" target="_blank" class="floating-btn facebook-btn" aria-label="Follow us on Facebook">
             <i class="fab fa-facebook-f"></i>
         </a>
     </div>
 
     <div class="cart-overlay" id="cartOverlay"></div>
 
-    <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar" id="cartSidebar" role="dialog" aria-label="Shopping cart">
         <div class="cart-header">
             <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
-            <button class="cart-close" id="closeCart">&times;</button>
+            <button class="cart-close" id="closeCart" aria-label="Close cart">&times;</button>
         </div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-footer">
@@ -873,48 +897,48 @@
         </div>
     </div>
 
-    <div id="notification" class="notification"></div>
+    <div id="notification" class="notification" role="alert" aria-live="polite"></div>
 
-    <div id="loginModal" class="modal">
+    <div id="loginModal" class="modal" role="dialog" aria-labelledby="modalTitle">
         <div class="modal-content">
-            <button class="modal-close" id="closeModal">&times;</button>
+            <button class="modal-close" id="closeModal" aria-label="Close login modal">&times;</button>
             
             <div class="modal-header">
-                <h2 class="modal-title">Welcome to Quickshelf</h2>
+                <h2 class="modal-title" id="modalTitle">Welcome to Quickshelf</h2>
                 <p class="modal-subtitle">Sign in to access your account</p>
             </div>
 
-            <div class="login-tabs">
-                <button class="login-tab active" id="customerTab">
+            <div class="login-tabs" role="tablist">
+                <button class="login-tab active" id="customerTab" role="tab" aria-selected="true" aria-controls="customerForm">
                     <i class="fas fa-user"></i> Customer
                 </button>
-                <button class="login-tab" id="vendorTab">
+                <button class="login-tab" id="vendorTab" role="tab" aria-selected="false" aria-controls="vendorForm">
                     <i class="fas fa-industry"></i> Vendor
                 </button>
             </div>
 
-            <div id="customerForm" class="login-form active">
+            <div id="customerForm" class="login-form active" role="tabpanel">
                 <div class="form-group">
                     <label for="customerEmail">Email Address</label>
-                    <input type="email" id="customerEmail" class="form-input" placeholder="your@email.com">
+                    <input type="email" id="customerEmail" class="form-input" placeholder="your@email.com" aria-required="true">
                 </div>
                 <div class="form-group">
                     <label for="customerPassword">Password</label>
-                    <input type="password" id="customerPassword" class="form-input" placeholder="Enter your password">
+                    <input type="password" id="customerPassword" class="form-input" placeholder="Enter your password" aria-required="true">
                 </div>
                 <button class="btn btn-primary btn-full" id="customerLoginBtn">
                     Sign In as Customer
                 </button>
             </div>
 
-            <div id="vendorForm" class="login-form">
+            <div id="vendorForm" class="login-form" role="tabpanel">
                 <div class="form-group">
                     <label for="vendorEmail">Vendor Email</label>
-                    <input type="email" id="vendorEmail" class="form-input" placeholder="vendor@company.com">
+                    <input type="email" id="vendorEmail" class="form-input" placeholder="vendor@company.com" aria-required="true">
                 </div>
                 <div class="form-group">
                     <label for="vendorPassword">Password</label>
-                    <input type="password" id="vendorPassword" class="form-input" placeholder="Enter your password">
+                    <input type="password" id="vendorPassword" class="form-input" placeholder="Enter your password" aria-required="true">
                 </div>
                 <button class="btn btn-primary btn-full" id="vendorLoginBtn">
                     Sign In as Vendor
@@ -928,299 +952,215 @@
         </div>
     </div>
 
-    <div id="homePage" class="page active">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand" id="brandHome">
+    <nav class="navbar" role="navigation">
+        <div class="nav-container">
+            <div class="nav-brand" id="brandLogo">
+                <i class="fas fa-box-open"></i>
+                <span>Quickshelf</span>
+            </div>
+            <ul class="nav-menu">
+                <li><button class="nav-link" id="navHome" data-page="home">Home</button></li>
+                <li><button class="nav-link" id="navCatalogue" data-page="catalogue">Catalogue</button></li>
+                <li>
+                    <button class="nav-link nav-cart" id="cartBtn" aria-label="Shopping cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartBadge">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div id="homePage" class="page active">
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="hero-badge">
+                            <i class="fas fa-star"></i>
+                            Next-Generation Procurement
+                        </div>
+                        <h1 class="hero-title">Simplify Your Supply Chain</h1>
+                        <p class="hero-subtitle">
+                            Get what you need, when you need it. Streamlined sourcing for modern businesses with 99% on-time delivery.
+                        </p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" id="heroGetStarted">
+                                Get Started <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="btn btn-secondary" id="heroBrowse">
+                                <i class="fas fa-search"></i> Browse Catalogue
+                            </button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-number" id="productCount">0</div>
+                                <div class="stat-label">Products</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">99%</div>
+                                <div class="stat-label">On-Time Delivery</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Support</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="hero-card">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Fast Shipping</span>
+                        </div>
+                        <div class="hero-card">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Quality Assured</span>
+                        </div>
+                        <div class="hero-card">
+                            <i class="fas fa-headset"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="cataloguePage" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <nav class="breadcrumb" aria-label="Breadcrumb">
+                        <a id="breadHome">Home</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span>Catalogue</span>
+                    </nav>
+                    <h2 class="page-title">Explore Our Catalogue</h2>
+                    <p class="page-subtitle">
+                        Quality products from trusted vendors
+                    </p>
+                </div>
+            </section>
+
+            <section class="section light">
+                <div class="container">
+                    <div class="catalogue-controls">
+                        <div class="search-box">
+                            <div class="search-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchInput" class="search-input" placeholder="Search products..." aria-label="Search products">
+                            </div>
+                        </div>
+                        <div class="filter-buttons" role="group" aria-label="Product filters" id="filterButtons">
+                            <button class="filter-btn active" data-category="all">All</button>
+                        </div>
+                    </div>
+                    <div class="features-grid" id="productGrid"></div>
+                </div>
+            </section>
+        </div>
+
+        <div id="checkoutPage" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <nav class="breadcrumb" aria-label="Breadcrumb">
+                        <a id="breadHome2">Home</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <a id="breadCatalogue">Catalogue</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span>Checkout</span>
+                    </nav>
+                    <h2 class="page-title">Checkout</h2>
+                    <p class="page-subtitle">
+                        Complete your order in a few simple steps
+                    </p>
+                </div>
+            </section>
+
+            <section class="section light">
+                <div class="container">
+                    <div class="checkout-grid">
+                        <form class="checkout-form" id="checkoutForm" novalidate>
+                            <h2 style="font-size: 1.75rem; margin-bottom: 2rem;">Delivery Information</h2>
+                            <div class="form-group">
+                                <label for="checkoutName">Full Name *</label>
+                                <input type="text" id="checkoutName" class="form-input" placeholder="John Doe" required aria-required="true">
+                                <div class="error-message" id="nameError">Please enter your full name</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutEmail">Email Address *</label>
+                                <input type="email" id="checkoutEmail" class="form-input" placeholder="john@example.com" required aria-required="true">
+                                <div class="error-message" id="emailError">Please enter a valid email address</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutPhone">Phone Number *</label>
+                                <input type="tel" id="checkoutPhone" class="form-input" placeholder="+254 700 000000" required aria-required="true">
+                                <div class="error-message" id="phoneError">Please enter a valid phone number (at least 10 digits)</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutAddress">Delivery Address *</label>
+                                <textarea id="checkoutAddress" class="form-input" rows="3" placeholder="Street address, building, apartment" required aria-required="true"></textarea>
+                                <div class="error-message" id="addressError">Please enter your delivery address</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutCity">City *</label>
+                                <input type="text" id="checkoutCity" class="form-input" placeholder="Nairobi" required aria-required="true">
+                                <div class="error-message" id="cityError">Please enter your city</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutNotes">Additional Notes (Optional)</label>
+                                <textarea id="checkoutNotes" class="form-input" rows="3" placeholder="Any special instructions for delivery..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" id="submitOrder">
+                                <i class="fab fa-whatsapp"></i> Place Order via WhatsApp
+                            </button>
+                        </form>
+
+                        <div class="checkout-summary">
+                            <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Order Summary</h2>
+                            <div id="checkoutSummary"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <div class="footer-brand">
                     <i class="fas fa-box-open"></i>
                     <span>Quickshelf</span>
                 </div>
-                <ul class="nav-menu">
-                    <li><button class="nav-link" id="navHome">Home</button></li>
-                    <li><button class="nav-link" id="navCatalogue">Catalogue</button></li>
-                    <li>
-                        <button class="nav-link nav-cart" id="cartBtn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cartBadge">0</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="hero-badge">
-                        <i class="fas fa-star"></i>
-                        Next-Generation Procurement
-                    </div>
-                    <h1 class="hero-title">Simplify Your Supply Chain</h1>
-                    <p class="hero-subtitle">
-                        Get what you need, when you need it. Streamlined sourcing for modern businesses with 99% on-time delivery.
-                    </p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary" id="heroGetStarted">
-                            Get Started <i class="fas fa-arrow-right"></i>
-                        </button>
-                        <button class="btn btn-secondary" id="heroBrowse">
-                            <i class="fas fa-search"></i> Browse Catalogue
-                        </button>
-                    </div>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">10K+</div>
-                            <div class="stat-label">Products</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">99%</div>
-                            <div class="stat-label">On-Time Delivery</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Support</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="hero-card">
-                        <i class="fas fa-shipping-fast"></i>
-                        <span>Fast Shipping</span>
-                    </div>
-                    <div class="hero-card">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Quality Assured</span>
-                    </div>
-                    <div class="hero-card">
-                        <i class="fas fa-headset"></i>
-                        <span>24/7 Support</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <div class="footer-brand">
-                        <i class="fas fa-box-open"></i>
-                        <span>Quickshelf</span>
-                    </div>
-                    <p class="footer-description">
-                        Your trusted partner for next-generation supply chain solutions.
-                    </p>
-                </div>
-                <div class="footer-column">
-                    <h4>Contact</h4>
-                    <ul class="footer-links">
-                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
-                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
-
-    <div id="cataloguePage" class="page">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand" id="brandCatalogue">
-                    <i class="fas fa-box-open"></i>
-                    <span>Quickshelf</span>
-                </div>
-                <ul class="nav-menu">
-                    <li><button class="nav-link" id="navHome2">Home</button></li>
-                    <li><button class="nav-link active" id="navCatalogue2">Catalogue</button></li>
-                    <li>
-                        <button class="nav-link nav-cart" id="cartBtn2">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cartBadge2">0</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <section class="page-header">
-            <div class="container">
-                <div class="breadcrumb">
-                    <a id="breadHome">Home</a>
-                    <i class="fas fa-chevron-right"></i>
-                    <span>Catalogue</span>
-                </div>
-                <h1 class="page-title">Explore Our Catalogue</h1>
-                <p class="page-subtitle">
-                    Thousands of quality products across every business category
+                <p class="footer-description">
+                    Your trusted partner for next-generation supply chain solutions.
                 </p>
             </div>
-        </section>
-
-        <section class="section light">
-            <div class="container">
-                <div class="catalogue-controls">
-                    <div class="search-box">
-                        <div class="search-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="searchInput" class="search-input" placeholder="Search products...">
-                        </div>
-                    </div>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-category="all">All</button>
-                        <button class="filter-btn" data-category="office">Office</button>
-                        <button class="filter-btn" data-category="electronics">Electronics</button>
-                        <button class="filter-btn" data-category="furniture">Furniture</button>
-                    </div>
-                </div>
-                <div class="features-grid" id="productGrid"></div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <div class="footer-brand">
-                        <i class="fas fa-box-open"></i>
-                        <span>Quickshelf</span>
-                    </div>
-                    <p class="footer-description">
-                        Your trusted partner for next-generation supply chain solutions.
-                    </p>
-                </div>
-                <div class="footer-column">
-                    <h4>Contact</h4>
-                    <ul class="footer-links">
-                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
-                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
-
-    <div id="checkoutPage" class="page">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand" id="brandCheckout">
-                    <i class="fas fa-box-open"></i>
-                    <span>Quickshelf</span>
-                </div>
-                <ul class="nav-menu">
-                    <li><button class="nav-link" id="navHome3">Home</button></li>
-                    <li><button class="nav-link" id="navCatalogue3">Catalogue</button></li>
-                    <li>
-                        <button class="nav-link nav-cart" id="cartBtn3">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cartBadge3">0</span>
-                        </button>
-                    </li>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
+                    <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
                 </ul>
             </div>
-        </nav>
-
-        <section class="page-header">
-            <div class="container">
-                <div class="breadcrumb">
-                    <a id="breadHome2">Home</a>
-                    <i class="fas fa-chevron-right"></i>
-                    <a id="breadCatalogue">Catalogue</a>
-                    <i class="fas fa-chevron-right"></i>
-                    <span>Checkout</span>
-                </div>
-                <h1 class="page-title">Checkout</h1>
-                <p class="page-subtitle">
-                    Complete your order in a few simple steps
-                </p>
-            </div>
-        </section>
-
-        <section class="section light">
-            <div class="container">
-                <div class="checkout-grid">
-                    <div class="checkout-form">
-                        <h2 style="font-size: 1.75rem; margin-bottom: 2rem;">Delivery Information</h2>
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="checkoutName" class="form-input" placeholder="John Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address *</label>
-                            <input type="email" id="checkoutEmail" class="form-input" placeholder="john@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number *</label>
-                            <input type="tel" id="checkoutPhone" class="form-input" placeholder="+254 700 000000" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Delivery Address *</label>
-                            <textarea id="checkoutAddress" class="form-input" rows="3" placeholder="Street address, building, apartment" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>City *</label>
-                            <input type="text" id="checkoutCity" class="form-input" placeholder="Nairobi" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Additional Notes (Optional)</label>
-                            <textarea id="checkoutNotes" class="form-input" rows="3" placeholder="Any special instructions for delivery..."></textarea>
-                        </div>
-                        <button class="btn btn-primary btn-full" id="submitOrder">
-                            <i class="fab fa-whatsapp"></i> Place Order via WhatsApp
-                        </button>
-                    </div>
-
-                    <div class="checkout-summary">
-                        <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Order Summary</h2>
-                        <div id="checkoutSummary"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <div class="footer-brand">
-                        <i class="fas fa-box-open"></i>
-                        <span>Quickshelf</span>
-                    </div>
-                    <p class="footer-description">
-                        Your trusted partner for next-generation supply chain solutions.
-                    </p>
-                </div>
-                <div class="footer-column">
-                    <h4>Contact</h4>
-                    <ul class="footer-links">
-                        <li><a href="tel:0742258137"><i class="fas fa-phone"></i> 0742258137</a></li>
-                        <li><a href="mailto:josephflynn774@gmail.com"><i class="fas fa-envelope"></i> Email Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Quickshelf. All rights reserved.</p>
-            </div>
-        </footer>
-    </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Quickshelf. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
-        const products = [
-            {id: 1, name: 'Premium Office Bundle', price: 149.99, category: 'office', icon: 'fa-box', description: 'Complete office essentials package with everything you need.'},
-            {id: 2, name: 'Business Printer', price: 299.99, category: 'electronics', icon: 'fa-print', description: 'High-speed color printer for all your business needs.'},
-            {id: 3, name: 'Ergonomic Workstation', price: 449.99, category: 'furniture', icon: 'fa-desktop', description: 'Complete desk setup for maximum productivity and comfort.'},
-            {id: 4, name: 'Filing System', price: 79.99, category: 'office', icon: 'fa-folder', description: 'Professional organization solution for your office.'},
-            {id: 5, name: 'Wireless Keyboard Set', price: 89.99, category: 'electronics', icon: 'fa-keyboard', description: 'Premium input devices for seamless workflow.'},
-            {id: 6, name: 'Office Headphones', price: 159.99, category: 'electronics', icon: 'fa-headphones', description: 'Noise-cancelling audio for focused work sessions.'},
-            {id: 7, name: 'Executive Chair', price: 349.99, category: 'furniture', icon: 'fa-chair', description: 'Luxury ergonomic chair for all-day comfort.'},
-            {id: 8, name: 'Stationery Set', price: 49.99, category: 'office', icon: 'fa-pen', description: 'Complete stationery collection for your office.'},
-            {id: 9, name: 'Conference Phone', price: 199.99, category: 'electronics', icon: 'fa-phone', description: 'Crystal clear audio for professional meetings.'},
-            {id: 10, name: 'Standing Desk', price: 599.99, category: 'furniture', icon: 'fa-table', description: 'Adjustable height desk for healthier work habits.'},
-            {id: 11, name: 'Document Shredder', price: 129.99, category: 'office', icon: 'fa-file-invoice', description: 'Secure document disposal for sensitive information.'},
-            {id: 12, name: 'Webcam HD Pro', price: 89.99, category: 'electronics', icon: 'fa-video', description: 'Professional quality video for remote meetings.'}
-        ];
+        // Load products from vendor dashboard
+        let products = JSON.parse(localStorage.getItem('quickshelfProducts')) || [];
+        let settings = JSON.parse(localStorage.getItem('quickshelfSettings')) || {
+            storeName: 'QuickShelf',
+            whatsappNumber: '254742258137',
+            currencySymbol: '$'
+        };
+
+        // Filter only active products with stock
+        function getActiveProducts() {
+            return products.filter(p => p.status === 'active' && p.stock > 0);
+        }
 
         let cart = JSON.parse(localStorage.getItem('quickshelfCart')) || [];
 
@@ -1230,13 +1170,19 @@
 
         function updateCartBadge() {
             const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-            ['cartBadge', 'cartBadge2', 'cartBadge3'].forEach(id => {
-                const badge = document.getElementById(id);
-                if (badge) {
-                    badge.textContent = total;
-                    badge.className = total > 0 ? 'cart-badge show' : 'cart-badge';
-                }
-            });
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = total;
+                badge.className = total > 0 ? 'cart-badge show' : 'cart-badge';
+            }
+        }
+
+        function shakeCart() {
+            const cartIcon = document.getElementById('cartBtn');
+            if (cartIcon) {
+                cartIcon.classList.add('cart-shake');
+                setTimeout(() => cartIcon.classList.remove('cart-shake'), 500);
+            }
         }
 
         function showNotification(msg) {
@@ -1250,7 +1196,15 @@
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
+            // Check stock availability
             const existing = cart.find(item => item.id === productId);
+            const currentQty = existing ? existing.quantity : 0;
+            
+            if (currentQty >= product.stock) {
+                showNotification(`Only ${product.stock} units available!`);
+                return;
+            }
+
             if (existing) {
                 existing.quantity += 1;
             } else {
@@ -1260,7 +1214,11 @@
             saveCart();
             updateCartBadge();
             updateCartDisplay();
+            shakeCart();
             showNotification(`${product.name} added to cart!`);
+            
+            // Log order for vendor dashboard
+            logOrder(product, 'added_to_cart');
         }
 
         function removeFromCart(productId) {
@@ -1274,7 +1232,17 @@
             const item = cart.find(i => i.id === productId);
             if (!item) return;
 
-            item.quantity += change;
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const newQty = item.quantity + change;
+            
+            if (newQty > product.stock) {
+                showNotification(`Only ${product.stock} units available!`);
+                return;
+            }
+
+            item.quantity = newQty;
             if (item.quantity <= 0) {
                 removeFromCart(productId);
             } else {
@@ -1295,36 +1263,40 @@
                         <h3>Your cart is empty</h3>
                         <p>Add some products to get started!</p>
                         <button class="btn btn-primary" style="margin-top: 1rem;" onclick="toggleCart(); showPage('cataloguePage');">
-                            Browse Catalogue
+                            <i class="fas fa-shopping-bag"></i> Continue Shopping
                         </button>
                     </div>
                 `;
-                document.getElementById('cartTotal').textContent = '$0.00';
+                document.getElementById('cartTotal').textContent = `${settings.currencySymbol}0.00`;
                 return;
             }
 
-            container.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-image">
-                        <i class="fas ${item.icon}"></i>
-                    </div>
-                    <div class="cart-item-details">
-                        <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                        <div class="cart-item-quantity">
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                            <span style="min-width: 30px; text-align: center;">${item.quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+            container.innerHTML = cart.map(item => {
+                const imgHtml = item.image ? 
+                    `<img src="${item.image}" class="cart-item-image" onerror="this.outerHTML='<div class=\\'cart-item-image\\'><i class=\\'fas fa-box\\'></i></div>'">` :
+                    `<div class="cart-item-image"><i class="fas fa-box"></i></div>`;
+                
+                return `
+                    <div class="cart-item">
+                        ${imgHtml}
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${settings.currencySymbol}${item.price.toFixed(2)}</div>
+                            <div class="cart-item-quantity">
+                                <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)" aria-label="Decrease quantity">-</button>
+                                <span style="min-width: 30px; text-align: center;">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)" aria-label="Increase quantity">+</button>
+                            </div>
                         </div>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Remove item">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
-                    <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('cartTotal').textContent = `${settings.currencySymbol}${total.toFixed(2)}`;
         }
 
         function toggleCart() {
@@ -1341,7 +1313,33 @@
             const grid = document.getElementById('productGrid');
             if (!grid) return;
 
-            let filtered = products;
+            let activeProducts = getActiveProducts();
+            
+            // Update product count on homepage
+            const productCount = document.getElementById('productCount');
+            if (productCount) {
+                productCount.textContent = activeProducts.length;
+            }
+
+            if (activeProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-catalogue">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Products Available</h3>
+                        <p>Products will appear here once vendors add them to the catalogue.</p>
+                        <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="showPage('homePage')">
+                            <i class="fas fa-home"></i> Back to Home
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get unique categories
+            const categories = [...new Set(activeProducts.map(p => p.category))];
+            loadCategoryFilters(categories);
+
+            let filtered = activeProducts;
             if (filter !== 'all') filtered = filtered.filter(p => p.category === filter);
             if (search) filtered = filtered.filter(p => 
                 p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -1359,21 +1357,53 @@
                 return;
             }
 
-            grid.innerHTML = filtered.map(p => `
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas ${p.icon}"></i>
-                    </div>
-                    <h3 class="feature-title">${p.name}</h3>
-                    <p class="feature-description">${p.description}</p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
-                        <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">$${p.price.toFixed(2)}</span>
-                        <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="addToCart(${p.id})">
-                            <i class="fas fa-cart-plus"></i> Add
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+            grid.innerHTML = filtered.map(p => {
+                const stockClass = p.stock < 5 ? 'low' : '';
+                const stockText = p.stock < 5 ? `Only ${p.stock} left!` : `${p.stock} in stock`;
+                
+                const imageHtml = p.image ? 
+                    `<img src="${p.image}" class="product-image" onerror="this.outerHTML='<div class=\\'product-icon\\'><i class=\\'fas fa-box\\'></i></div>'">` :
+                    `<div class="product-icon"><i class="fas fa-box"></i></div>`;
+                
+                return `
+                    <article class="feature-card">
+                        ${imageHtml}
+                        <h3 class="feature-title">${p.name}</h3>
+                        <p class="feature-description">${p.description}</p>
+                        <div class="stock-info ${stockClass}">
+                            <i class="fas fa-boxes"></i> ${stockText}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: #667eea;">${settings.currencySymbol}${p.price.toFixed(2)}</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="addToCart('${p.id}')" aria-label="Add ${p.name} to cart">
+                                <i class="fas fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function loadCategoryFilters(categories) {
+            const filterContainer = document.getElementById('filterButtons');
+            if (!filterContainer) return;
+
+            const allBtn = '<button class="filter-btn active" data-category="all">All</button>';
+            const categoryBtns = categories.map(cat => 
+                `<button class="filter-btn" data-category="${cat}">${cat}</button>`
+            ).join('');
+
+            filterContainer.innerHTML = allBtn + categoryBtns;
+
+            // Reattach event listeners
+            filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const searchVal = document.getElementById('searchInput')?.value || '';
+                    loadProducts(btn.dataset.category, searchVal);
+                });
+            });
         }
 
         function showPage(pageId) {
@@ -1382,6 +1412,19 @@
             if (page) {
                 page.classList.add('active');
                 window.scrollTo(0, 0);
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId.replace('Page', '')) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Reload products when navigating to catalogue
+            if (pageId === 'cataloguePage') {
+                products = JSON.parse(localStorage.getItem('quickshelfProducts')) || [];
+                loadProducts();
             }
         }
 
@@ -1410,25 +1453,110 @@
                             <strong>${item.name}</strong><br>
                             <span style="color: #666;">Qty: ${item.quantity}</span>
                         </div>
-                        <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                        <div>${settings.currencySymbol}${(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                 `).join('')}
                 <div class="summary-item">
                     <div>Subtotal</div>
-                    <div>$${subtotal.toFixed(2)}</div>
+                    <div>${settings.currencySymbol}${subtotal.toFixed(2)}</div>
                 </div>
                 <div class="summary-item">
                     <div>Shipping</div>
-                    <div>$${shipping.toFixed(2)}</div>
+                    <div>${settings.currencySymbol}${shipping.toFixed(2)}</div>
                 </div>
                 <div class="summary-total">
                     <span>Total</span>
-                    <span>$${total.toFixed(2)}</span>
+                    <span>${settings.currencySymbol}${total.toFixed(2)}</span>
                 </div>
             `;
         }
 
-        function submitOrder() {
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePhone(phone) {
+            const digits = phone.replace(/\D/g, '');
+            return digits.length >= 10;
+        }
+
+        function showError(inputId, errorId, message) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            input.classList.add('error');
+            error.textContent = message;
+            error.classList.add('show');
+        }
+
+        function clearError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            input.classList.remove('error');
+            error.classList.remove('show');
+        }
+
+        function validateCheckoutForm() {
+            let isValid = true;
+
+            const name = document.getElementById('checkoutName').value.trim();
+            const email = document.getElementById('checkoutEmail').value.trim();
+            const phone = document.getElementById('checkoutPhone').value.trim();
+            const address = document.getElementById('checkoutAddress').value.trim();
+            const city = document.getElementById('checkoutCity').value.trim();
+
+            clearError('checkoutName', 'nameError');
+            clearError('checkoutEmail', 'emailError');
+            clearError('checkoutPhone', 'phoneError');
+            clearError('checkoutAddress', 'addressError');
+            clearError('checkoutCity', 'cityError');
+
+            if (!name) {
+                showError('checkoutName', 'nameError', 'Please enter your full name');
+                isValid = false;
+            }
+
+            if (!email) {
+                showError('checkoutEmail', 'emailError', 'Please enter your email address');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('checkoutEmail', 'emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!phone) {
+                showError('checkoutPhone', 'phoneError', 'Please enter your phone number');
+                isValid = false;
+            } else if (!validatePhone(phone)) {
+                showError('checkoutPhone', 'phoneError', 'Please enter a valid phone number (at least 10 digits)');
+                isValid = false;
+            }
+
+            if (!address) {
+                showError('checkoutAddress', 'addressError', 'Please enter your delivery address');
+                isValid = false;
+            }
+
+            if (!city) {
+                showError('checkoutCity', 'cityError', 'Please enter your city');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function logOrder(product, action) {
+            // This function can be expanded to log order activities
+            console.log(`Order action: ${action}`, product);
+        }
+
+        function submitOrder(e) {
+            if (e) e.preventDefault();
+
+            if (!validateCheckoutForm()) {
+                return;
+            }
+
             const name = document.getElementById('checkoutName').value.trim();
             const email = document.getElementById('checkoutEmail').value.trim();
             const phone = document.getElementById('checkoutPhone').value.trim();
@@ -1436,16 +1564,34 @@
             const city = document.getElementById('checkoutCity').value.trim();
             const notes = document.getElementById('checkoutNotes').value.trim();
 
-            if (!name || !email || !phone || !address || !city) {
-                alert('Please fill in all required fields');
-                return;
-            }
-
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = 15.00;
             const total = subtotal + shipping;
 
-            let msg = `*🛒 New Order from Quickshelf*%0A%0A`;
+            // Save order to localStorage for vendor dashboard
+            const orders = JSON.parse(localStorage.getItem('quickshelfOrders')) || [];
+            const newOrder = {
+                id: Date.now().toString(),
+                customerName: name,
+                customerEmail: email,
+                customerPhone: phone,
+                address: `${address}, ${city}`,
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.price
+                })),
+                total: total,
+                date: new Date().toISOString(),
+                status: 'pending',
+                notes: notes
+            };
+            orders.push(newOrder);
+            localStorage.setItem('quickshelfOrders', JSON.stringify(orders));
+
+            // Prepare WhatsApp message
+            let msg = `*🛒 New Order from ${settings.storeName}*%0A%0A`;
             msg += `*👤 Customer Details:*%0A`;
             msg += `Name: ${encodeURIComponent(name)}%0A`;
             msg += `Email: ${encodeURIComponent(email)}%0A`;
@@ -1455,27 +1601,23 @@
             msg += `%0A*📦 Order Items:*%0A`;
             
             cart.forEach(item => {
-                msg += `• ${encodeURIComponent(item.name)} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}%0A`;
+                msg += `• ${encodeURIComponent(item.name)} x${item.quantity} - ${settings.currencySymbol}${(item.price * item.quantity).toFixed(2)}%0A`;
             });
             
             msg += `%0A*💰 Order Summary:*%0A`;
-            msg += `Subtotal: $${subtotal.toFixed(2)}%0A`;
-            msg += `Shipping: $${shipping.toFixed(2)}%0A`;
-            msg += `*Total: $${total.toFixed(2)}*`;
+            msg += `Subtotal: ${settings.currencySymbol}${subtotal.toFixed(2)}%0A`;
+            msg += `Shipping: ${settings.currencySymbol}${shipping.toFixed(2)}%0A`;
+            msg += `*Total: ${settings.currencySymbol}${total.toFixed(2)}*`;
 
-            window.open(`https://wa.me/254742258137?text=${msg}`, '_blank');
+            const whatsappNumber = settings.whatsappNumber || '254742258137';
+            window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank');
 
             cart = [];
             saveCart();
             updateCartBadge();
             showNotification('Order submitted successfully!');
             
-            document.getElementById('checkoutName').value = '';
-            document.getElementById('checkoutEmail').value = '';
-            document.getElementById('checkoutPhone').value = '';
-            document.getElementById('checkoutAddress').value = '';
-            document.getElementById('checkoutCity').value = '';
-            document.getElementById('checkoutNotes').value = '';
+            document.getElementById('checkoutForm').reset();
             
             setTimeout(() => showPage('homePage'), 2000);
         }
@@ -1496,12 +1638,16 @@
 
             if (tab === 'customer') {
                 customerTab.classList.add('active');
+                customerTab.setAttribute('aria-selected', 'true');
                 vendorTab.classList.remove('active');
+                vendorTab.setAttribute('aria-selected', 'false');
                 customerForm.classList.add('active');
                 vendorForm.classList.remove('active');
             } else {
                 customerTab.classList.remove('active');
+                customerTab.setAttribute('aria-selected', 'false');
                 vendorTab.classList.add('active');
+                vendorTab.setAttribute('aria-selected', 'true');
                 customerForm.classList.remove('active');
                 vendorForm.classList.add('active');
             }
@@ -1544,71 +1690,55 @@
             }, 1000);
         }
 
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateCartBadge();
             loadProducts();
 
-            ['brandHome', 'brandCatalogue', 'brandCheckout', 'navHome', 'navHome2', 'navHome3', 'breadHome', 'breadHome2'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('click', () => showPage('homePage'));
-            });
+            // Navigation
+            document.getElementById('brandLogo').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('navHome').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('navCatalogue').addEventListener('click', () => showPage('cataloguePage'));
+            document.getElementById('breadHome').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('breadHome2').addEventListener('click', () => showPage('homePage'));
+            document.getElementById('breadCatalogue').addEventListener('click', () => showPage('cataloguePage'));
+            document.getElementById('heroBrowse').addEventListener('click', () => showPage('cataloguePage'));
+            document.getElementById('heroGetStarted').addEventListener('click', openLoginModal);
 
-            ['navCatalogue', 'navCatalogue2', 'navCatalogue3', 'breadCatalogue', 'heroBrowse'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('click', () => showPage('cataloguePage'));
-            });
+            // Cart
+            document.getElementById('cartBtn').addEventListener('click', toggleCart);
+            document.getElementById('cartOverlay').addEventListener('click', toggleCart);
+            document.getElementById('closeCart').addEventListener('click', toggleCart);
+            document.getElementById('checkoutBtn').addEventListener('click', proceedToCheckout);
 
-            const getStartedBtn = document.getElementById('heroGetStarted');
-            if (getStartedBtn) getStartedBtn.addEventListener('click', openLoginModal);
+            // Checkout
+            const checkoutForm = document.getElementById('checkoutForm');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', submitOrder);
+            }
 
-            ['cartBtn', 'cartBtn2', 'cartBtn3', 'cartOverlay'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener('click', toggleCart);
-            });
+            // Login modal
+            document.getElementById('closeModal').addEventListener('click', closeLoginModal);
+            document.getElementById('customerTab').addEventListener('click', () => switchTab('customer'));
+            document.getElementById('vendorTab').addEventListener('click', () => switchTab('vendor'));
+            document.getElementById('customerLoginBtn').addEventListener('click', customerLogin);
+            document.getElementById('vendorLoginBtn').addEventListener('click', vendorLogin);
 
-            const closeCart = document.getElementById('closeCart');
-            if (closeCart) closeCart.addEventListener('click', toggleCart);
-
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            if (checkoutBtn) checkoutBtn.addEventListener('click', proceedToCheckout);
-
-            const submitBtn = document.getElementById('submitOrder');
-            if (submitBtn) submitBtn.addEventListener('click', submitOrder);
-
-            const closeModal = document.getElementById('closeModal');
-            if (closeModal) closeModal.addEventListener('click', closeLoginModal);
-
-            const customerTab = document.getElementById('customerTab');
-            if (customerTab) customerTab.addEventListener('click', () => switchTab('customer'));
-
-            const vendorTab = document.getElementById('vendorTab');
-            if (vendorTab) vendorTab.addEventListener('click', () => switchTab('vendor'));
-
-            const customerLoginBtn = document.getElementById('customerLoginBtn');
-            if (customerLoginBtn) customerLoginBtn.addEventListener('click', customerLogin);
-
-            const vendorLoginBtn = document.getElementById('vendorLoginBtn');
-            if (vendorLoginBtn) vendorLoginBtn.addEventListener('click', vendorLogin);
-
-            const registerLink = document.getElementById('registerLink');
-            if (registerLink) registerLink.addEventListener('click', () => {
+            document.getElementById('registerLink').addEventListener('click', () => {
                 alert('Registration coming soon! For now, please contact us at josephflynn774@gmail.com');
             });
 
-            const forgotPassword = document.getElementById('forgotPassword');
-            if (forgotPassword) forgotPassword.addEventListener('click', () => {
+            document.getElementById('forgotPassword').addEventListener('click', () => {
                 alert('Password reset coming soon! Please contact us at josephflynn774@gmail.com');
             });
 
-            const loginModal = document.getElementById('loginModal');
-            if (loginModal) {
-                loginModal.addEventListener('click', (e) => {
-                    if (e.target === loginModal) {
-                        closeLoginModal();
-                    }
-                });
-            }
+            document.getElementById('loginModal').addEventListener('click', (e) => {
+                if (e.target.id === 'loginModal') {
+                    closeLoginModal();
+                }
+            });
 
+            // Search
             const search = document.getElementById('searchInput');
             if (search) {
                 search.addEventListener('input', (e) => {
@@ -1617,15 +1747,7 @@
                 });
             }
 
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const searchVal = search ? search.value : '';
-                    loadProducts(btn.dataset.category, searchVal);
-                });
-            });
-
+            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     const sidebar = document.getElementById('cartSidebar');
@@ -1639,6 +1761,27 @@
                     }
                 }
             });
+
+            // Refresh products every 5 seconds to catch updates from vendor dashboard
+            setInterval(() => {
+                const currentPage = document.querySelector('.page.active');
+                if (currentPage && currentPage.id === 'cataloguePage') {
+                    const oldProducts = JSON.stringify(products);
+                    products = JSON.parse(localStorage.getItem('quickshelfProducts')) || [];
+                    const newProducts = JSON.stringify(products);
+                    
+                    // Only reload if products changed
+                    if (oldProducts !== newProducts) {
+                        const searchVal = search ? search.value : '';
+                        const activeFilter = document.querySelector('.filter-btn.active');
+                        loadProducts(activeFilter ? activeFilter.dataset.category : 'all', searchVal);
+                    }
+                }
+            }, 5000);
+
+            console.log('✅ QuickShelf Storefront Initialized');
+            console.log('✅ Connected to Vendor Dashboard');
+            console.log(`✅ Loaded ${getActiveProducts().length} active products`);
         });
     </script>
 </body>
