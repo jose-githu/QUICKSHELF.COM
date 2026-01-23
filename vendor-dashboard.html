@@ -29,7 +29,7 @@
         .stat-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .stat-label { color: #718096; font-size: 14px; margin-bottom: 8px; }
         .stat-value { font-size: 32px; font-weight: bold; color: #2d3748; }
-        .stat-trend { font-size: 12px; color: #48bb78; margin-top: 5px; }
+        .stat-trend { font-size: 12px; color: #718096; margin-top: 5px; }
         .chart-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
         .simple-chart { height: 250px; background: linear-gradient(180deg, #667eea22 0%, transparent 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #667eea; font-size: 18px; font-weight: 600; }
         .activity-feed { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
@@ -37,6 +37,7 @@
         .activity-item:last-child { border-bottom: none; }
         .activity-icon { width: 40px; height: 40px; background: #667eea22; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
         .activity-time { color: #a0aec0; font-size: 12px; }
+        .empty-state { text-align: center; padding: 40px; color: #718096; }
         .table-controls { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
         .filter-tab { padding: 8px 16px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
@@ -65,6 +66,7 @@
         .btn-primary { background: #667eea; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s; }
         .btn-primary:hover { background: #5a67d8; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; margin-left: 10px; }
+        .btn-primary:disabled { background: #cbd5e0; cursor: not-allowed; }
         .checklist { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
         .checklist-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #e2e8f0; }
         .checklist-item:last-child { border-bottom: none; }
@@ -106,7 +108,7 @@
             <div class="topbar">
                 <div class="search-bar"><input type="text" placeholder="Search products, orders..."></div>
                 <div class="topbar-actions">
-                    <div class="notification-bell">🔔<span class="notification-badge">3</span></div>
+                    <div class="notification-bell">🔔<span class="notification-badge" style="display: none;">0</span></div>
                     <button class="quick-add-btn" onclick="openModal()">+ Quick Add Product</button>
                 </div>
             </div>
@@ -116,23 +118,24 @@
                     <h1 style="margin-bottom: 30px;">Dashboard Overview</h1>
                     <div class="checklist">
                         <h3 style="margin-bottom: 15px;">🎯 Setup Checklist</h3>
-                        <div class="checklist-item"><div class="checkbox checked"></div><span>Verify your email</span></div>
+                        <div class="checklist-item"><div class="checkbox"></div><span>Verify your email</span></div>
                         <div class="checklist-item"><div class="checkbox"></div><span>Complete your Store Profile (Logo & Bio)</span></div>
                         <div class="checklist-item"><div class="checkbox"></div><span>Connect your payout method</span></div>
                         <div class="checklist-item"><div class="checkbox"></div><span>List your first product</span></div>
                     </div>
                     <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value">$12,450</div><div class="stat-trend">↑ 12% from last month</div></div>
-                        <div class="stat-card"><div class="stat-label">Active Listings</div><div class="stat-value">47</div><div class="stat-trend">↑ 5 new this week</div></div>
-                        <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value">8</div><div class="stat-trend">Needs attention</div></div>
-                        <div class="stat-card"><div class="stat-label">Store Views</div><div class="stat-value">1,254</div><div class="stat-trend">↑ 23% this week</div></div>
+                        <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value">KES 0</div><div class="stat-trend">No sales yet</div></div>
+                        <div class="stat-card"><div class="stat-label">Active Listings</div><div class="stat-value">0</div><div class="stat-trend">Add your first product</div></div>
+                        <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value">0</div><div class="stat-trend">No pending orders</div></div>
+                        <div class="stat-card"><div class="stat-label">Store Views</div><div class="stat-value">0</div><div class="stat-trend">No views yet</div></div>
                     </div>
-                    <div class="chart-container"><h3 style="margin-bottom: 20px;">Sales Trend (Last 30 Days)</h3><div class="simple-chart">📈 Sales Growth Chart</div></div>
+                    <div class="chart-container"><h3 style="margin-bottom: 20px;">Sales Trend (Last 30 Days)</h3><div class="simple-chart">📈 No sales data yet</div></div>
                     <div class="activity-feed">
                         <h3 style="margin-bottom: 15px;">Recent Activity</h3>
-                        <div class="activity-item"><div class="activity-icon">💰</div><div><strong>Product "Vintage Camera" just sold</strong><div class="activity-time">2 hours ago</div></div></div>
-                        <div class="activity-item"><div class="activity-icon">✅</div><div><strong>Payout processed: $450.00</strong><div class="activity-time">5 hours ago</div></div></div>
-                        <div class="activity-item"><div class="activity-icon">⭐</div><div><strong>New 5-star review received</strong><div class="activity-time">1 day ago</div></div></div>
+                        <div class="empty-state">
+                            <p style="font-size: 18px; margin-bottom: 10px;">👋 Welcome to your vendor dashboard!</p>
+                            <p>Get started by completing your store profile and listing your first product.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -151,9 +154,11 @@
                         <table>
                             <thead><tr><th>Image</th><th>Product Name</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
                             <tbody>
-                                <tr><td><img src="https://via.placeholder.com/50" class="product-img"></td><td>Vintage Leather Wallet</td><td>$45.00</td><td><span class="stock-badge stock-ok">24 units</span></td><td><span class="status-badge status-active">Active</span></td><td><button class="edit-btn">Edit</button></td></tr>
-                                <tr><td><img src="https://via.placeholder.com/50" class="product-img"></td><td>Handmade Ceramic Mug</td><td>$28.00</td><td><span class="stock-badge stock-low">3 units</span></td><td><span class="status-badge status-active">Active</span></td><td><button class="edit-btn">Edit</button></td></tr>
-                                <tr><td><img src="https://via.placeholder.com/50" class="product-img"></td><td>Artisan Soap Set</td><td>$35.00</td><td><span class="stock-badge stock-ok">15 units</span></td><td><span class="status-badge status-draft">Draft</span></td><td><button class="edit-btn">Edit</button></td></tr>
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <p style="padding: 40px;">No products listed yet. Click "Add New Product" to get started.</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -162,22 +167,25 @@
                 <div class="page-content" id="orders">
                     <h1 style="margin-bottom: 30px;">Order Management</h1>
                     <div class="table-controls"><div class="filter-tabs"><div class="filter-tab active">Unfulfilled</div><div class="filter-tab">Shipped</div><div class="filter-tab">Completed</div></div></div>
-                    <div class="order-card">
-                        <div class="order-header"><div class="order-id">Order #12345</div><div class="order-status status-pending">Pending</div></div>
-                        <p><strong>Customer:</strong> John Doe</p><p><strong>Address:</strong> 123 Main St, New York, NY 10001</p><p><strong>Items:</strong> Vintage Leather Wallet × 1</p><p><strong>Total:</strong> $45.00</p>
-                        <button class="btn-primary" style="margin-top: 15px;">Mark as Shipped</button>
-                    </div>
-                    <div class="order-card">
-                        <div class="order-header"><div class="order-id">Order #12344</div><div class="order-status status-shipped">Shipped</div></div>
-                        <p><strong>Customer:</strong> Jane Smith</p><p><strong>Address:</strong> 456 Oak Ave, Los Angeles, CA 90012</p><p><strong>Items:</strong> Handmade Ceramic Mug × 2</p><p><strong>Total:</strong> $56.00</p><p><strong>Tracking:</strong> 1Z999AA10123456784</p>
+                    <div class="empty-state" style="background: white; padding: 60px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                        <p style="font-size: 18px; margin-bottom: 10px;">📦 No orders yet</p>
+                        <p>Your orders will appear here once customers start purchasing your products.</p>
                     </div>
                 </div>
 
                 <div class="page-content" id="finances">
                     <h1 style="margin-bottom: 30px;">Finances & Payouts</h1>
                     <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-label">Available for Payout</div><div class="stat-value">$2,340</div><button class="btn-primary" style="margin-top: 15px;">Request Payout</button></div>
-                        <div class="stat-card"><div class="stat-label">Pending Clearance</div><div class="stat-value">$890</div><div class="stat-trend">Available in 3 days</div></div>
+                        <div class="stat-card">
+                            <div class="stat-label">Available for Payout</div>
+                            <div class="stat-value">KES 0</div>
+                            <button class="btn-primary" style="margin-top: 15px;" disabled>Request Payout</button>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Pending Clearance</div>
+                            <div class="stat-value">KES 0</div>
+                            <div class="stat-trend">No pending transactions</div>
+                        </div>
                     </div>
                     <div class="form-section">
                         <h3>Transaction History</h3>
@@ -185,16 +193,19 @@
                             <table style="margin-top: 20px;">
                                 <thead><tr><th>Date</th><th>Type</th><th>Gross Sale</th><th>Platform Fee</th><th>Net Profit</th></tr></thead>
                                 <tbody>
-                                    <tr><td>Dec 28, 2025</td><td>Sale</td><td>$45.00</td><td>-$4.50</td><td>$40.50</td></tr>
-                                    <tr><td>Dec 27, 2025</td><td>Sale</td><td>$56.00</td><td>-$5.60</td><td>$50.40</td></tr>
+                                    <tr>
+                                        <td colspan="5" class="empty-state">
+                                            <p style="padding: 20px;">No transactions yet</p>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="form-section">
                         <h3>Payout Settings</h3>
-                        <div class="form-group"><label>Payout Method</label><select><option>Bank Account</option><option>PayPal</option></select></div>
-                        <div class="form-group"><label>Account Details</label><input type="text" placeholder="Account Number / PayPal Email"></div>
+                        <div class="form-group"><label>Payout Method</label><select><option>Bank Account</option><option>M-Pesa</option><option>PayPal</option></select></div>
+                        <div class="form-group"><label>Account Details</label><input type="text" placeholder="Account Number / M-Pesa Number / PayPal Email"></div>
                         <button class="btn-primary">Save Settings</button>
                     </div>
                 </div>
@@ -264,7 +275,7 @@
             <div class="form-group"><label>Product Name *</label><input type="text" placeholder="e.g., Handmade Leather Wallet" required></div>
             <div class="form-group"><label>Description *</label><textarea placeholder="Describe your product in detail..." required></textarea></div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="form-group"><label>Price *</label><input type="number" placeholder="0.00" step="0.01"></div>
+                <div class="form-group"><label>Price (KES) *</label><input type="number" placeholder="0.00" step="0.01"></div>
                 <div class="form-group"><label>Stock Quantity *</label><input type="number" placeholder="0" min="0"></div>
             </div>
             <div class="form-group"><label>Category *</label><select><option>Select a category</option><option>Fashion & Accessories</option><option>Home & Living</option><option>Art & Collectibles</option><option>Jewelry</option><option>Other</option></select></div>
@@ -326,7 +337,7 @@
         });
 
         document.querySelector('.notification-bell').addEventListener('click', function() {
-            alert('Notifications:\n\n• New sale: Vintage Camera\n• Low stock alert: Ceramic Mug\n• Payment processed: $450.00');
+            alert('No new notifications');
         });
 
         document.querySelector('.search-bar input').addEventListener('input', function(e) {
@@ -355,20 +366,6 @@
             }
         }
 
-        document.querySelectorAll('.order-card .btn-primary').forEach(btn => {
-            if (btn.textContent.includes('Mark as Shipped')) {
-                btn.addEventListener('click', function() {
-                    const orderCard = this.closest('.order-card');
-                    const statusBadge = orderCard.querySelector('.order-status');
-                    statusBadge.textContent = 'Shipped';
-                    statusBadge.classList.remove('status-pending');
-                    statusBadge.classList.add('status-shipped');
-                    this.textContent = 'View Tracking';
-                    alert('Order marked as shipped! Tracking email sent to customer.');
-                });
-            }
-        });
-
         let autoSaveTimer;
         document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
             input.addEventListener('input', function() {
@@ -381,6 +378,8 @@
 
         console.log('✅ Vendor Dashboard Initialized');
         console.log('✅ All features active: Navigation, Filters, Auto-save, Modals');
+        console.log('💰 Currency set to Kenyan Shillings (KES)');
+        console.log('🔄 Dashboard reset to zero state - ready for new vendors');
     </script>
 </body>
 </html>
