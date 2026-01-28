@@ -513,6 +513,7 @@
             </div>
             <ul class="nav-menu">
                 <li><button class="nav-link" id="navHome">Home</button></li>
+                <li><a href="contact.html" class="nav-link" id="navContact">Contact</a></li>
                 <li><button class="nav-link" id="loginBtn">Login</button></li>
             </ul>
         </div>
@@ -594,6 +595,30 @@
     </footer>
 
     <script>
+        // Simulated storage for demo purposes
+        const storage = {
+            data: {},
+            setItem(key, value) {
+                this.data[key] = value;
+                try {
+                    localStorage.setItem(key, value);
+                } catch(e) {}
+            },
+            getItem(key) {
+                try {
+                    return localStorage.getItem(key) || this.data[key] || null;
+                } catch(e) {
+                    return this.data[key] || null;
+                }
+            },
+            removeItem(key) {
+                delete this.data[key];
+                try {
+                    localStorage.removeItem(key);
+                } catch(e) {}
+            }
+        };
+
         function showNotification(msg, isError = false) {
             const notif = document.getElementById('notification');
             notif.textContent = msg;
@@ -632,12 +657,8 @@
             }
         }
 
-        // Validate Kenyan phone number format
         function validatePhone(phone) {
-            // Remove spaces and special characters
             const cleaned = phone.replace(/\s+/g, '').replace(/[-()+]/g, '');
-            
-            // Check if it's a valid Kenyan number (starts with +254 or 07/01)
             const kenyanPattern = /^(\+254|254|0)?([71])\d{8}$/;
             return kenyanPattern.test(cleaned);
         }
@@ -652,26 +673,22 @@
             }
 
             if (!validatePhone(phone)) {
-                showNotification('Please enter a valid Kenyan phone number (e.g., +254 700 123456 or 0700 123456)', true);
+                showNotification('Please enter a valid Kenyan phone number', true);
                 return;
             }
 
-            // Store login state
-            localStorage.setItem('quickshelfLoggedIn', 'true');
-            localStorage.setItem('quickshelfUserType', 'customer');
-            localStorage.setItem('quickshelfUserPhone', phone);
+            // Store user data
+            storage.setItem('quickshelfLoggedIn', 'true');
+            storage.setItem('quickshelfUserType', 'customer');
+            storage.setItem('quickshelfUserPhone', phone);
 
-            closeLoginModal();
-            showNotification('Login successful! Redirecting to your dashboard...');
-            
             // Clear form
             document.getElementById('customerPhone').value = '';
             document.getElementById('customerPassword').value = '';
             
-            // Redirect to customer dashboard
-            setTimeout(() => {
-                window.location.href = 'customer-dashboard.html';
-            }, 1000);
+            // Close modal and redirect IMMEDIATELY (no delays)
+            closeLoginModal();
+            window.location.href = 'customer-dashboard.html';
         }
 
         function vendorLogin() {
@@ -683,52 +700,90 @@
                 return;
             }
 
-            // Store login state
-            localStorage.setItem('quickshelfLoggedIn', 'true');
-            localStorage.setItem('quickshelfUserType', 'vendor');
-            localStorage.setItem('quickshelfUserEmail', email);
+            // Store user data
+            storage.setItem('quickshelfLoggedIn', 'true');
+            storage.setItem('quickshelfUserType', 'vendor');
+            storage.setItem('quickshelfUserEmail', email);
 
-            closeLoginModal();
-            showNotification('Vendor login successful! Redirecting to vendor dashboard...');
-            
             // Clear form
             document.getElementById('vendorEmail').value = '';
             document.getElementById('vendorPassword').value = '';
             
-            // Redirect to vendor dashboard
-            setTimeout(() => {
-                window.location.href = 'vendor-dashboard.html';
-            }, 1000);
+            // Close modal and redirect IMMEDIATELY (no delays)
+            closeLoginModal();
+            window.location.href = 'vendor-dashboard.html';
+        }
+
+        function updateUIForLoggedInUser() {
+            const isLoggedIn = storage.getItem('quickshelfLoggedIn');
+            const userType = storage.getItem('quickshelfUserType');
+            const loginBtn = document.getElementById('loginBtn');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (isLoggedIn === 'true') {
+                // Update login button
+                loginBtn.textContent = 'Dashboard';
+                loginBtn.onclick = () => {
+                    if (userType === 'customer') {
+                        window.location.href = 'customer-dashboard.html';
+                    } else if (userType === 'vendor') {
+                        window.location.href = 'vendor-dashboard.html';
+                    }
+                };
+
+                // Check if logout button already exists
+                if (!document.getElementById('logoutBtn')) {
+                    const logoutLi = document.createElement('li');
+                    const logoutBtn = document.createElement('button');
+                    logoutBtn.id = 'logoutBtn';
+                    logoutBtn.className = 'nav-link';
+                    logoutBtn.textContent = 'Logout';
+                    logoutBtn.onclick = () => {
+                        storage.removeItem('quickshelfLoggedIn');
+                        storage.removeItem('quickshelfUserType');
+                        storage.removeItem('quickshelfUserPhone');
+                        storage.removeItem('quickshelfUserEmail');
+                        showNotification('Logged out successfully!');
+                        setTimeout(() => location.reload(), 1000);
+                    };
+                    logoutLi.appendChild(logoutBtn);
+                    navMenu.appendChild(logoutLi);
+                }
+            }
         }
 
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is already logged in
-            const isLoggedIn = localStorage.getItem('quickshelfLoggedIn');
-            const userType = localStorage.getItem('quickshelfUserType');
-
+            const isLoggedIn = storage.getItem('quickshelfLoggedIn');
+            
             if (isLoggedIn === 'true') {
-                // Redirect to appropriate dashboard
-                if (userType === 'customer') {
-                    window.location.href = 'customer-dashboard.html';
-                } else if (userType === 'vendor') {
-                    window.location.href = 'vendor-dashboard.html';
-                }
-                return;
+                updateUIForLoggedInUser();
+            } else {
+                document.getElementById('loginBtn').addEventListener('click', openLoginModal);
             }
 
             // Navigation events
             document.getElementById('brandLogo').addEventListener('click', () => {
-                window.location.reload();
+                location.reload();
             });
 
             document.getElementById('navHome').addEventListener('click', () => {
-                window.location.reload();
+                location.reload();
             });
 
-            document.getElementById('loginBtn').addEventListener('click', openLoginModal);
-            document.getElementById('heroGetStarted').addEventListener('click', openLoginModal);
-            document.getElementById('heroBrowse').addEventListener('click', openLoginModal);
+            document.getElementById('heroGetStarted').addEventListener('click', () => {
+                openLoginModal();
+            });
+            
+            document.getElementById('heroBrowse').addEventListener('click', () => {
+                const isLoggedIn = storage.getItem('quickshelfLoggedIn');
+                if (isLoggedIn === 'true') {
+                    showNotification('Browse catalog feature coming soon!');
+                } else {
+                    openLoginModal();
+                }
+            });
 
             // Modal events
             document.getElementById('closeModal').addEventListener('click', closeLoginModal);
@@ -738,11 +793,11 @@
             document.getElementById('vendorLoginBtn').addEventListener('click', vendorLogin);
 
             document.getElementById('registerLink').addEventListener('click', () => {
-                showNotification('Registration feature coming soon! For now, please contact us at josephflynn774@gmail.com');
+                showNotification('Registration feature coming soon! Contact us at josephflynn774@gmail.com');
             });
 
             document.getElementById('forgotPassword').addEventListener('click', () => {
-                showNotification('Password reset coming soon! Please contact us at josephflynn774@gmail.com');
+                showNotification('Password reset coming soon! Contact us at josephflynn774@gmail.com');
             });
 
             // Close modal on outside click

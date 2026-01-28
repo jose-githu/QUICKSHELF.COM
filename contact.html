@@ -3,643 +3,822 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Quickshelf</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Contact Us - Quickshelf | Empowering Kimana's Digital Future</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Enhanced Floating Navigation Styling */
-        .floating-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #48bb78;
+            --white: #ffffff;
+            --dark: #0F172A;
+            --gray: #64748B;
+            --light: #F1F5F9;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        .floating-btn-wrapper {
-            position: relative;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== GLASS NAVIGATION ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .floating-btn {
+        .nav-brand i {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ========== GLASSMORPHISM HERO ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .vision-mission-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: floatIn 1s ease-out;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .vision-title, .mission-title {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .vision-text, .mission-text {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .mission-section {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== INTERACTIVE CONTACT CARDS ========== */
+        .contact-section {
+            padding: 6rem 2rem;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .contact-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            position: relative;
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.12);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 24px;
+        }
+
+        .contact-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+        }
+
+        .contact-icon-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .contact-card:hover .contact-icon-wrapper {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .contact-icon-wrapper i {
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        .contact-card h3 {
+            position: relative;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .contact-card p {
+            position: relative;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .contact-value {
+            position: relative;
+            display: inline-block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-value:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: scale(1.05);
+        }
+
+        .contact-meta {
+            position: relative;
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        /* ========== MODERN FAQ ACCORDION ========== */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 1.5rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .faq-question {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-question {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .faq-question h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .faq-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border-radius: 12px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 2rem;
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* ========== FLOATING ACTION BUTTONS ========== */
+        .floating-actions {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .float-btn {
             width: 60px;
             height: 60px;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
             text-decoration: none;
-            position: relative;
-        }
-
-        .floating-btn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
-
-        /* Pulse animation for WhatsApp */
-        .whatsapp {
-            background-color: #25D366;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: pulse 2s infinite;
         }
 
+        .float-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+
+        .support-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
         @keyframes pulse {
-            0% {
-                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            0%, 100% {
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
             }
             50% {
-                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.8);
-            }
-            100% {
-                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+                box-shadow: 0 8px 40px rgba(102, 126, 234, 0.5);
             }
         }
 
-        .facebook {
-            background: linear-gradient(135deg, #1877F2 0%, #0e5fc7 100%);
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 2rem 1.5rem;
+            text-align: center;
         }
 
-        .call {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Tooltip styling */
-        .floating-tooltip {
-            position: absolute;
-            right: 75px;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateX(10px);
-            font-weight: 500;
-        }
-
-        .floating-tooltip::after {
-            content: '';
-            position: absolute;
-            right: -6px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 6px solid rgba(0, 0, 0, 0.9);
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-        }
-
-        .floating-btn-wrapper:hover .floating-tooltip {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Responsive adjustments for mobile */
-        @media (max-width: 768px) {
-            .floating-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            .floating-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 22px;
-            }
-            .floating-tooltip {
-                right: 68px;
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-        }
-
-        /* Enhanced Navigation Styling */
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-menu li a {
-            color: white;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-
-        .nav-menu li a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .nav-menu li a.active {
-            background: rgba(255, 255, 255, 0.3);
-            font-weight: 600;
-        }
-
-        /* Service Area Badge */
-        .service-area-badge {
+        .footer-brand {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .service-area-badge i {
-            font-size: 16px;
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .vision-title, .mission-title {
+                font-size: 2rem;
+            }
+
+            .vision-text, .mission-text {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-actions {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .float-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+
+            .vision-mission-card {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .vision-title, .mission-title {
+                font-size: 1.75rem;
+            }
+
+            .section-title {
+                font-size: 1.85rem;
+            }
+
+            .contact-section, .faq-section {
+                padding: 4rem 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <!-- Enhanced Navigation -->
+    <!-- Glass Navigation -->
     <nav class="navbar">
-        <div class="nav-logo">
-            <i class="fas fa-box-open"></i>
-            <span>Quickshelf</span>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="catalogue.html">Catalogue</a></li>
-            <li><a href="catalogue.html#b2b-services">B2B Services</a></li>
-            <li><a href="contact.html" class="active">Contact</a></li>
-        </ul>
-        <div class="nav-toggle">
-            <i class="fas fa-bars"></i>
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-box-open"></i>
+                <span>Quickshelf</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="page-hero">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="index.html"><i class="fas fa-home"></i> Home</a>
-                <i class="fas fa-chevron-right"></i>
-                <span>Contact & Support</span>
+    <!-- Glassmorphism Hero with Vision & Mission -->
+    <section class="hero">
+        <div class="vision-mission-card">
+            <div class="hero-badge">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Empowering Kimana Town • Oloitokitok</span>
             </div>
-            <h1 class="page-title">We're Here to Help</h1>
-            <p class="page-subtitle">
-                Get in touch with our support team. We typically respond within 24 hours.
+
+            <div class="vision-section">
+                <h1 class="vision-title">
+                    <i class="fas fa-lightbulb"></i> Our Vision
+                </h1>
+                <p class="vision-text">
+                    To revolutionize commerce in rural Kenya by making every local shop in Kimana as efficient as a tech startup in Nairobi—because great business tools shouldn't be a city privilege.
+                </p>
+            </div>
+
+            <div class="mission-section">
+                <h1 class="mission-title">
+                    <i class="fas fa-rocket"></i> Our Mission
+                </h1>
+                <p class="mission-text">
+                    We're building the supply chain superhighway for Kimana's entrepreneurs. From the mama selling groceries to the hardware store owner, we connect everyone to reliable suppliers, fast delivery, and smart inventory management—turning local hustle into unstoppable businesses. Same-day delivery, zero hassle, 100% growth.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Contact Cards -->
+    <section class="contact-section">
+        <div class="section-header">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">
+                We're here to help businesses in Kimana thrive. Reach out anytime.
             </p>
-            <div class="service-area-badge">
-                <i class="fas fa-map-marked-alt"></i>
-                <span>Proudly Serving Kimana Ward, Loitokitok</span>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Phone Card -->
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h3>Call Us Directly</h3>
+                <p>Speak with our team instantly. We're available to support Kimana businesses.</p>
+                <a href="tel:+254742258137" class="contact-value">+254 742 258137</a>
+                <span class="contact-meta">Mon-Sat, 8AM-7PM EAT</span>
+            </div>
+
+            <!-- Email Card -->
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email Support</h3>
+                <p>Send us your questions anytime. We typically respond within hours.</p>
+                <a href="mailto:josephflynn774@gmail.com" class="contact-value">josephflynn774@gmail.com</a>
+                <span class="contact-meta">Response in 2-4 hours</span>
+            </div>
+
+            <!-- Location Card -->
+            <div class="contact-card">
+                <div class="contact-icon-wrapper">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>Our Service Area</h3>
+                <p>Proudly serving the heart of Oloitokitok with fast, reliable delivery.</p>
+                <span class="contact-value">Kimana Town, Oloitokitok</span>
+                <span class="contact-meta">Same-day delivery available</span>
             </div>
         </div>
     </section>
 
-    <!-- Quick Contact Methods -->
-    <section class="section light">
-        <div class="container">
-            <div class="quick-contact-grid">
-                <div class="quick-contact-card">
-                    <div class="quick-contact-icon phone">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <h3>Call Us Directly</h3>
-                    <p>
-                        Speak with our team instantly
-                    </p>
-                    <a href="tel:0742258137" class="contact-value">0742 258137</a>
-                    <span class="contact-meta">Mon-Fri, 9AM-6PM EAT</span>
-                </div>
+    <!-- Modern FAQ Accordion -->
+    <section class="faq-section">
+        <div class="section-header">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">
+                Everything you need to know about Quickshelf's operations in Kimana.
+            </p>
+        </div>
 
-                <div class="quick-contact-card">
-                    <div class="quick-contact-icon email">
-                        <i class="fas fa-envelope"></i>
+        <div class="faq-container">
+            <!-- FAQ 1 -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>📍 What areas do you deliver to in Oloitokitok?</h4>
+                    <div class="faq-icon">
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    <h3>Email Support</h3>
-                    <p>
-                        Send us your questions anytime
-                    </p>
-                    <a href="mailto:josephflynn774@gmail.com" class="contact-value">josephflynn774@gmail.com</a>
-                    <span class="contact-meta">Response in 24 hours</span>
                 </div>
-
-                <div class="quick-contact-card">
-                    <div class="quick-contact-icon sales">
-                        <i class="fas fa-briefcase"></i>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        We primarily serve <strong>Kimana Town</strong> and the surrounding areas within Oloitokitok Sub-County. Our delivery network covers local shops, schools, and businesses within a 15km radius. Same-day delivery is available for orders placed before 2PM. We're expanding our reach—if you're outside our current zone, contact us and we'll work something out!
                     </div>
-                    <h3>Sales Team</h3>
-                    <p>
-                        For enterprise solutions
-                    </p>
-                    <a href="mailto:josephflynn774@gmail.com" class="contact-value">josephflynn774@gmail.com</a>
-                    <span class="contact-meta">Custom pricing available</span>
-                </div>
-
-                <div class="quick-contact-card">
-                    <div class="quick-contact-icon location">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <h3>Our Service Area</h3>
-                    <p>
-                        We deliver to your location
-                    </p>
-                    <p class="contact-value">
-                        Kimana Ward<br>Loitokitok, Kenya
-                    </p>
-                    <span class="contact-meta">Fast local delivery</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Contact Form Section -->
-    <section class="section">
-        <div class="container">
-            <div class="contact-form-section">
-                <div class="form-column">
-                    <div class="form-header">
-                        <span class="form-badge"><i class="fas fa-envelope"></i> Get in Touch</span>
-                        <h2>Send us a Message</h2>
-                        <p>
-                            Fill out the form below and our team will get back to you as soon as possible.
-                        </p>
+            <!-- FAQ 2 -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>🏪 How can I join Quickshelf as a vendor?</h4>
+                    <div class="faq-icon">
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-
-                    <form class="contact-form" id="contactForm" action="/send-message" method="POST">
-                        <div class="form-group">
-                            <label for="firstName">First Name *</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="lastName">Last Name *</label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+254 712 345 678">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="company">Company Name</label>
-                            <input type="text" id="company" name="company" placeholder="Your Company">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subject">Subject *</label>
-                            <select id="subject" name="subject" required>
-                                <option value="">Select a subject</option>
-                                <option value="general">General Inquiry</option>
-                                <option value="sales">Sales & Pricing</option>
-                                <option value="support">Technical Support</option>
-                                <option value="partnership">Partnership</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message *</label>
-                            <textarea id="message" name="message" placeholder="Tell us how we can help..." rows="5" required></textarea>
-                        </div>
-
-                        <div class="form-group checkbox">
-                            <input type="checkbox" id="subscribe" name="subscribe">
-                            <label for="subscribe">Subscribe to our newsletter</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-large btn-submit">
-                            Send Message <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
                 </div>
-
-                <div class="info-column">
-                    <div class="info-card highlight">
-                        <div class="info-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Fast Response Time</h3>
-                        <p>
-                            Our support team averages a 2-hour response time during business hours
-                        </p>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Joining as a vendor is simple! Call us at <strong>+254 742 258137</strong> or email <strong>josephflynn774@gmail.com</strong>. We'll schedule a quick meeting (can be at your shop in Kimana), explain our platform, and get you onboarded within 48 hours. You'll need a valid business license, M-Pesa account, and inventory list. No upfront fees—we only take a small commission on successful orders.
                     </div>
+                </div>
+            </div>
 
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h3>Expert Support</h3>
-                        <p>
-                            Get help from our knowledgeable team members with years of experience
-                        </p>
+            <!-- FAQ 3 -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>💳 What payment methods do you accept?</h4>
+                    <div class="faq-icon">
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h3>24/7 Availability</h3>
-                        <p>
-                            Chat, email, or call support available around the clock
-                        </p>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        We accept <strong>M-Pesa</strong> (most popular in Kimana), bank transfers, and cash on delivery for local orders. For businesses, we offer flexible payment terms including 30-day credit lines for verified vendors. All transactions are secure, and you'll receive instant SMS confirmations for every payment.
                     </div>
+                </div>
+            </div>
 
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Secure & Confidential</h3>
-                        <p>
-                            Your information is encrypted and protected with industry standards
-                        </p>
+            <!-- FAQ 4 -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>⏰ What are your operating hours in Kimana?</h4>
+                    <div class="faq-icon">
+                        <i class="fas fa-chevron-down"></i>
                     </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Our customer support is available <strong>Monday to Saturday, 8AM-7PM EAT</strong>. However, our platform works 24/7—you can place orders anytime! Orders placed outside business hours will be processed first thing the next morning. For urgent issues, WhatsApp us at <strong>+254 742 258137</strong> and we'll respond ASAP.
+                    </div>
+                </div>
+            </div>
 
-                    <div class="emergency-cta">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <h4>Need Immediate Help?</h4>
-                        <a href="tel:0742258137" class="btn btn-secondary btn-large">
-                            <i class="fas fa-phone"></i> Call Now
-                        </a>
+            <!-- FAQ 5 -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h4>📦 How do I track my order?</h4>
+                    <div class="faq-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Every order gets a unique tracking ID sent via SMS. You can track your order in real-time through our customer dashboard or by calling <strong>+254 742 258137</strong>. For local Kimana deliveries, we'll also send you the rider's contact so you can coordinate directly. You'll receive updates at every stage: Order Confirmed → Being Prepared → Out for Delivery → Delivered.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section class="section light" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label"><i class="fas fa-question-circle"></i> FAQ</span>
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">
-                    Find quick answers to common questions about Quickshelf
-                </p>
-            </div>
-
-            <div class="faq-container">
-                <div class="faq-search">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="faqSearch" placeholder="Search FAQs...">
-                </div>
-
-                <div class="faq-categories">
-                    <button class="faq-category-btn active" data-category="all">
-                        <i class="fas fa-th"></i> All
-                    </button>
-                    <button class="faq-category-btn" data-category="delivery">
-                        <i class="fas fa-truck"></i> Delivery
-                    </button>
-                    <button class="faq-category-btn" data-category="account">
-                        <i class="fas fa-user"></i> Account
-                    </button>
-                    <button class="faq-category-btn" data-category="payment">
-                        <i class="fas fa-credit-card"></i> Payment
-                    </button>
-                    <button class="faq-category-btn" data-category="product">
-                        <i class="fas fa-box"></i> Products
-                    </button>
-                </div>
-
-                <div class="faq-grid">
-                    <!-- Delivery -->
-                    <div class="faq-item" data-category="delivery">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Delivery</span>
-                                <h4>How long does delivery take?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                We offer multiple delivery options: Same-day delivery in Kimana Ward and Loitokitok area, next-day delivery across the region, and standard delivery within 2-3 business days. Delivery times are confirmed at checkout.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" data-category="delivery">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Delivery</span>
-                                <h4>Can I track my order in real-time?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                Yes! All orders include real-time tracking. You'll receive a tracking number via SMS and can monitor your shipment 24/7 through our portal or mobile app.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Account -->
-                    <div class="faq-item" data-category="account">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Account</span>
-                                <h4>How do I create an account?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                Creating an account is simple! Click "Sign Up" on our homepage, enter your email and business details, set a password, and verify your email. You'll have instant access to our catalogue.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" data-category="account">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Account</span>
-                                <h4>Can I manage multiple accounts?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                Yes! B2B customers can have multiple accounts for different departments or locations. Contact our sales team to set up additional accounts with separate billing and permissions.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Payment -->
-                    <div class="faq-item" data-category="payment">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Payment</span>
-                                <h4>What payment methods do you accept?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                We accept M-Pesa, all major credit cards (Visa, Mastercard), bank transfers, and cash on delivery for local orders in Kimana Ward and Loitokitok.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" data-category="payment">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Payment</span>
-                                <h4>Do you offer payment plans?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                For orders over KES 50,000, we offer flexible payment plans. Contact our sales team at josephflynn774@gmail.com to discuss custom financing options.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Products -->
-                    <div class="faq-item" data-category="product">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Products</span>
-                                <h4>Are all products verified for quality?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                Absolutely! Every product undergoes rigorous quality checks. We only partner with trusted suppliers and hand-select items to ensure excellence.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" data-category="product">
-                        <div class="faq-question">
-                            <div class="faq-header">
-                                <span class="faq-category-badge">Products</span>
-                                <h4>What's your return policy?</h4>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>
-                                We offer a 30-day money-back guarantee on all products. If unsatisfied, return items in original condition for a full refund or exchange.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Still Have Questions -->
-    <section class="section help-section">
-        <div class="container">
-            <div class="help-content">
-                <h2>Still Have Questions?</h2>
-                <p>
-                    Can't find the answer you're looking for? Our support team is here to help.
-                </p>
-                <div class="help-buttons">
-                    <a href="#contactForm" class="btn btn-primary btn-large">
-                        <i class="fas fa-envelope"></i> Send Us a Message
-                    </a>
-                    <a href="tel:0742258137" class="btn btn-secondary btn-large">
-                        <i class="fas fa-phone"></i> Call Support
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Enhanced Floating Contact Buttons with Tooltips -->
-    <div class="floating-container">
-        <div class="floating-btn-wrapper">
-            <span class="floating-tooltip">Chat on WhatsApp</span>
-            <a href="https://wa.me/254742258137" class="floating-btn whatsapp" target="_blank" aria-label="Chat on WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-        </div>
-        <div class="floating-btn-wrapper">
-            <span class="floating-tooltip">Visit our Facebook</span>
-            <a href="https://facebook.com/your-page-link" class="floating-btn facebook" target="_blank" aria-label="Visit Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-        </div>
-        <div class="floating-btn-wrapper">
-            <span class="floating-tooltip">Call Now</span>
-            <a href="tel:0742258137" class="floating-btn call" aria-label="Call Now">
-                <i class="fas fa-phone-alt"></i>
-            </a>
-        </div>
+    <!-- Floating Action Buttons -->
+    <div class="floating-actions">
+        <a href="https://wa.me/254742258137" class="float-btn whatsapp-btn" target="_blank" aria-label="WhatsApp Support">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="tel:+254742258137" class="float-btn support-btn" aria-label="Call Support">
+            <i class="fas fa-phone-alt"></i>
+        </a>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-column">
-                <div class="footer-brand">
-                    <i class="fas fa-box-open"></i>
-                    <span>Quickshelf</span>
-                </div>
-                <p class="footer-description">
-                    Your trusted partner for next-generation supply chain solutions. Proudly serving Kimana Ward, Loitokitok and surrounding areas.
-                </p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-box-open"></i>
+                <span>Quickshelf</span>
             </div>
-
-            <div class="footer-column">
-                <h4>Quick Links</h4>
-                <ul class="footer-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="catalogue.html">Catalogue</a></li>
-                    <li><a href="catalogue.html#b2b-services">B2B Services</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h4>Support</h4>
-                <ul class="footer-links">
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="contact.html#faq">FAQ</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h4>Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>
-                &copy; 2025 Quickshelf. All rights reserved. | Serving Kimana Ward, Loitokitok
+            <p class="footer-text">
+                Empowering Kimana Town with world-class supply chain technology.<br>
+                Proudly serving Oloitokitok Sub-County.
             </p>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Quickshelf. All rights reserved. | Built with ❤️ for Kimana</p>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // FAQ Accordion Toggle
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            const wasActive = faqItem.classList.contains('active');
+
+            // Close all FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Open clicked FAQ if it wasn't already active
+            if (!wasActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+                navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.05)';
+            }
+        });
+
+        console.log('✅ Quickshelf Contact Page Initialized');
+        console.log('📍 Serving: Kimana Town, Oloitokitok');
+        console.log('📞 Support: +254 742 258137');
+    </script>
 </body>
 </html>

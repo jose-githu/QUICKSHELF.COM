@@ -577,7 +577,7 @@
 
     <!-- Top Navigation -->
     <nav class="top-nav">
-        <div class="logo" onclick="goHome()">
+        <div class="logo" onclick="goHome()" title="Go back to Homepage">
             <span>📦</span>
             <span>Quickshelf</span>
         </div>
@@ -1140,18 +1140,12 @@
 
         // Go to catalogue (Make an Order)
         function goToCatalogue() {
-            showNotification('🛍️ Redirecting to product catalogue...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+            showNotification('🛍️ Catalogue feature coming soon!');
         }
 
-        // Go to home
+        // Go to home - FIXED: Now navigates back to index.html
         function goHome() {
-            showNotification('🏠 Redirecting to homepage...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+            window.location.href = 'index.html';
         }
 
         // Track order
@@ -1161,7 +1155,6 @@
 
             showNotification(`📍 Tracking ${orderId}. Tracking Number: ${order.trackingNumber}. Expected delivery: ${new Date(order.estimatedDelivery).toLocaleDateString()}`);
             
-            // In production, this would open a tracking page or modal
             setTimeout(() => {
                 alert(`TRACKING INFORMATION\n\nOrder ID: ${order.id}\nTracking Number: ${order.trackingNumber}\nCurrent Status: Out for Delivery\nExpected Delivery: ${new Date(order.estimatedDelivery).toLocaleDateString()}\n\nYour order is on its way!`);
             }, 1000);
@@ -1177,7 +1170,7 @@
             if (confirm(`Would you like to reorder the following items?\n\n${itemsList}\n\nTotal: KES ${order.total.toLocaleString()}`)) {
                 showNotification('🔄 Adding items to cart...');
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    goToCatalogue();
                 }, 1500);
             }
         }
@@ -1252,7 +1245,7 @@
                 showNotification('👋 Logging out...');
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 1500);
+                }, 1000);
             }
         }
 
