@@ -66,6 +66,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 3rem;
         }
 
         .nav-brand {
@@ -76,6 +77,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .nav-menu {
@@ -83,6 +85,7 @@
             list-style: none;
             gap: 2rem;
             align-items: center;
+            margin-left: auto;
         }
 
         .nav-link {
@@ -94,6 +97,7 @@
             border: none;
             font-size: 1rem;
             font-family: inherit;
+            white-space: nowrap;
         }
 
         .nav-link:hover { opacity: 0.8; }
@@ -159,6 +163,12 @@
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .btn-primary {
@@ -228,6 +238,24 @@
 
         .notification.error {
             background: #ff4757;
+        }
+
+        .notification.success {
+            background: #2ecc71;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .modal {
@@ -338,6 +366,10 @@
             border-color: #667eea;
         }
 
+        .form-input.error {
+            border-color: #ff4757;
+        }
+
         .modal-footer {
             text-align: center;
             margin-top: 1.5rem;
@@ -429,6 +461,10 @@
 
             .hero-title {
                 font-size: 2.5rem;
+            }
+
+            .nav-container {
+                gap: 1.5rem;
             }
 
             .nav-menu {
@@ -595,14 +631,83 @@
     </footer>
 
     <script>
-        // Simulated storage for demo purposes
+        // ============================================
+        // BACKEND CONFIGURATION & API INTEGRATION
+        // ============================================
+        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbxBI-dCAVD3C-kHLySZidYq1DcmDm3hnhnO7qqyICnkWSJ_5es2nKgoXnP1vFDXtIJIMg/exec';
+
+        /**
+         * Make API calls to Google Apps Script backend
+         * @param {string} action - The action to perform (login, register, etc.)
+         * @param {object} data - The data to send
+         * @returns {Promise} - Response from backend
+         */
+        async function apiCall(action, data = {}) {
+            try {
+                const payload = {
+                    action: action,
+                    ...data
+                };
+
+                const response = await fetch(API_BASE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    success: false, 
+                    message: 'Connection error. Please check your internet connection.' 
+                };
+            }
+        }
+
+        /**
+         * Make GET requests to backend (for fetching data)
+         * @param {string} action - The action to perform
+         * @param {object} params - Query parameters
+         * @returns {Promise} - Response from backend
+         */
+        async function apiGet(action, params = {}) {
+            try {
+                const queryParams = new URLSearchParams({
+                    action: action,
+                    ...params
+                }).toString();
+                
+                const response = await fetch(`${API_BASE_URL}?${queryParams}`, {
+                    method: 'GET',
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                return { 
+                    success: false, 
+                    message: 'Connection error. Please check your internet connection.' 
+                };
+            }
+        }
+
+        // ============================================
+        // LOCAL STORAGE MANAGEMENT
+        // ============================================
         const storage = {
             data: {},
             setItem(key, value) {
                 this.data[key] = value;
                 try {
                     localStorage.setItem(key, value);
-                } catch(e) {}
+                } catch(e) {
+                    console.warn('LocalStorage not available:', e);
+                }
             },
             getItem(key) {
                 try {
@@ -615,15 +720,31 @@
                 delete this.data[key];
                 try {
                     localStorage.removeItem(key);
-                } catch(e) {}
+                } catch(e) {
+                    console.warn('LocalStorage not available:', e);
+                }
             }
         };
 
-        function showNotification(msg, isError = false) {
+        // ============================================
+        // UI HELPER FUNCTIONS
+        // ============================================
+        function showNotification(msg, type = 'info') {
             const notif = document.getElementById('notification');
             notif.textContent = msg;
-            notif.className = isError ? 'notification show error' : 'notification show';
-            setTimeout(() => notif.className = 'notification', 3000);
+            notif.className = `notification show ${type}`;
+            setTimeout(() => notif.className = 'notification', 4000);
+        }
+
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                button.dataset.originalText = button.innerHTML;
+                button.innerHTML = '<span class="loading-spinner"></span> Processing...';
+            } else {
+                button.disabled = false;
+                button.innerHTML = button.dataset.originalText || button.innerHTML;
+            }
         }
 
         function openLoginModal() {
@@ -632,6 +753,11 @@
 
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('active');
+            // Clear form inputs
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerPassword').value = '';
+            document.getElementById('vendorEmail').value = '';
+            document.getElementById('vendorPassword').value = '';
         }
 
         function switchTab(tab) {
@@ -657,61 +783,177 @@
             }
         }
 
+        // ============================================
+        // VALIDATION FUNCTIONS
+        // ============================================
         function validatePhone(phone) {
             const cleaned = phone.replace(/\s+/g, '').replace(/[-()+]/g, '');
             const kenyanPattern = /^(\+254|254|0)?([71])\d{8}$/;
             return kenyanPattern.test(cleaned);
         }
 
-        function customerLogin() {
-            const phone = document.getElementById('customerPhone').value.trim();
-            const password = document.getElementById('customerPassword').value.trim();
+        function normalizePhone(phone) {
+            // Normalize to format: +254XXXXXXXXX
+            let cleaned = phone.replace(/\s+/g, '').replace(/[-()+]/g, '');
+            
+            if (cleaned.startsWith('0')) {
+                cleaned = '254' + cleaned.substring(1);
+            } else if (!cleaned.startsWith('254')) {
+                cleaned = '254' + cleaned;
+            }
+            
+            return '+' + cleaned;
+        }
 
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        // ============================================
+        // AUTHENTICATION FUNCTIONS
+        // ============================================
+        async function customerLogin() {
+            const phoneInput = document.getElementById('customerPhone');
+            const passwordInput = document.getElementById('customerPassword');
+            const loginBtn = document.getElementById('customerLoginBtn');
+            
+            const phone = phoneInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Reset error states
+            phoneInput.classList.remove('error');
+            passwordInput.classList.remove('error');
+
+            // Validation
             if (!phone || !password) {
-                showNotification('Please enter both phone number and password', true);
+                showNotification('Please enter both phone number and password', 'error');
+                if (!phone) phoneInput.classList.add('error');
+                if (!password) passwordInput.classList.add('error');
                 return;
             }
 
             if (!validatePhone(phone)) {
-                showNotification('Please enter a valid Kenyan phone number', true);
+                showNotification('Please enter a valid Kenyan phone number', 'error');
+                phoneInput.classList.add('error');
                 return;
             }
 
-            // Store user data
-            storage.setItem('quickshelfLoggedIn', 'true');
-            storage.setItem('quickshelfUserType', 'customer');
-            storage.setItem('quickshelfUserPhone', phone);
+            // Show loading state
+            setButtonLoading(loginBtn, true);
 
-            // Clear form
-            document.getElementById('customerPhone').value = '';
-            document.getElementById('customerPassword').value = '';
-            
-            // Close modal and redirect IMMEDIATELY (no delays)
-            closeLoginModal();
-            window.location.href = 'customer-dashboard.html';
+            try {
+                // Call backend API
+                const normalizedPhone = normalizePhone(phone);
+                const response = await apiCall('customerLogin', {
+                    phone: normalizedPhone,
+                    password: password
+                });
+
+                setButtonLoading(loginBtn, false);
+
+                if (response.success) {
+                    // Store user data
+                    storage.setItem('quickshelfLoggedIn', 'true');
+                    storage.setItem('quickshelfUserType', 'customer');
+                    storage.setItem('quickshelfUserPhone', normalizedPhone);
+                    storage.setItem('quickshelfUserData', JSON.stringify(response.user || {}));
+
+                    showNotification('Login successful! Redirecting...', 'success');
+                    
+                    // Clear form
+                    phoneInput.value = '';
+                    passwordInput.value = '';
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        closeLoginModal();
+                        window.location.href = 'customer-dashboard.html';
+                    }, 1000);
+                } else {
+                    showNotification(response.message || 'Invalid credentials. Please try again.', 'error');
+                }
+            } catch (error) {
+                setButtonLoading(loginBtn, false);
+                showNotification('Login failed. Please try again.', 'error');
+                console.error('Login error:', error);
+            }
         }
 
-        function vendorLogin() {
-            const email = document.getElementById('vendorEmail').value.trim();
-            const password = document.getElementById('vendorPassword').value.trim();
+        async function vendorLogin() {
+            const emailInput = document.getElementById('vendorEmail');
+            const passwordInput = document.getElementById('vendorPassword');
+            const loginBtn = document.getElementById('vendorLoginBtn');
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
+            // Reset error states
+            emailInput.classList.remove('error');
+            passwordInput.classList.remove('error');
+
+            // Validation
             if (!email || !password) {
-                showNotification('Please enter both email and password', true);
+                showNotification('Please enter both email and password', 'error');
+                if (!email) emailInput.classList.add('error');
+                if (!password) passwordInput.classList.add('error');
                 return;
             }
 
-            // Store user data
-            storage.setItem('quickshelfLoggedIn', 'true');
-            storage.setItem('quickshelfUserType', 'vendor');
-            storage.setItem('quickshelfUserEmail', email);
+            if (!validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                emailInput.classList.add('error');
+                return;
+            }
 
-            // Clear form
-            document.getElementById('vendorEmail').value = '';
-            document.getElementById('vendorPassword').value = '';
-            
-            // Close modal and redirect IMMEDIATELY (no delays)
-            closeLoginModal();
-            window.location.href = 'vendor-dashboard.html';
+            // Show loading state
+            setButtonLoading(loginBtn, true);
+
+            try {
+                // Call backend API
+                const response = await apiCall('vendorLogin', {
+                    email: email,
+                    password: password
+                });
+
+                setButtonLoading(loginBtn, false);
+
+                if (response.success) {
+                    // Store user data
+                    storage.setItem('quickshelfLoggedIn', 'true');
+                    storage.setItem('quickshelfUserType', 'vendor');
+                    storage.setItem('quickshelfUserEmail', email);
+                    storage.setItem('quickshelfUserData', JSON.stringify(response.user || {}));
+
+                    showNotification('Login successful! Redirecting...', 'success');
+                    
+                    // Clear form
+                    emailInput.value = '';
+                    passwordInput.value = '';
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        closeLoginModal();
+                        window.location.href = 'vendor-dashboard.html';
+                    }, 1000);
+                } else {
+                    showNotification(response.message || 'Invalid credentials. Please try again.', 'error');
+                }
+            } catch (error) {
+                setButtonLoading(loginBtn, false);
+                showNotification('Login failed. Please try again.', 'error');
+                console.error('Login error:', error);
+            }
+        }
+
+        function logout() {
+            storage.removeItem('quickshelfLoggedIn');
+            storage.removeItem('quickshelfUserType');
+            storage.removeItem('quickshelfUserPhone');
+            storage.removeItem('quickshelfUserEmail');
+            storage.removeItem('quickshelfUserData');
+            showNotification('Logged out successfully!', 'success');
+            setTimeout(() => location.reload(), 1000);
         }
 
         function updateUIForLoggedInUser() {
@@ -738,22 +980,20 @@
                     logoutBtn.id = 'logoutBtn';
                     logoutBtn.className = 'nav-link';
                     logoutBtn.textContent = 'Logout';
-                    logoutBtn.onclick = () => {
-                        storage.removeItem('quickshelfLoggedIn');
-                        storage.removeItem('quickshelfUserType');
-                        storage.removeItem('quickshelfUserPhone');
-                        storage.removeItem('quickshelfUserEmail');
-                        showNotification('Logged out successfully!');
-                        setTimeout(() => location.reload(), 1000);
-                    };
+                    logoutBtn.onclick = logout;
                     logoutLi.appendChild(logoutBtn);
                     navMenu.appendChild(logoutLi);
                 }
             }
         }
 
-        // Event Listeners
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Quickshelf initialized with backend integration');
+            console.log('📡 Backend URL:', API_BASE_URL);
+
             // Check if user is already logged in
             const isLoggedIn = storage.getItem('quickshelfLoggedIn');
             
@@ -779,7 +1019,7 @@
             document.getElementById('heroBrowse').addEventListener('click', () => {
                 const isLoggedIn = storage.getItem('quickshelfLoggedIn');
                 if (isLoggedIn === 'true') {
-                    showNotification('Browse catalog feature coming soon!');
+                    showNotification('Browse catalog feature coming soon!', 'info');
                 } else {
                     openLoginModal();
                 }
@@ -793,11 +1033,11 @@
             document.getElementById('vendorLoginBtn').addEventListener('click', vendorLogin);
 
             document.getElementById('registerLink').addEventListener('click', () => {
-                showNotification('Registration feature coming soon! Contact us at josephflynn774@gmail.com');
+                showNotification('Registration feature coming soon! Contact us at josephflynn774@gmail.com', 'info');
             });
 
             document.getElementById('forgotPassword').addEventListener('click', () => {
-                showNotification('Password reset coming soon! Contact us at josephflynn774@gmail.com');
+                showNotification('Password reset coming soon! Contact us at josephflynn774@gmail.com', 'info');
             });
 
             // Close modal on outside click
@@ -834,7 +1074,7 @@
                 if (e.key === 'Enter') vendorLogin();
             });
 
-            console.log('✅ Quickshelf Homepage Initialized');
+            console.log('✅ All event listeners attached successfully');
         });
     </script>
 </body>
