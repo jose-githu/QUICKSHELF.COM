@@ -218,10 +218,10 @@
 
         .hero-card i { font-size: 2rem; }
 
-        /* About Us Section */
+        /* About Us Section - Improved */
         .about-section {
             padding: 6rem 2rem;
-            background: white;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
         }
 
         .about-container {
@@ -249,40 +249,200 @@
             line-height: 1.8;
         }
 
-        .about-grid {
+        /* Main Story Section */
+        .about-story {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
         }
 
-        .about-card {
-            padding: 2rem;
-            background: #f8f9fa;
+        .story-image {
+            width: 100%;
+            height: 350px;
             border-radius: 15px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
         }
 
-        .about-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .about-card i {
-            font-size: 3rem;
+        .story-content h3 {
+            font-size: 2rem;
             color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content p {
+            color: #555;
+            line-height: 1.8;
             margin-bottom: 1rem;
         }
 
-        .about-card h3 {
+        /* Features Grid with Images */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .feature-content {
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-content h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #333;
         }
 
-        .about-card p {
+        .feature-content p {
             color: #666;
-            line-height: 1.8;
+            line-height: 1.7;
+        }
+
+        /* Team Section with Photos */
+        .team-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .team-section h3 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 4px solid #667eea;
+        }
+
+        .team-member h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .team-member p {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Location Section with Map */
+        .location-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .location-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .location-item i {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
         }
 
         /* FAQ Section */
@@ -606,7 +766,19 @@
                 gap: 1rem;
             }
 
-            .about-grid {
+            .about-story {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-section {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -812,51 +984,111 @@
             </div>
         </section>
 
-        <!-- About Us Section -->
+        <!-- About Us Section - Redesigned -->
         <section class="about-section" id="about">
             <div class="about-container">
                 <div class="section-header">
                     <h2 class="section-title">About Quickshelf</h2>
                     <p class="section-subtitle">
-                        Quickshelf is revolutionizing supply chain management in Kenya by connecting businesses with reliable vendors through our innovative platform. Based in Kimana Town, Oloitokitok, we're committed to making procurement seamless, efficient, and accessible for businesses of all sizes.
+                        Revolutionizing supply chain management in Kenya by connecting businesses with reliable vendors through our innovative platform.
                     </p>
                 </div>
 
-                <div class="about-grid">
-                    <div class="about-card">
-                        <i class="fas fa-rocket"></i>
-                        <h3>Our Mission</h3>
-                        <p>We're building the supply chain superhighway for Kimana's entrepreneurs. From small retailers to hardware stores, we connect everyone to reliable suppliers, fast delivery, and smart inventory management.</p>
+                <!-- Main Story with Image -->
+                <div class="about-story">
+                    <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&h=600&fit=crop" alt="Digital Market Technology" class="story-image">
+                    <div class="story-content">
+                        <h3>Our Mission & Vision</h3>
+                        <p>We're building the supply chain superhighway for Kenya's entrepreneurs—from small retailers to hardware stores in Kimana Town, Oloitokitok. Our mission is simple: make procurement seamless, efficient, and accessible for businesses of all sizes.</p>
+                        <p>We envision revolutionizing commerce in rural Kenya by making every local shop as efficient as a tech startup in Nairobi. Great business tools shouldn't be a city privilege—they should empower every entrepreneur, everywhere.</p>
+                        <p>With 99% on-time delivery, same-day service availability, and 24/7 support, we ensure your business never runs out of essential supplies.</p>
+                    </div>
+                </div>
+
+                <!-- Features with Images -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=400&fit=crop" alt="African Market Shopping" class="feature-image">
+                        <div class="feature-content">
+                            <div class="feature-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3>For Our Customers</h3>
+                            <p>Browse hundreds of quality products from verified vendors. Track your orders in real-time, enjoy flexible payment options including M-Pesa, and get instant support whenever you need it. Same-day delivery available within 15km of Kimana Town!</p>
+                        </div>
                     </div>
 
-                    <div class="about-card">
-                        <i class="fas fa-lightbulb"></i>
-                        <h3>Our Vision</h3>
-                        <p>To revolutionize commerce in rural Kenya by making every local shop in Kimana as efficient as a tech startup in Nairobi—because great business tools shouldn't be a city privilege.</p>
+                    <div class="feature-card">
+                        <img src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=800&h=400&fit=crop" alt="African Market Vendor" class="feature-image">
+                        <div class="feature-content">
+                            <div class="feature-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <h3>For Our Vendors</h3>
+                            <p>Expand your market reach across Oloitokitok Sub-County. Manage inventory efficiently with our smart dashboard, track sales analytics in real-time, and receive fast payouts. Join our growing network of trusted vendors serving the community.</p>
+                        </div>
                     </div>
 
-                    <div class="about-card">
-                        <i class="fas fa-handshake"></i>
-                        <h3>Why Choose Us</h3>
-                        <p>With 99% on-time delivery, same-day service availability, and 24/7 support, we ensure your business never runs out of essential supplies. Our local presence means we understand your needs.</p>
+                    <div class="feature-card">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=400&fit=crop" alt="African Local Market" class="feature-image">
+                        <div class="feature-content">
+                            <div class="feature-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3>Why Choose Us</h3>
+                            <p>Local presence means we understand your needs. Our team is based right here in Kimana, providing personalized support and building lasting relationships. We're not just a platform—we're your neighbors and business partners.</p>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="about-card">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Local Presence</h3>
-                        <p>Proudly serving Kimana Town and surrounding areas within Oloitokitok Sub-County. We offer same-day delivery within a 15km radius and personalized support for every business.</p>
+                <!-- Team Section -->
+                <div class="team-section">
+                    <h3>Meet Our Team</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <!-- CEO Photo - Add your photo here -->
+                            <div class="team-photo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: bold;">JFK</div>
+                            <h4>Joseph Flynn Kitonga</h4>
+                            <p>Founder & CEO</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=300&fit=crop" alt="Operations Team" class="team-photo">
+                            <h4>Operations Lead</h4>
+                            <p>Supply Chain Manager</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=300&h=300&fit=crop" alt="Customer Support" class="team-photo">
+                            <h4>Customer Support</h4>
+                            <p>24/7 Service Team</p>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="about-card">
-                        <i class="fas fa-users"></i>
-                        <h3>For Customers</h3>
-                        <p>Browse hundreds of products, track orders in real-time, enjoy flexible payment options including M-Pesa, and get support whenever you need it. Shopping made simple.</p>
+                <!-- Location Section -->
+                <div class="location-section">
+                    <div class="location-content">
+                        <h3>Visit Us in Kimana</h3>
+                        <div class="location-details">
+                            <div class="location-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Kimana Town, Oloitokitok Sub-County</span>
+                            </div>
+                            <div class="location-item">
+                                <i class="fas fa-phone"></i>
+                                <span>0742258137</span>
+                            </div>
+                            <div class="location-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Monday - Saturday: 8AM - 6PM</span>
+                            </div>
+                            <div class="location-item">
+                                <i class="fas fa-truck"></i>
+                                <span>Same-day delivery within 15km</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="about-card">
-                        <i class="fas fa-store"></i>
-                        <h3>For Vendors</h3>
-                        <p>Expand your reach, manage inventory efficiently, track sales analytics, and receive fast payouts. Join our growing network of trusted vendors serving the Kimana community.</p>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
                     </div>
                 </div>
             </div>
@@ -968,7 +1200,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Quickshelf. All rights reserved. Built with ❤️ for Kimana</p>
+            <p>&copy; 2025 Quickshelf. All rights reserved.</p>
         </div>
     </footer>
 
@@ -1033,8 +1265,8 @@
             }
         }
 
-        let currentAuthMode = 'login'; // 'login' or 'register'
-        let currentUserType = 'customer'; // 'customer' or 'vendor'
+        let currentAuthMode = 'login';
+        let currentUserType = 'customer';
 
         function openAuthModal(mode = 'login') {
             currentAuthMode = mode;
@@ -1055,25 +1287,20 @@
         }
 
         function updateModalDisplay() {
-            // Hide all forms
             document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
             
-            // Update modal title
             const isLogin = currentAuthMode === 'login';
             document.getElementById('modalTitle').textContent = isLogin ? 'Welcome Back' : 'Create Account';
             document.getElementById('modalSubtitle').textContent = isLogin ? 
                 'Sign in to access your account' : 'Join Quickshelf today';
             
-            // Update toggle link
             document.getElementById('authToggleText').innerHTML = isLogin ?
                 'New to Quickshelf? <a class="form-link" id="authToggleLink">Create an account</a>' :
                 'Already have an account? <a class="form-link" id="authToggleLink">Sign in</a>';
             
-            // Show correct form
             const formId = `${currentUserType}${isLogin ? 'Login' : 'Register'}Form`;
             document.getElementById(formId).classList.add('active');
             
-            // Re-attach toggle listener
             document.getElementById('authToggleLink').addEventListener('click', toggleAuthMode);
         }
 
@@ -1085,7 +1312,6 @@
         function switchTab(tab) {
             currentUserType = tab;
             
-            // Update tabs
             document.querySelectorAll('.login-tab').forEach(t => {
                 t.classList.remove('active');
                 t.setAttribute('aria-selected', 'false');
@@ -1093,13 +1319,9 @@
             document.getElementById(`${tab}Tab`).classList.add('active');
             document.getElementById(`${tab}Tab`).setAttribute('aria-selected', 'true');
             
-            // Update form display
             updateModalDisplay();
         }
 
-        // ============================================
-        // VALIDATION FUNCTIONS
-        // ============================================
         function validatePhone(phone) {
             const cleaned = phone.replace(/\s+/g, '').replace(/[-()+]/g, '');
             const kenyanPattern = /^(\+254|254|0)?([71])\d{8}$/;
@@ -1120,9 +1342,6 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
-        // ============================================
-        // CUSTOMER LOGIN
-        // ============================================
         async function customerLogin() {
             const phoneInput = document.getElementById('customerPhone');
             const passwordInput = document.getElementById('customerPassword');
@@ -1179,9 +1398,6 @@
             }
         }
 
-        // ============================================
-        // CUSTOMER REGISTRATION
-        // ============================================
         async function customerRegister() {
             const nameInput = document.getElementById('regCustomerName');
             const phoneInput = document.getElementById('regCustomerPhone');
@@ -1196,12 +1412,10 @@
             const password = passwordInput.value.trim();
             const confirmPassword = confirmPasswordInput.value.trim();
 
-            // Clear errors
             [nameInput, phoneInput, emailInput, passwordInput, confirmPasswordInput].forEach(input => {
                 input.classList.remove('error');
             });
 
-            // Validation
             if (!name || !phone || !password || !confirmPassword) {
                 showNotification('Please fill in all required fields', 'error');
                 if (!name) nameInput.classList.add('error');
@@ -1269,9 +1483,6 @@
             }
         }
 
-        // ============================================
-        // VENDOR LOGIN
-        // ============================================
         async function vendorLogin() {
             const emailInput = document.getElementById('vendorEmail');
             const passwordInput = document.getElementById('vendorPassword');
@@ -1327,9 +1538,6 @@
             }
         }
 
-        // ============================================
-        // VENDOR REGISTRATION
-        // ============================================
         async function vendorRegister() {
             const nameInput = document.getElementById('regVendorName');
             const emailInput = document.getElementById('regVendorEmail');
@@ -1346,12 +1554,10 @@
             const password = passwordInput.value.trim();
             const confirmPassword = confirmPasswordInput.value.trim();
 
-            // Clear errors
             [nameInput, emailInput, phoneInput, categoryInput, passwordInput, confirmPasswordInput].forEach(input => {
                 input.classList.remove('error');
             });
 
-            // Validation
             if (!name || !email || !phone || !category || !password || !confirmPassword) {
                 showNotification('Please fill in all required fields', 'error');
                 if (!name) nameInput.classList.add('error');
@@ -1461,9 +1667,6 @@
             }
         }
 
-        // ============================================
-        // FAQ TOGGLE
-        // ============================================
         function toggleFaq(element) {
             const faqItem = element.parentElement;
             const wasActive = faqItem.classList.contains('active');
@@ -1477,9 +1680,6 @@
             }
         }
 
-        // ============================================
-        // SCROLL TO SECTION
-        // ============================================
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
@@ -1487,9 +1687,6 @@
             }
         }
 
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Quickshelf initialized with full authentication system');
 
@@ -1501,7 +1698,6 @@
                 document.getElementById('loginBtn').addEventListener('click', () => openAuthModal('login'));
             }
 
-            // Navigation events
             document.getElementById('brandLogo').addEventListener('click', () => location.reload());
             document.getElementById('navHome').addEventListener('click', () => location.reload());
             document.getElementById('navAbout').addEventListener('click', () => scrollToSection('about'));
@@ -1515,16 +1711,13 @@
                 }
             });
 
-            // Modal events
             document.getElementById('closeModal').addEventListener('click', closeAuthModal);
             document.getElementById('customerTab').addEventListener('click', () => switchTab('customer'));
             document.getElementById('vendorTab').addEventListener('click', () => switchTab('vendor'));
             
-            // Login buttons
             document.getElementById('customerLoginBtn').addEventListener('click', customerLogin);
             document.getElementById('vendorLoginBtn').addEventListener('click', vendorLogin);
             
-            // Register buttons
             document.getElementById('customerRegisterBtn').addEventListener('click', customerRegister);
             document.getElementById('vendorRegisterBtn').addEventListener('click', vendorRegister);
 
@@ -1532,14 +1725,12 @@
                 showNotification('Password reset coming soon! Contact us at josephflynn774@gmail.com', 'info');
             });
 
-            // Close modal on outside click
             document.getElementById('authModal').addEventListener('click', (e) => {
                 if (e.target.id === 'authModal') {
                     closeAuthModal();
                 }
             });
 
-            // Close modal on Escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     const modal = document.getElementById('authModal');
@@ -1549,7 +1740,6 @@
                 }
             });
 
-            // Enter key to submit
             ['customerPhone', 'customerPassword'].forEach(id => {
                 document.getElementById(id).addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') customerLogin();
@@ -1563,7 +1753,6 @@
             });
 
             console.log('✅ All event listeners attached successfully');
-            console.log('✅ Registration system active for both customers and vendors');
         });
     </script>
 </body>
