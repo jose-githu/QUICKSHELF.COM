@@ -1208,16 +1208,22 @@
         // ============================================
         // BACKEND CONFIGURATION & API INTEGRATION
         // ============================================
-        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbxBI-dCAVD3C-kHLySZidYq1DcmDm3hnhnO7qqyICnkWSJ_5es2nKgoXnP1vFDXtIJIMg/exec';
+        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
 
         async function apiCall(action, data = {}) {
             try {
                 const payload = { action: action, ...data };
                 const response = await fetch(API_BASE_URL, {
                     method: 'POST',
+                    mode: 'cors',
                     headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+
                 return await response.json();
             } catch (error) {
                 console.error('API Error:', error);
@@ -1688,7 +1694,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Quickshelf initialized with full authentication system');
+            console.log('🚀 Quickshelf initialized — connected to backend:', API_BASE_URL);
 
             const isLoggedIn = storage.getItem('quickshelfLoggedIn');
             
