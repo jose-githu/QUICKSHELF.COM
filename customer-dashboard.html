@@ -7,1267 +7,527 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; color: #2d3748; }
-        
-        /* Floating Order Button */
-        .floating-order-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 200px;
-            height: 65px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 35px;
-            font-size: 19px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
-        }
-        .floating-order-btn:hover {
-            transform: translateY(-5px) scale(1.08);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.7);
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5); }
-            50% { box-shadow: 0 8px 35px rgba(102, 126, 234, 0.8); }
-        }
 
-        /* Top Navigation */
-        .top-nav {
-            background: white;
-            padding: 20px 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-        .logo { 
-            font-size: 28px; 
-            font-weight: bold; 
+        .floating-order-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 200px; height: 65px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
+            color: white; border: none; border-radius: 35px; font-size: 19px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(102,126,234,0.5); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s; animation: pulse 2s infinite;
         }
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px 20px;
-            background: #f7fafc;
-            border-radius: 25px;
-        }
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-        }
+        .floating-order-btn:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 12px 35px rgba(102,126,234,0.7); }
+        @keyframes pulse { 0%,100% { box-shadow: 0 8px 25px rgba(102,126,234,0.5); } 50% { box-shadow: 0 8px 35px rgba(102,126,234,0.8); } }
+
+        .top-nav { background: white; padding: 20px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 999; }
+        .logo { font-size: 28px; font-weight: bold; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-menu { display: flex; align-items: center; gap: 25px; }
+        .user-info { display: flex; align-items: center; gap: 15px; padding: 10px 20px; background: #f7fafc; border-radius: 25px; }
+        .user-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold; }
         .user-details h4 { font-size: 15px; margin-bottom: 2px; }
         .user-details p { font-size: 12px; color: #718096; }
-        .logout-btn {
-            background: #fff;
-            border: 2px solid #e2e8f0;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #4a5568;
-            transition: all 0.3s;
-        }
-        .logout-btn:hover {
-            background: #f56565;
-            color: white;
-            border-color: #f56565;
-        }
+        .logout-btn { background: #fff; border: 2px solid #e2e8f0; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #4a5568; transition: all 0.3s; }
+        .logout-btn:hover { background: #f56565; color: white; border-color: #f56565; }
 
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
 
-        /* Welcome Section */
-        .welcome-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        .welcome-section h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-        .welcome-section p {
-            font-size: 18px;
-            opacity: 0.95;
-        }
+        .welcome-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 15px; margin-bottom: 40px; text-align: center; }
+        .welcome-section h1 { font-size: 42px; margin-bottom: 10px; }
+        .welcome-section p { font-size: 18px; opacity: 0.95; }
 
-        /* Quick Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 35px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .nav-tab {
-            background: white;
-            padding: 18px 35px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-            border: 3px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nav-tab:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-        .nav-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
-        }
+        .nav-tabs { display: flex; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; justify-content: center; }
+        .nav-tab { background: white; padding: 18px 35px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; border: 3px solid transparent; display: flex; align-items: center; gap: 10px; }
+        .nav-tab:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .nav-tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-color: #667eea; }
 
-        /* Page Content */
-        .page-section {
-            display: none;
-        }
-        .page-section.active {
-            display: block;
-        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
 
-        /* Order Analysis Cards */
-        .analysis-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        .analysis-card {
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            text-align: center;
-            transition: all 0.3s;
-            border-left: 6px solid #e2e8f0;
-            cursor: pointer;
-        }
-        .analysis-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .analysis-card.received {
-            border-left-color: #48bb78;
-        }
-        .analysis-card.pending {
-            border-left-color: #f59e0b;
-        }
-        .analysis-card.cancelled {
-            border-left-color: #f56565;
-        }
-        .analysis-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
-        .analysis-card.received .analysis-icon {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-        }
-        .analysis-card.pending .analysis-icon {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: white;
-        }
-        .analysis-card.cancelled .analysis-icon {
-            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-            color: white;
-        }
-        .analysis-number {
-            font-size: 56px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .analysis-label {
-            font-size: 20px;
-            color: #718096;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .analysis-sublabel {
-            font-size: 14px;
-            color: #a0aec0;
-        }
+        .analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .analysis-card { background: white; padding: 35px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; transition: all 0.3s; border-left: 6px solid #e2e8f0; cursor: pointer; }
+        .analysis-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .analysis-card.received { border-left-color: #48bb78; }
+        .analysis-card.pending { border-left-color: #f59e0b; }
+        .analysis-card.cancelled { border-left-color: #f56565; }
+        .analysis-icon { width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .analysis-card.received .analysis-icon { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; }
+        .analysis-card.pending .analysis-icon { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
+        .analysis-card.cancelled .analysis-icon { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); color: white; }
+        .analysis-number { font-size: 56px; font-weight: bold; margin-bottom: 10px; }
+        .analysis-label { font-size: 20px; color: #718096; font-weight: 600; margin-bottom: 5px; }
+        .analysis-sublabel { font-size: 14px; color: #a0aec0; }
 
-        /* Orders Container */
-        .orders-container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .section-title {
-            font-size: 26px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .order-item {
-            background: #f7fafc;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 5px solid #e2e8f0;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .order-item:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transform: translateX(5px);
-        }
-        .order-item.received {
-            border-left-color: #48bb78;
-            background: #f0fff4;
-        }
-        .order-item.pending {
-            border-left-color: #f59e0b;
-            background: #fffbeb;
-        }
-        .order-item.cancelled {
-            border-left-color: #f56565;
-            background: #fff5f5;
-        }
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .order-id {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .order-badge {
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .badge-received {
-            background: #48bb78;
-            color: white;
-        }
-        .badge-pending {
-            background: #f59e0b;
-            color: white;
-        }
-        .badge-cancelled {
-            background: #f56565;
-            color: white;
-        }
-        .order-details {
-            color: #4a5568;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-        .order-details strong {
-            color: #2d3748;
-        }
-        .order-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #4a5568;
-        }
-        .btn-secondary:hover {
-            background: #cbd5e0;
-        }
-        .btn-danger {
-            background: #fed7d7;
-            color: #c53030;
-        }
-        .btn-danger:hover {
-            background: #f56565;
-            color: white;
-        }
+        .orders-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .section-title { font-size: 26px; font-weight: bold; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
 
-        /* Account Details Section */
-        .account-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-        .account-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .card-header {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #f7fafc;
-        }
-        .info-label {
-            color: #718096;
-            font-weight: 600;
-        }
-        .info-value {
-            color: #2d3748;
-            font-weight: 600;
-        }
-        .edit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 20px;
-            width: 100%;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        .edit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
+        .order-item { background: #f7fafc; padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #e2e8f0; transition: all 0.3s; cursor: pointer; }
+        .order-item:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); transform: translateX(5px); }
+        .order-item.received { border-left-color: #48bb78; background: #f0fff4; }
+        .order-item.pending { border-left-color: #f59e0b; background: #fffbeb; }
+        .order-item.cancelled { border-left-color: #f56565; background: #fff5f5; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 15px; }
+        .order-id { font-size: 18px; font-weight: bold; }
+        .order-badge { padding: 8px 20px; border-radius: 20px; font-weight: 600; font-size: 14px; }
+        .badge-received { background: #48bb78; color: white; }
+        .badge-pending { background: #f59e0b; color: white; }
+        .badge-cancelled { background: #f56565; color: white; }
+        .order-details { color: #4a5568; line-height: 1.8; margin-bottom: 15px; }
+        .order-details strong { color: #2d3748; }
+        .order-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: modalSlide 0.3s;
-        }
-        @keyframes modalSlide {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #e2e8f0;
-        }
-        .modal-title {
-            font-size: 28px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .modal-close {
-            background: #e2e8f0;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .modal-close:hover {
-            background: #f56565;
-            color: white;
-            transform: rotate(90deg);
-        }
-        .detail-section {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 12px;
-        }
-        .detail-section h4 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        .detail-label {
-            color: #718096;
-            font-weight: 600;
-        }
-        .detail-value {
-            color: #2d3748;
-            font-weight: bold;
-        }
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .btn-secondary { background: #e2e8f0; color: #4a5568; }
+        .btn-secondary:hover { background: #cbd5e0; }
+        .btn-danger { background: #fed7d7; color: #c53030; }
+        .btn-danger:hover { background: #f56565; color: white; }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #a0aec0;
-        }
-        .empty-icon {
-            font-size: 100px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        .empty-state h3 {
-            font-size: 28px;
-            margin-bottom: 12px;
-            color: #4a5568;
-        }
-        .empty-state p {
-            font-size: 16px;
-            margin-bottom: 25px;
-        }
+        .account-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .account-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .card-header { font-size: 22px; font-weight: bold; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+        .info-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f7fafc; }
+        .info-label { color: #718096; font-weight: 600; }
+        .info-value { color: #2d3748; font-weight: 600; }
+        .edit-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 20px; width: 100%; font-size: 16px; transition: all 0.3s; }
+        .edit-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
 
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            background: #48bb78;
-            color: white;
-            padding: 18px 25px;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            z-index: 10000;
-            display: none;
-            font-weight: 600;
-            animation: slideIn 0.4s;
-            min-width: 300px;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: modalSlide 0.3s; }
+        @keyframes modalSlide { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #e2e8f0; }
+        .modal-title { font-size: 28px; font-weight: bold; }
+        .modal-close { background: #e2e8f0; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .modal-close:hover { background: #f56565; color: white; transform: rotate(90deg); }
+        .detail-section { margin-bottom: 25px; padding: 20px; background: #f7fafc; border-radius: 12px; }
+        .detail-section h4 { font-size: 18px; margin-bottom: 15px; color: #2d3748; }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: #718096; font-weight: 600; }
+        .detail-value { color: #2d3748; font-weight: bold; }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: #a0aec0; }
+        .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
+        .empty-state h3 { font-size: 28px; margin-bottom: 12px; color: #4a5568; }
+        .empty-state p { font-size: 16px; margin-bottom: 25px; }
+
+        .loading-state { text-align: center; padding: 60px 20px; color: #718096; }
+        .spinner { display: inline-block; width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .notification { position: fixed; top: 100px; right: 30px; background: #48bb78; color: white; padding: 18px 25px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 10000; display: none; font-weight: 600; animation: slideIn 0.4s; min-width: 300px; }
         .notification.show { display: block; }
         .notification.error { background: #f56565; }
-        .notification.warning { background: #f59e0b; }
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .top-nav { padding: 15px 20px; }
-            .logo { font-size: 22px; }
-            .user-info { padding: 8px 15px; }
-            .user-avatar { width: 35px; height: 35px; font-size: 16px; }
-            .welcome-section h1 { font-size: 32px; }
+            .welcome-section h1 { font-size: 30px; }
             .nav-tabs { flex-direction: column; }
             .nav-tab { width: 100%; justify-content: center; }
             .floating-order-btn { width: 160px; height: 55px; font-size: 16px; bottom: 20px; right: 20px; }
-            .analysis-number { font-size: 42px; }
             .account-grid { grid-template-columns: 1fr; }
             .modal-content { padding: 25px; }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Make Order Button -->
-    <button class="floating-order-btn" onclick="goToCatalogue()">
-        🛍️ Make an Order
-    </button>
 
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <div class="logo" onclick="goHome()" title="Go back to Homepage">
-            <span>📦</span>
-            <span>Quickshelf</span>
-        </div>
-        <div class="user-menu">
-            <div class="user-info">
-                <div class="user-avatar" id="userInitials">JD</div>
-                <div class="user-details">
-                    <h4 id="displayName">John Doe</h4>
-                    <p id="displayEmail">john@example.com</p>
-                </div>
-            </div>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-    </nav>
+<button class="floating-order-btn" onclick="goToCatalogue()">🛍️ Make an Order</button>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Welcome Section -->
-        <div class="welcome-section">
-            <h1>Welcome Back, <span id="welcomeName">John</span>! 👋</h1>
-            <p>Track your orders, manage your account, and shop with ease</p>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showSection('dashboard')" data-section="dashboard">
-                <span>📊</span> Order Dashboard
-            </div>
-            <div class="nav-tab" onclick="showSection('account')" data-section="account">
-                <span>👤</span> My Account
-            </div>
-            <div class="nav-tab" onclick="showSection('history')" data-section="history">
-                <span>📜</span> Order History
+<nav class="top-nav">
+    <div class="logo" onclick="goHome()"><span>📦</span><span>Quickshelf</span></div>
+    <div class="user-menu">
+        <div class="user-info">
+            <div class="user-avatar" id="userInitials">U</div>
+            <div class="user-details">
+                <h4 id="displayName">Loading...</h4>
+                <p id="displayPhone">Loading...</p>
             </div>
         </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</nav>
 
-        <!-- Dashboard Section -->
-        <div class="page-section active" id="dashboard">
-            <!-- Order Analysis Cards (Clickable) -->
-            <div class="analysis-grid">
-                <div class="analysis-card received" onclick="filterOrders('received')">
-                    <div class="analysis-icon">✅</div>
-                    <div class="analysis-number" id="receivedCount">0</div>
-                    <div class="analysis-label">Orders Received</div>
-                    <div class="analysis-sublabel">Successfully delivered to you</div>
-                </div>
-                <div class="analysis-card pending" onclick="filterOrders('pending')">
-                    <div class="analysis-icon">⏳</div>
-                    <div class="analysis-number" id="pendingCount">0</div>
-                    <div class="analysis-label">Pending Orders</div>
-                    <div class="analysis-sublabel">Currently being processed</div>
-                </div>
-                <div class="analysis-card cancelled" onclick="filterOrders('cancelled')">
-                    <div class="analysis-icon">❌</div>
-                    <div class="analysis-number" id="cancelledCount">0</div>
-                    <div class="analysis-label">Cancelled Orders</div>
-                    <div class="analysis-sublabel">Orders that were cancelled</div>
-                </div>
+<div class="container">
+    <div class="welcome-section">
+        <h1>Welcome Back, <span id="welcomeName">User</span>! 👋</h1>
+        <p>Track your orders, manage your account, and shop with ease</p>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="showSection('dashboard')" data-section="dashboard"><span>📊</span> Order Dashboard</div>
+        <div class="nav-tab" onclick="showSection('account')" data-section="account"><span>👤</span> My Account</div>
+        <div class="nav-tab" onclick="showSection('history')" data-section="history"><span>📜</span> Order History</div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="page-section active" id="dashboard">
+        <div class="analysis-grid">
+            <div class="analysis-card received" onclick="filterOrders('received')">
+                <div class="analysis-icon">✅</div>
+                <div class="analysis-number" id="receivedCount">0</div>
+                <div class="analysis-label">Orders Received</div>
+                <div class="analysis-sublabel">Successfully delivered</div>
             </div>
-
-            <div class="orders-container">
-                <h2 class="section-title">
-                    <span>📋</span> Recent Orders
-                </h2>
-                <div id="recentOrdersList"></div>
+            <div class="analysis-card pending" onclick="filterOrders('pending')">
+                <div class="analysis-icon">⏳</div>
+                <div class="analysis-number" id="pendingCount">0</div>
+                <div class="analysis-label">Pending Orders</div>
+                <div class="analysis-sublabel">Currently being processed</div>
             </div>
-        </div>
-
-        <!-- Account Details Section -->
-        <div class="page-section" id="account">
-            <div class="account-grid">
-                <!-- Personal Information -->
-                <div class="account-card">
-                    <h3 class="card-header">
-                        <span>👤</span> Personal Information
-                    </h3>
-                    <div class="info-row">
-                        <span class="info-label">Full Name</span>
-                        <span class="info-value" id="accountName">John Doe</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Email Address</span>
-                        <span class="info-value" id="accountEmail">john@example.com</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Phone Number</span>
-                        <span class="info-value" id="accountPhone">+254 700 123 456</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Member Since</span>
-                        <span class="info-value" id="memberSince">January 2025</span>
-                    </div>
-                    <button class="edit-btn" onclick="editProfile()">✏️ Edit Profile</button>
-                </div>
-
-                <!-- Delivery Address -->
-                <div class="account-card">
-                    <h3 class="card-header">
-                        <span>📍</span> Default Delivery Address
-                    </h3>
-                    <div class="info-row">
-                        <span class="info-label">Street Address</span>
-                        <span class="info-value" id="addressStreet">123 Kimathi Street</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">City</span>
-                        <span class="info-value" id="addressCity">Nairobi</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Postal Code</span>
-                        <span class="info-value" id="addressPostal">00100</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Country</span>
-                        <span class="info-value">Kenya</span>
-                    </div>
-                    <button class="edit-btn" onclick="editAddress()">📝 Update Address</button>
-                </div>
-
-                <!-- Account Statistics -->
-                <div class="account-card">
-                    <h3 class="card-header">
-                        <span>📊</span> Account Statistics
-                    </h3>
-                    <div class="info-row">
-                        <span class="info-label">Total Orders</span>
-                        <span class="info-value" id="statTotalOrders">0</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Total Spent</span>
-                        <span class="info-value" id="statTotalSpent">KES 0</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Average Order Value</span>
-                        <span class="info-value" id="statAvgOrder">KES 0</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Last Order Date</span>
-                        <span class="info-value" id="statLastOrder">Never</span>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="account-card">
-                    <h3 class="card-header">
-                        <span>⚡</span> Quick Actions
-                    </h3>
-                    <button class="edit-btn" onclick="goToCatalogue()" style="margin-bottom: 15px;">
-                        🛍️ Make New Order
-                    </button>
-                    <button class="edit-btn" onclick="viewHistory()" style="margin-bottom: 15px;">
-                        📜 View Order History
-                    </button>
-                    <button class="edit-btn" onclick="contactSupport()">
-                        💬 Contact Support
-                    </button>
-                </div>
+            <div class="analysis-card cancelled" onclick="filterOrders('cancelled')">
+                <div class="analysis-icon">❌</div>
+                <div class="analysis-number" id="cancelledCount">0</div>
+                <div class="analysis-label">Cancelled Orders</div>
+                <div class="analysis-sublabel">Orders that were cancelled</div>
             </div>
         </div>
+        <div class="orders-container">
+            <h2 class="section-title"><span>📋</span> Recent Orders</h2>
+            <div id="recentOrdersList"><div class="loading-state"><div class="spinner"></div><p>Loading your orders...</p></div></div>
+        </div>
+    </div>
 
-        <!-- Order History Section -->
-        <div class="page-section" id="history">
-            <div class="orders-container">
-                <h2 class="section-title">
-                    <span>📜</span> <span id="historyTitle">Complete Order History</span>
-                </h2>
-                <div id="fullOrdersList"></div>
+    <!-- Account -->
+    <div class="page-section" id="account">
+        <div class="account-grid">
+            <div class="account-card">
+                <h3 class="card-header"><span>👤</span> Personal Information</h3>
+                <div class="info-row"><span class="info-label">Full Name</span><span class="info-value" id="accountName">—</span></div>
+                <div class="info-row"><span class="info-label">Phone Number</span><span class="info-value" id="accountPhone">—</span></div>
+                <div class="info-row"><span class="info-label">Email</span><span class="info-value" id="accountEmail">—</span></div>
+                <div class="info-row"><span class="info-label">Member Since</span><span class="info-value" id="memberSince">—</span></div>
+                <button class="edit-btn" onclick="editProfile()">✏️ Edit Profile</button>
+            </div>
+            <div class="account-card">
+                <h3 class="card-header"><span>📊</span> Statistics</h3>
+                <div class="info-row"><span class="info-label">Total Orders</span><span class="info-value" id="statTotalOrders">0</span></div>
+                <div class="info-row"><span class="info-label">Delivered</span><span class="info-value" id="statDelivered">0</span></div>
+                <div class="info-row"><span class="info-label">Pending</span><span class="info-value" id="statPending">0</span></div>
+                <div class="info-row"><span class="info-label">Last Order</span><span class="info-value" id="statLastOrder">Never</span></div>
+            </div>
+            <div class="account-card">
+                <h3 class="card-header"><span>⚡</span> Quick Actions</h3>
+                <button class="edit-btn" onclick="goToCatalogue()" style="margin-bottom:15px;">🛍️ Make New Order</button>
+                <button class="edit-btn" onclick="showSection('history')" style="margin-bottom:15px;">📜 Order History</button>
+                <button class="edit-btn" onclick="contactSupport()">💬 Contact Support</button>
             </div>
         </div>
     </div>
 
-    <!-- Order Details Modal -->
-    <div class="modal" id="orderDetailsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">📦 Order Details</h2>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div id="modalBody"></div>
+    <!-- History -->
+    <div class="page-section" id="history">
+        <div class="orders-container">
+            <h2 class="section-title"><span>📜</span> <span id="historyTitle">Complete Order History</span></h2>
+            <div id="fullOrdersList"><div class="loading-state"><div class="spinner"></div><p>Loading...</p></div></div>
         </div>
     </div>
+</div>
 
-    <!-- Notification -->
-    <div id="notification" class="notification"></div>
+<!-- Modal -->
+<div class="modal" id="orderDetailsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">📦 Order Details</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
 
-    <script>
-        // Customer data
-        const customerData = {
-            name: 'John Doe',
-            email: 'john@example.com',
-            phone: '+254 700 123 456',
-            memberSince: 'January 2025',
-            address: {
-                street: '123 Kimathi Street',
-                city: 'Nairobi',
-                postal: '00100',
-                country: 'Kenya'
-            }
-        };
+<div id="notification" class="notification"></div>
 
-        // Orders data
-        let orders = [
-            {
-                id: 'ORD-001',
-                date: '2025-01-25',
-                items: [
-                    { name: 'Premium Leather Wallet', quantity: 1, price: 2500 },
-                    { name: 'Wireless Earbuds', quantity: 2, price: 3500 }
-                ],
-                total: 9500,
-                status: 'received',
-                deliveryDate: '2025-01-26',
-                trackingNumber: 'TRK-12345678',
-                paymentMethod: 'M-Pesa',
-                shippingAddress: '123 Kimathi Street, Nairobi, 00100'
-            },
-            {
-                id: 'ORD-002',
-                date: '2025-01-24',
-                items: [
-                    { name: 'Handmade Ceramic Mug Set', quantity: 3, price: 800 }
-                ],
-                total: 2400,
-                status: 'pending',
-                estimatedDelivery: '2025-01-28',
-                trackingNumber: 'TRK-87654321',
-                paymentMethod: 'Credit Card',
-                shippingAddress: '123 Kimathi Street, Nairobi, 00100'
-            },
-            {
-                id: 'ORD-003',
-                date: '2025-01-20',
-                items: [
-                    { name: 'Designer Backpack', quantity: 1, price: 5500 }
-                ],
-                total: 5500,
-                status: 'received',
-                deliveryDate: '2025-01-22',
-                trackingNumber: 'TRK-11223344',
-                paymentMethod: 'M-Pesa',
-                shippingAddress: '123 Kimathi Street, Nairobi, 00100'
-            },
-            {
-                id: 'ORD-004',
-                date: '2025-01-15',
-                items: [
-                    { name: 'Smart Watch', quantity: 1, price: 12000 },
-                    { name: 'Phone Case', quantity: 1, price: 1200 }
-                ],
-                total: 13200,
-                status: 'cancelled',
-                cancellationDate: '2025-01-16',
-                cancellationReason: 'Customer request',
-                paymentMethod: 'Bank Transfer',
-                shippingAddress: '123 Kimathi Street, Nairobi, 00100'
-            },
-            {
-                id: 'ORD-005',
-                date: '2025-01-10',
-                items: [
-                    { name: 'Portable Bluetooth Speaker', quantity: 1, price: 4200 }
-                ],
-                total: 4200,
-                status: 'received',
-                deliveryDate: '2025-01-12',
-                trackingNumber: 'TRK-55667788',
-                paymentMethod: 'M-Pesa',
-                shippingAddress: '123 Kimathi Street, Nairobi, 00100'
-            }
-        ];
+<script>
+    // ============================================================
+    // BACKEND CONFIG — same URL used by index.html
+    // ============================================================
+    const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
 
-        // Initialize dashboard
-        function initDashboard() {
-            // Set user info
-            document.getElementById('displayName').textContent = customerData.name;
-            document.getElementById('displayEmail').textContent = customerData.email;
-            document.getElementById('welcomeName').textContent = customerData.name.split(' ')[0];
-            document.getElementById('userInitials').textContent = getInitials(customerData.name);
-
-            // Set account details
-            document.getElementById('accountName').textContent = customerData.name;
-            document.getElementById('accountEmail').textContent = customerData.email;
-            document.getElementById('accountPhone').textContent = customerData.phone;
-            document.getElementById('memberSince').textContent = customerData.memberSince;
-            document.getElementById('addressStreet').textContent = customerData.address.street;
-            document.getElementById('addressCity').textContent = customerData.address.city;
-            document.getElementById('addressPostal').textContent = customerData.address.postal;
-
-            // Calculate statistics
-            const received = orders.filter(o => o.status === 'received').length;
-            const pending = orders.filter(o => o.status === 'pending').length;
-            const cancelled = orders.filter(o => o.status === 'cancelled').length;
-            const totalSpent = orders.filter(o => o.status === 'received').reduce((sum, o) => sum + o.total, 0);
-            const avgOrder = received > 0 ? Math.round(totalSpent / received) : 0;
-            const lastOrder = orders.length > 0 ? new Date(orders[0].date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Never';
-
-            // Update analysis cards
-            document.getElementById('receivedCount').textContent = received;
-            document.getElementById('pendingCount').textContent = pending;
-            document.getElementById('cancelledCount').textContent = cancelled;
-
-            // Update statistics
-            document.getElementById('statTotalOrders').textContent = orders.length;
-            document.getElementById('statTotalSpent').textContent = `KES ${totalSpent.toLocaleString()}`;
-            document.getElementById('statAvgOrder').textContent = `KES ${avgOrder.toLocaleString()}`;
-            document.getElementById('statLastOrder').textContent = lastOrder;
-
-            // Load orders
-            loadOrders();
-        }
-
-        // Get user initials
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase();
-        }
-
-        // Load orders
-        function loadOrders(filterStatus = null) {
-            const recentContainer = document.getElementById('recentOrdersList');
-            const fullContainer = document.getElementById('fullOrdersList');
-
-            if (orders.length === 0) {
-                const emptyHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📦</div>
-                        <h3>No Orders Yet</h3>
-                        <p>You haven't placed any orders yet. Start shopping now!</p>
-                        <button class="btn btn-primary" onclick="goToCatalogue()" style="margin-top: 20px; padding: 15px 40px; font-size: 18px;">
-                            🛍️ Start Shopping
-                        </button>
-                    </div>
-                `;
-                recentContainer.innerHTML = emptyHTML;
-                fullContainer.innerHTML = emptyHTML;
-                return;
-            }
-
-            // Filter orders if status provided
-            let displayOrders = filterStatus ? orders.filter(o => o.status === filterStatus) : orders;
-
-            // Update history title if filtered
-            if (filterStatus) {
-                const statusNames = {
-                    'received': 'Received Orders',
-                    'pending': 'Pending Orders',
-                    'cancelled': 'Cancelled Orders'
-                };
-                document.getElementById('historyTitle').textContent = statusNames[filterStatus] || 'Complete Order History';
-            } else {
-                document.getElementById('historyTitle').textContent = 'Complete Order History';
-            }
-
-            // Recent orders (last 3)
-            const recentOrders = orders.slice(0, 3);
-            recentContainer.innerHTML = recentOrders.map(order => createOrderHTML(order)).join('');
-
-            // Full order history
-            if (displayOrders.length === 0) {
-                fullContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📦</div>
-                        <h3>No ${filterStatus} Orders</h3>
-                        <p>You don't have any ${filterStatus} orders at the moment.</p>
-                        <button class="btn btn-primary" onclick="loadOrders()" style="margin-top: 20px;">
-                            View All Orders
-                        </button>
-                    </div>
-                `;
-            } else {
-                fullContainer.innerHTML = displayOrders.map(order => createOrderHTML(order)).join('');
-            }
-        }
-
-        // Create order HTML
-        function createOrderHTML(order) {
-            const statusText = {
-                'received': 'Delivered',
-                'pending': 'Processing',
-                'cancelled': 'Cancelled'
-            };
-
-            const statusIcon = {
-                'received': '✅',
-                'pending': '⏳',
-                'cancelled': '❌'
-            };
-
-            const itemsList = order.items.map(item => item.name).join(', ');
-
-            return `
-                <div class="order-item ${order.status}" onclick="viewOrderDetails('${order.id}')">
-                    <div class="order-header">
-                        <div class="order-id">${statusIcon[order.status]} ${order.id}</div>
-                        <span class="order-badge badge-${order.status}">${statusText[order.status]}</span>
-                    </div>
-                    <div class="order-details">
-                        <p><strong>📅 Order Date:</strong> ${new Date(order.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p><strong>📦 Items:</strong> ${itemsList}</p>
-                        <p><strong>💰 Total Amount:</strong> KES ${order.total.toLocaleString()}</p>
-                        ${order.status === 'received' ? `<p><strong>✅ Delivered:</strong> ${new Date(order.deliveryDate).toLocaleDateString()}</p>` : ''}
-                        ${order.status === 'pending' ? `<p><strong>🚚 Expected Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleDateString()}</p>` : ''}
-                        ${order.status === 'cancelled' ? `<p><strong>❌ Cancelled:</strong> ${new Date(order.cancellationDate).toLocaleDateString()} - ${order.cancellationReason}</p>` : ''}
-                    </div>
-                    <div class="order-actions" onclick="event.stopPropagation()">
-                        ${order.status === 'pending' ? '<button class="btn btn-primary" onclick="trackOrder(\'' + order.id + '\')">📍 Track Order</button>' : ''}
-                        ${order.status === 'received' ? '<button class="btn btn-primary" onclick="reorder(\'' + order.id + '\')">🔄 Order Again</button>' : ''}
-                        <button class="btn btn-secondary" onclick="viewOrderDetails(\'' + order.id + '\')">👁️ Full Details</button>
-                        ${order.status === 'pending' ? '<button class="btn btn-danger" onclick="cancelOrder(\'' + order.id + '\')">❌ Cancel Order</button>' : ''}
-                    </div>
-                </div>
-            `;
-        }
-
-        // View order details in modal
-        function viewOrderDetails(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-
-            const modal = document.getElementById('orderDetailsModal');
-            const modalBody = document.getElementById('modalBody');
-
-            const statusText = {
-                'received': '✅ Delivered',
-                'pending': '⏳ Processing',
-                'cancelled': '❌ Cancelled'
-            };
-
-            const itemsHTML = order.items.map(item => `
-                <div class="detail-row">
-                    <span class="detail-label">${item.name} (x${item.quantity})</span>
-                    <span class="detail-value">KES ${(item.price * item.quantity).toLocaleString()}</span>
-                </div>
-            `).join('');
-
-            modalBody.innerHTML = `
-                <div class="detail-section">
-                    <h4>📋 Order Information</h4>
-                    <div class="detail-row">
-                        <span class="detail-label">Order ID</span>
-                        <span class="detail-value">${order.id}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Order Date</span>
-                        <span class="detail-value">${new Date(order.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Status</span>
-                        <span class="detail-value">${statusText[order.status]}</span>
-                    </div>
-                    ${order.trackingNumber ? `
-                    <div class="detail-row">
-                        <span class="detail-label">Tracking Number</span>
-                        <span class="detail-value">${order.trackingNumber}</span>
-                    </div>
-                    ` : ''}
-                    ${order.estimatedDelivery ? `
-                    <div class="detail-row">
-                        <span class="detail-label">Estimated Delivery</span>
-                        <span class="detail-value">${new Date(order.estimatedDelivery).toLocaleDateString()}</span>
-                    </div>
-                    ` : ''}
-                    ${order.deliveryDate ? `
-                    <div class="detail-row">
-                        <span class="detail-label">Delivered On</span>
-                        <span class="detail-value">${new Date(order.deliveryDate).toLocaleDateString()}</span>
-                    </div>
-                    ` : ''}
-                    ${order.cancellationDate ? `
-                    <div class="detail-row">
-                        <span class="detail-label">Cancellation Date</span>
-                        <span class="detail-value">${new Date(order.cancellationDate).toLocaleDateString()}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Reason</span>
-                        <span class="detail-value">${order.cancellationReason}</span>
-                    </div>
-                    ` : ''}
-                </div>
-
-                <div class="detail-section">
-                    <h4>📦 Order Items</h4>
-                    ${itemsHTML}
-                    <div class="detail-row" style="border-top: 3px solid #e2e8f0; margin-top: 15px; padding-top: 15px;">
-                        <span class="detail-label" style="font-size: 18px;">TOTAL</span>
-                        <span class="detail-value" style="font-size: 20px; color: #667eea;">KES ${order.total.toLocaleString()}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h4>💳 Payment Information</h4>
-                    <div class="detail-row">
-                        <span class="detail-label">Payment Method</span>
-                        <span class="detail-value">${order.paymentMethod}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Payment Status</span>
-                        <span class="detail-value">${order.status === 'cancelled' ? 'Refunded' : 'Paid'}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h4>📍 Shipping Information</h4>
-                    <div class="detail-row">
-                        <span class="detail-label">Delivery Address</span>
-                        <span class="detail-value">${order.shippingAddress}</span>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap;">
-                    ${order.status === 'pending' ? '<button class="btn btn-primary" style="flex: 1;" onclick="trackOrder(\'' + order.id + '\'); closeModal();">📍 Track This Order</button>' : ''}
-                    ${order.status === 'received' ? '<button class="btn btn-primary" style="flex: 1;" onclick="reorder(\'' + order.id + '\'); closeModal();">🔄 Order Again</button>' : ''}
-                    <button class="btn btn-secondary" style="flex: 1;" onclick="closeModal()">Close</button>
-                </div>
-            `;
-
-            modal.classList.add('active');
-        }
-
-        // Close modal
-        function closeModal() {
-            document.getElementById('orderDetailsModal').classList.remove('active');
-        }
-
-        // Show section
-        function showSection(sectionId) {
-            // Update tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.section === sectionId) {
-                    tab.classList.add('active');
-                }
+    async function apiCall(action, data = {}) {
+        try {
+            const res = await fetch(API_BASE_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ action, ...data })
             });
-
-            // Update sections
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-
-            // Reload orders if switching to history
-            if (sectionId === 'history') {
-                loadOrders();
-            }
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return await res.json();
+        } catch (err) {
+            console.error('API Error:', err);
+            return { success: false, message: 'Connection error.' };
         }
+    }
 
-        // Filter orders by status
-        function filterOrders(status) {
-            showSection('history');
-            loadOrders(status);
-            showNotification(`Showing ${status} orders`, false);
+    // ============================================================
+    // SESSION — matches exactly what index.html saves
+    // ============================================================
+    function store(key) { try { return localStorage.getItem(key); } catch(e) { return null; } }
+    function storeSet(key, val) { try { localStorage.setItem(key, val); } catch(e) {} }
+    function storeRemove(key) { try { localStorage.removeItem(key); } catch(e) {} }
+
+    // Guard: kick out if not a logged-in customer
+    if (store('quickshelfLoggedIn') !== 'true' || store('quickshelfUserType') !== 'customer') {
+        window.location.href = 'index.html';
+    }
+
+    const sessionPhone = store('quickshelfUserPhone') || '';
+    const sessionRaw   = JSON.parse(store('quickshelfUserData') || '{}');
+
+    const customerData = {
+        name:  sessionRaw.name || sessionRaw.fullName || 'Customer',
+        phone: sessionRaw.phone || sessionRaw.phoneNumber || sessionPhone,
+        email: sessionRaw.email || '',
+        joinDate: sessionRaw.joinDate || sessionRaw.createdAt || '',
+    };
+
+    let orders = [];
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    async function initDashboard() {
+        // Header
+        document.getElementById('displayName').textContent  = customerData.name;
+        document.getElementById('displayPhone').textContent = customerData.phone;
+        document.getElementById('welcomeName').textContent  = customerData.name.split(' ')[0];
+        document.getElementById('userInitials').textContent = getInitials(customerData.name);
+
+        // Account tab
+        document.getElementById('accountName').textContent  = customerData.name;
+        document.getElementById('accountPhone').textContent = customerData.phone;
+        document.getElementById('accountEmail').textContent = customerData.email || '—';
+        document.getElementById('memberSince').textContent  = customerData.joinDate
+            ? new Date(customerData.joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+            : 'N/A';
+
+        await fetchOrders();
+    }
+
+    async function fetchOrders() {
+        const res = await apiCall('getCustomerOrders', { phone: customerData.phone });
+        orders = (res.success && Array.isArray(res.orders)) ? res.orders : [];
+        renderAll();
+    }
+
+    // ============================================================
+    // RENDER
+    // ============================================================
+    function statusNorm(raw) {
+        const s = (raw || '').toLowerCase().trim();
+        if (['received','delivered','completed'].includes(s)) return 'received';
+        if (['cancelled','canceled'].includes(s)) return 'cancelled';
+        return 'pending';
+    }
+
+    function renderAll() {
+        const received  = orders.filter(o => statusNorm(o.status) === 'received').length;
+        const pending   = orders.filter(o => statusNorm(o.status) === 'pending').length;
+        const cancelled = orders.filter(o => statusNorm(o.status) === 'cancelled').length;
+
+        document.getElementById('receivedCount').textContent  = received;
+        document.getElementById('pendingCount').textContent   = pending;
+        document.getElementById('cancelledCount').textContent = cancelled;
+
+        const lastDate = orders.length
+            ? new Date(orders[0].date || orders[0].createdAt || Date.now())
+                .toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' })
+            : 'Never';
+
+        document.getElementById('statTotalOrders').textContent = orders.length;
+        document.getElementById('statDelivered').textContent   = received;
+        document.getElementById('statPending').textContent     = pending;
+        document.getElementById('statLastOrder').textContent   = lastDate;
+
+        renderList('recentOrdersList', orders.slice(0, 3));
+        renderList('fullOrdersList', orders);
+    }
+
+    function renderList(id, list) {
+        const el = document.getElementById(id);
+        if (!list || list.length === 0) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+                    <h3>No Orders Yet</h3>
+                    <p>You haven't placed any orders yet. Start shopping now!</p>
+                    <button class="btn btn-primary" onclick="goToCatalogue()" style="margin-top:20px;padding:15px 40px;font-size:18px;">🛍️ Start Shopping</button>
+                </div>`;
+            return;
         }
+        el.innerHTML = list.map(o => orderCard(o)).join('');
+    }
 
-        // Show notification
-        function showNotification(message, isError = false) {
-            const notif = document.getElementById('notification');
-            notif.textContent = message;
-            notif.className = isError ? 'notification show error' : 'notification show';
-            setTimeout(() => notif.classList.remove('show'), 4000);
+    function orderCard(o) {
+        const status    = statusNorm(o.status);
+        const labels    = { received: 'Delivered', pending: 'Processing', cancelled: 'Cancelled' };
+        const icons     = { received: '✅', pending: '⏳', cancelled: '❌' };
+        const oid       = o.id || o.orderId || o.orderID || '—';
+        const rawItems  = o.items || o.products || o.itemsList || '';
+        const items     = Array.isArray(rawItems) ? rawItems.map(i => i.name || i.product || i).join(', ') : String(rawItems);
+        const total     = o.total || o.amount || o.totalAmount || 0;
+        const rawDate   = o.date || o.createdAt || o.orderDate || '';
+        const dateStr   = rawDate ? new Date(rawDate).toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) : '—';
+
+        return `
+        <div class="order-item ${status}" onclick="viewOrder('${oid}')">
+            <div class="order-header">
+                <div class="order-id">${icons[status]} ${oid}</div>
+                <span class="order-badge badge-${status}">${labels[status]}</span>
+            </div>
+            <div class="order-details">
+                <p><strong>📅 Date:</strong> ${dateStr}</p>
+                ${items  ? `<p><strong>📦 Items:</strong> ${items}</p>` : ''}
+                ${total  ? `<p><strong>💰 Total:</strong> KES ${Number(total).toLocaleString()}</p>` : ''}
+            </div>
+            <div class="order-actions" onclick="event.stopPropagation()">
+                ${status === 'pending'  ? `<button class="btn btn-primary" onclick="trackOrder('${oid}')">📍 Track</button>` : ''}
+                ${status === 'received' ? `<button class="btn btn-primary" onclick="reorder('${oid}')">🔄 Reorder</button>` : ''}
+                ${status === 'pending'  ? `<button class="btn btn-danger"  onclick="cancelOrder('${oid}')">❌ Cancel</button>` : ''}
+                <button class="btn btn-secondary" onclick="viewOrder('${oid}')">👁️ Details</button>
+            </div>
+        </div>`;
+    }
+
+    function viewOrder(oid) {
+        const o = orders.find(x => (x.id || x.orderId || x.orderID) === oid);
+        if (!o) return;
+        const status   = statusNorm(o.status);
+        const labels   = { received: '✅ Delivered', pending: '⏳ Processing', cancelled: '❌ Cancelled' };
+        const rawItems = o.items || o.products || o.itemsList || '';
+        const total    = o.total || o.amount || o.totalAmount || 0;
+        const rawDate  = o.date || o.createdAt || o.orderDate || '';
+        const itemsHTML = Array.isArray(rawItems)
+            ? rawItems.map(i => `<div class="detail-row"><span class="detail-label">${i.name||i.product||i}${i.quantity?` x${i.quantity}`:''}</span><span class="detail-value">${i.price?`KES ${(i.price*(i.quantity||1)).toLocaleString()}`:''}</span></div>`).join('')
+            : `<div class="detail-row"><span class="detail-label">${rawItems}</span><span></span></div>`;
+
+        document.getElementById('modalBody').innerHTML = `
+            <div class="detail-section">
+                <h4>📋 Order Info</h4>
+                <div class="detail-row"><span class="detail-label">Order ID</span><span class="detail-value">${oid}</span></div>
+                <div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">${rawDate ? new Date(rawDate).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '—'}</span></div>
+                <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${labels[status]}</span></div>
+                ${o.trackingNumber ? `<div class="detail-row"><span class="detail-label">Tracking #</span><span class="detail-value">${o.trackingNumber}</span></div>` : ''}
+                ${(o.deliveryAddress||o.shippingAddress) ? `<div class="detail-row"><span class="detail-label">Delivery To</span><span class="detail-value">${o.deliveryAddress||o.shippingAddress}</span></div>` : ''}
+            </div>
+            <div class="detail-section">
+                <h4>📦 Items</h4>
+                ${itemsHTML}
+                ${total ? `<div class="detail-row" style="border-top:3px solid #e2e8f0;margin-top:10px;padding-top:10px;"><span class="detail-label" style="font-size:18px;">TOTAL</span><span class="detail-value" style="font-size:20px;color:#667eea;">KES ${Number(total).toLocaleString()}</span></div>` : ''}
+            </div>
+            ${o.paymentMethod ? `<div class="detail-section"><h4>💳 Payment</h4><div class="detail-row"><span class="detail-label">Method</span><span class="detail-value">${o.paymentMethod}</span></div></div>` : ''}
+            <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;">
+                ${status==='pending'  ? `<button class="btn btn-primary" style="flex:1" onclick="trackOrder('${oid}');closeModal()">📍 Track</button>` : ''}
+                ${status==='received' ? `<button class="btn btn-primary" style="flex:1" onclick="reorder('${oid}');closeModal()">🔄 Reorder</button>` : ''}
+                <button class="btn btn-secondary" style="flex:1" onclick="closeModal()">Close</button>
+            </div>`;
+        document.getElementById('orderDetailsModal').classList.add('active');
+    }
+
+    function closeModal() { document.getElementById('orderDetailsModal').classList.remove('active'); }
+
+    // ============================================================
+    // ACTIONS
+    // ============================================================
+    function filterOrders(status) {
+        showSection('history');
+        const map = { received:'Received Orders', pending:'Pending Orders', cancelled:'Cancelled Orders' };
+        document.getElementById('historyTitle').textContent = map[status];
+        renderList('fullOrdersList', orders.filter(o => statusNorm(o.status) === status));
+        showNotification(`Showing ${map[status].toLowerCase()}`);
+    }
+
+    function showSection(id) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.section === id));
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if (id === 'history') {
+            document.getElementById('historyTitle').textContent = 'Complete Order History';
+            renderList('fullOrdersList', orders);
         }
+    }
 
-        // Go to catalogue (Make an Order)
-        function goToCatalogue() {
-            showNotification('🛍️ Catalogue feature coming soon!');
+    async function cancelOrder(oid) {
+        const reason = prompt('Why are you cancelling this order?\n(Changed my mind / Ordered by mistake / Other)');
+        if (!reason || !reason.trim()) return;
+        if (!confirm(`Cancel order ${oid}? This cannot be undone.`)) return;
+        showNotification('Cancelling order...');
+        const res = await apiCall('cancelOrder', { orderId: oid, phone: customerData.phone, reason: reason.trim() });
+        if (res.success) {
+            showNotification(`✅ Order ${oid} cancelled`);
+            await fetchOrders();
+        } else {
+            showNotification(res.message || 'Could not cancel. Please contact support.', true);
         }
+    }
 
-        // Go to home - FIXED: Now navigates back to index.html
-        function goHome() {
-            window.location.href = 'index.html';
-        }
+    function trackOrder(oid) {
+        const o = orders.find(x => (x.id||x.orderId||x.orderID) === oid);
+        if (!o) return;
+        const tracking = o.trackingNumber ? `Tracking #: ${o.trackingNumber}` : 'Tracking not available yet.';
+        const eta = o.estimatedDelivery ? `\nExpected: ${new Date(o.estimatedDelivery).toLocaleDateString()}` : '';
+        showNotification(`📍 ${oid} — ${tracking}`);
+        setTimeout(() => alert(`TRACKING: ${oid}\n${tracking}${eta}\n\nContact us on WhatsApp for live updates.`), 500);
+    }
 
-        // Track order
-        function trackOrder(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
+    function reorder(oid) {
+        showNotification('🔄 Redirecting to catalogue...');
+        setTimeout(() => goToCatalogue(), 1200);
+    }
 
-            showNotification(`📍 Tracking ${orderId}. Tracking Number: ${order.trackingNumber}. Expected delivery: ${new Date(order.estimatedDelivery).toLocaleDateString()}`);
-            
-            setTimeout(() => {
-                alert(`TRACKING INFORMATION\n\nOrder ID: ${order.id}\nTracking Number: ${order.trackingNumber}\nCurrent Status: Out for Delivery\nExpected Delivery: ${new Date(order.estimatedDelivery).toLocaleDateString()}\n\nYour order is on its way!`);
-            }, 1000);
-        }
-
-        // Reorder
-        function reorder(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-
-            const itemsList = order.items.map(item => `${item.name} (x${item.quantity})`).join('\n');
-            
-            if (confirm(`Would you like to reorder the following items?\n\n${itemsList}\n\nTotal: KES ${order.total.toLocaleString()}`)) {
-                showNotification('🔄 Adding items to cart...');
-                setTimeout(() => {
-                    goToCatalogue();
-                }, 1500);
-            }
-        }
-
-        // Cancel order
-        function cancelOrder(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-
-            const reason = prompt('Please provide a reason for cancellation:\n\n1. Changed my mind\n2. Found a better price\n3. Ordered by mistake\n4. Other\n\nEnter your reason:');
-            
-            if (reason && reason.trim()) {
-                if (confirm(`Are you sure you want to cancel order ${orderId}?\n\nThis action cannot be undone.`)) {
-                    order.status = 'cancelled';
-                    order.cancellationDate = new Date().toISOString().split('T')[0];
-                    order.cancellationReason = reason.trim();
-                    
-                    initDashboard();
-                    showNotification(`❌ Order ${orderId} has been cancelled successfully`);
-                }
-            }
-        }
-
-        // Edit profile
-        function editProfile() {
-            const newName = prompt('Enter your full name:', customerData.name);
-            if (newName && newName.trim()) {
-                customerData.name = newName.trim();
-                const newPhone = prompt('Enter your phone number:', customerData.phone);
-                if (newPhone && newPhone.trim()) {
-                    customerData.phone = newPhone.trim();
-                    initDashboard();
-                    showNotification('✅ Profile updated successfully!');
-                }
-            }
-        }
-
-        // Edit address
-        function editAddress() {
-            const newStreet = prompt('Enter street address:', customerData.address.street);
-            if (newStreet && newStreet.trim()) {
-                customerData.address.street = newStreet.trim();
-                const newCity = prompt('Enter city:', customerData.address.city);
-                if (newCity && newCity.trim()) {
-                    customerData.address.city = newCity.trim();
-                    const newPostal = prompt('Enter postal code:', customerData.address.postal);
-                    if (newPostal && newPostal.trim()) {
-                        customerData.address.postal = newPostal.trim();
-                        initDashboard();
-                        showNotification('✅ Address updated successfully!');
-                    }
-                }
-            }
-        }
-
-        // View history
-        function viewHistory() {
-            showSection('history');
-        }
-
-        // Contact support
-        function contactSupport() {
-            const message = `Hello Quickshelf Support,\n\nI need assistance with my account.\n\nCustomer Name: ${customerData.name}\nEmail: ${customerData.email}\nPhone: ${customerData.phone}\n\nPlease help me with: `;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/254742258137?text=${encodedMessage}`, '_blank');
-            showNotification('📱 Opening WhatsApp...');
-        }
-
-        // Logout
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                showNotification('👋 Logging out...');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            }
-        }
-
-        // Close modal on outside click
-        document.getElementById('orderDetailsModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        // Initialize dashboard on page load
-        document.addEventListener('DOMContentLoaded', function() {
+    async function editProfile() {
+        const newName = prompt('Full Name:', customerData.name);
+        if (!newName || !newName.trim()) return;
+        const res = await apiCall('updateCustomerProfile', { phone: customerData.phone, name: newName.trim() });
+        if (res.success) {
+            customerData.name = newName.trim();
+            storeSet('quickshelfUserData', JSON.stringify({ ...sessionRaw, name: customerData.name }));
             initDashboard();
-            console.log('✅ Customer Dashboard Initialized');
-            console.log(`✅ Logged in as: ${customerData.name}`);
-            console.log(`✅ Total Orders: ${orders.length}`);
-        });
+            showNotification('✅ Profile updated!');
+        } else {
+            showNotification(res.message || 'Update failed.', true);
+        }
+    }
 
-        // Simulate real-time order updates
-        setInterval(() => {
-            console.log('Checking for order updates...');
-        }, 30000);
-    </script>
+    function goToCatalogue() {
+        showNotification('🛍️ Opening catalogue...');
+        setTimeout(() => { window.location.href = 'catalogue.html'; }, 1000);
+    }
+
+    function goHome() { window.location.href = 'index.html'; }
+
+    function contactSupport() {
+        const msg = encodeURIComponent(`Hello Quickshelf Support,\n\nName: ${customerData.name}\nPhone: ${customerData.phone}\n\nI need help with: `);
+        window.open(`https://wa.me/254742258137?text=${msg}`, '_blank');
+        showNotification('📱 Opening WhatsApp...');
+    }
+
+    function logout() {
+        if (!confirm('Are you sure you want to logout?')) return;
+        ['quickshelfLoggedIn','quickshelfUserType','quickshelfUserPhone','quickshelfUserEmail','quickshelfUserData'].forEach(k => storeRemove(k));
+        showNotification('👋 Logged out');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+    }
+
+    function getInitials(name) {
+        const p = name.trim().split(' ').filter(Boolean);
+        if (!p.length) return 'U';
+        if (p.length === 1) return p[0][0].toUpperCase();
+        return (p[0][0] + p[p.length-1][0]).toUpperCase();
+    }
+
+    function showNotification(msg, isError = false) {
+        const n = document.getElementById('notification');
+        n.textContent = msg;
+        n.className = `notification show${isError ? ' error' : ''}`;
+        setTimeout(() => n.classList.remove('show'), 4000);
+    }
+
+    document.getElementById('orderDetailsModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
 </body>
 </html>
