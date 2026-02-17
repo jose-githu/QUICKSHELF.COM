@@ -3,429 +3,772 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendor Dashboard - Mission Control</title>
+    <title>Vendor Dashboard - Quickshelf</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2d3748; }
         .dashboard { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: #1a202c; color: white; padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; }
-        .logo { 
-            padding: 0 20px 30px; 
-            font-size: 24px; 
-            font-weight: bold; 
-            color: #667eea; 
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        .logo:hover {
-            opacity: 0.8;
-        }
-        .logo-subtitle {
-            font-size: 12px;
-            color: #a0aec0;
-            font-weight: normal;
-            margin-top: 5px;
-        }
-        .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s; color: #a0aec0; }
-        .nav-item:hover, .nav-item.active { background: #2d3748; color: white; border-left: 3px solid #667eea; }
+        .sidebar { width: 260px; background: #1a202c; color: white; padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 200; }
+        .logo { padding: 0 20px 30px; font-size: 22px; font-weight: bold; color: #667eea; cursor: pointer; transition: opacity 0.3s; }
+        .logo:hover { opacity: 0.8; }
+        .logo-sub { font-size: 11px; color: #a0aec0; font-weight: normal; margin-top: 4px; }
+        .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s; color: #a0aec0; border-left: 3px solid transparent; }
+        .nav-item:hover, .nav-item.active { background: #2d3748; color: white; border-left-color: #667eea; }
         .main-content { flex: 1; margin-left: 260px; }
         .topbar { background: white; padding: 15px 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .search-bar { flex: 1; max-width: 500px; }
-        .search-bar input { width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
-        .topbar-actions { display: flex; gap: 15px; align-items: center; }
-        .notification-bell { position: relative; cursor: pointer; padding: 8px; font-size: 20px; }
-        .notification-badge { position: absolute; top: 5px; right: 5px; background: #f56565; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; }
-        .quick-add-btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .topbar-left { display: flex; align-items: center; gap: 15px; }
+        .vendor-name { font-weight: 700; font-size: 16px; color: #2d3748; }
+        .vendor-email { font-size: 12px; color: #718096; }
+        .topbar-actions { display: flex; gap: 12px; align-items: center; }
+        .home-btn { background: #e2e8f0; color: #4a5568; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 6px; font-size: 14px; }
+        .home-btn:hover { background: #cbd5e0; transform: translateY(-1px); }
+        .quick-add-btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
         .quick-add-btn:hover { background: #5a67d8; transform: translateY(-1px); }
-        .home-btn {
-            background: #e2e8f0;
-            color: #4a5568;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .home-btn:hover {
-            background: #cbd5e0;
-            transform: translateY(-1px);
-        }
+        .logout-btn { background: white; color: #f56565; border: 2px solid #f56565; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
+        .logout-btn:hover { background: #f56565; color: white; }
         .canvas { padding: 30px; }
         .page-content { display: none; }
         .page-content.active { display: block; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .stat-label { color: #718096; font-size: 14px; margin-bottom: 8px; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; border-left: 5px solid #667eea; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .stat-label { color: #718096; font-size: 13px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         .stat-value { font-size: 32px; font-weight: bold; color: #2d3748; }
-        .stat-trend { font-size: 12px; color: #718096; margin-top: 5px; }
-        .chart-container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
-        .simple-chart { height: 250px; background: linear-gradient(180deg, #667eea22 0%, transparent 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #667eea; font-size: 18px; font-weight: 600; }
-        .activity-feed { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .activity-item { padding: 15px 0; border-bottom: 1px solid #e2e8f0; display: flex; gap: 15px; }
-        .activity-item:last-child { border-bottom: none; }
-        .activity-icon { width: 40px; height: 40px; background: #667eea22; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .activity-time { color: #a0aec0; font-size: 12px; }
-        .empty-state { text-align: center; padding: 40px; color: #718096; }
+        .stat-trend { font-size: 12px; color: #a0aec0; margin-top: 5px; }
+
+        /* Checklist */
+        .checklist { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .checklist-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid #f7fafc; }
+        .checklist-item:last-child { border-bottom: none; }
+        .checkbox { width: 24px; height: 24px; border: 2px solid #cbd5e0; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; transition: all 0.2s; }
+        .checkbox.checked { background: #48bb78; border-color: #48bb78; }
+        .checkbox.checked::after { content: "✓"; position: absolute; color: white; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 14px; }
+
+        /* Tables */
         .table-controls { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-        .filter-tab { padding: 8px 16px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+        .filter-tab { padding: 8px 16px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; }
         .filter-tab.active { background: #667eea; color: white; border-color: #667eea; }
         .product-table { background: white; border-radius: 12px; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         table { width: 100%; border-collapse: collapse; }
         thead { background: #f7fafc; }
-        th { padding: 15px; text-align: left; font-weight: 600; color: #4a5568; font-size: 14px; }
-        td { padding: 15px; border-top: 1px solid #e2e8f0; }
-        .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
-        .stock-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        th { padding: 14px 16px; text-align: left; font-weight: 700; color: #4a5568; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 14px 16px; border-top: 1px solid #e2e8f0; font-size: 14px; }
+        .stock-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .stock-low { background: #fed7d7; color: #c53030; }
         .stock-ok { background: #c6f6d5; color: #22543d; }
-        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .status-active { background: #c6f6d5; color: #22543d; }
-        .status-draft { background: #fed7d7; color: #c53030; }
-        .edit-btn { background: #667eea; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .status-draft { background: #e2e8f0; color: #4a5568; }
+        .action-btn { background: #667eea; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+        .action-btn:hover { background: #5a67d8; }
+        .action-btn.danger { background: #fed7d7; color: #c53030; }
+        .action-btn.danger:hover { background: #f56565; color: white; }
+
+        /* Forms */
         .form-section { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
-        .form-section h3 { margin-bottom: 20px; color: #2d3748; }
+        .form-section h3 { margin-bottom: 20px; color: #2d3748; font-size: 20px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; }
-        .form-group textarea { min-height: 120px; resize: vertical; }
-        .image-upload { border: 2px dashed #cbd5e0; border-radius: 8px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .image-upload:hover { border-color: #667eea; background: #667eea11; }
-        .btn-primary { background: #667eea; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s; }
-        .btn-primary:hover { background: #5a67d8; }
-        .btn-secondary { background: #e2e8f0; color: #4a5568; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; margin-left: 10px; }
-        .btn-primary:disabled { background: #cbd5e0; cursor: not-allowed; }
-        .checklist { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
-        .checklist-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #e2e8f0; }
-        .checklist-item:last-child { border-bottom: none; }
-        .checkbox { width: 24px; height: 24px; border: 2px solid #cbd5e0; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; }
-        .checkbox.checked { background: #48bb78; border-color: #48bb78; }
-        .checkbox.checked::after { content: "✓"; position: absolute; color: white; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .order-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; }
-        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .order-id { font-weight: 600; font-size: 16px; }
-        .order-status { padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568; font-size: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #667eea; }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn-primary { background: #667eea; color: white; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s; }
+        .btn-primary:hover { background: #5a67d8; transform: translateY(-1px); }
+        .btn-primary:disabled { background: #a0aec0; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: #e2e8f0; color: #4a5568; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; margin-left: 10px; }
+
+        /* Order cards */
+        .order-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; border-left: 4px solid #667eea; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .order-id { font-weight: 700; font-size: 16px; }
+        .order-status { padding: 5px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .status-pending { background: #feebc8; color: #c05621; }
         .status-shipped { background: #bee3f8; color: #2c5282; }
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .status-completed { background: #c6f6d5; color: #22543d; }
+
+        /* Empty / loading */
+        .empty-state { text-align: center; padding: 50px 20px; color: #718096; }
+        .empty-state p { font-size: 16px; margin-bottom: 8px; }
+        .loading-state { text-align: center; padding: 50px 20px; color: #718096; }
+        .spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-close { cursor: pointer; font-size: 24px; color: #718096; }
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .video-card { padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; }
-        .video-thumb { background: #cbd5e0; height: 150px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        @media (max-width: 768px) { .sidebar { width: 70px; } .sidebar .logo { font-size: 20px; } .nav-item span:last-child { display: none; } .main-content { margin-left: 70px; } }
+        .modal-content { background: white; padding: 35px; border-radius: 15px; max-width: 650px; width: 90%; max-height: 90vh; overflow-y: auto; animation: modalIn 0.3s; }
+        @keyframes modalIn { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
+        .modal-close { cursor: pointer; font-size: 26px; color: #718096; background: none; border: none; transition: color 0.2s; }
+        .modal-close:hover { color: #f56565; }
+
+        /* Notification */
+        .notification { position: fixed; top: 85px; right: 25px; color: white; padding: 16px 22px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 9999; display: none; font-weight: 600; animation: notifIn 0.4s; min-width: 280px; font-size: 14px; }
+        .notification.show { display: block; }
+        .notification.success { background: #48bb78; }
+        .notification.error { background: #f56565; }
+        .notification.info { background: #667eea; }
+        @keyframes notifIn { from { transform: translateX(350px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Finances */
+        .payout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .payout-card { background: white; padding: 28px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .payout-label { color: #718096; font-size: 13px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
+        .payout-value { font-size: 30px; font-weight: bold; color: #2d3748; margin-bottom: 15px; }
+
+        /* Help */
+        .help-list { line-height: 2.2; }
+        .help-list li { cursor: pointer; color: #667eea; transition: color 0.2s; }
+        .help-list li:hover { color: #5a67d8; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
+        .video-card { padding: 18px; border: 1px solid #e2e8f0; border-radius: 10px; transition: all 0.2s; cursor: pointer; }
+        .video-card:hover { border-color: #667eea; box-shadow: 0 4px 12px rgba(102,126,234,0.15); }
+        .video-thumb { background: #e2e8f0; height: 130px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 65px; }
+            .sidebar .logo span:not(.logo-sub) { display: none; }
+            .nav-item span:last-child { display: none; }
+            .main-content { margin-left: 65px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .topbar { flex-wrap: wrap; gap: 10px; }
+        }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <aside class="sidebar">
-            <div class="logo" onclick="goHome()" title="Go back to Homepage">
-                VendorHub
-                <div class="logo-subtitle">Click to go home</div>
-            </div>
-            <nav>
-                <div class="nav-item active" data-page="home"><span>🏠</span><span>Home</span></div>
-                <div class="nav-item" data-page="inventory"><span>📦</span><span>Inventory</span></div>
-                <div class="nav-item" data-page="orders"><span>📋</span><span>Orders</span></div>
-                <div class="nav-item" data-page="finances"><span>💰</span><span>Finances</span></div>
-                <div class="nav-item" data-page="profile"><span>👤</span><span>Store Profile</span></div>
-                <div class="nav-item" data-page="help"><span>❓</span><span>Help</span></div>
-            </nav>
-        </aside>
 
-        <main class="main-content">
-            <div class="topbar">
-                <div class="search-bar"><input type="text" placeholder="Search products, orders..."></div>
-                <div class="topbar-actions">
-                    <button class="home-btn" onclick="goHome()">
-                        <span>🏠</span>
-                        <span>Home</span>
-                    </button>
-                    <div class="notification-bell">🔔<span class="notification-badge" style="display: none;">0</span></div>
-                    <button class="quick-add-btn" onclick="openModal()">+ Quick Add Product</button>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="logo" onclick="goHome()">
+            VendorHub
+            <div class="logo-sub">← Back to home</div>
+        </div>
+        <nav>
+            <div class="nav-item active" data-page="home"><span>🏠</span><span>Home</span></div>
+            <div class="nav-item" data-page="inventory"><span>📦</span><span>Inventory</span></div>
+            <div class="nav-item" data-page="orders"><span>📋</span><span>Orders</span></div>
+            <div class="nav-item" data-page="finances"><span>💰</span><span>Finances</span></div>
+            <div class="nav-item" data-page="profile"><span>👤</span><span>Store Profile</span></div>
+            <div class="nav-item" data-page="help"><span>❓</span><span>Help</span></div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <div class="topbar-left">
+                <div>
+                    <div class="vendor-name" id="vendorDisplayName">Loading...</div>
+                    <div class="vendor-email" id="vendorDisplayEmail">Loading...</div>
+                </div>
+            </div>
+            <div class="topbar-actions">
+                <button class="home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="quick-add-btn" onclick="openModal()">+ Add Product</button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="canvas">
+
+            <!-- HOME -->
+            <div class="page-content active" id="home">
+                <h1 style="margin-bottom:8px;">Dashboard Overview</h1>
+                <p style="color:#718096;margin-bottom:30px;">Welcome back, <strong id="vendorWelcomeName">Vendor</strong>!</p>
+
+                <div class="checklist">
+                    <h3 style="margin-bottom:15px;font-size:18px;">🎯 Setup Checklist</h3>
+                    <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Complete your Store Profile</span></div>
+                    <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Add your first product</span></div>
+                    <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Set up your payout method</span></div>
+                    <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Share your store link</span></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRevenue">KES 0</div><div class="stat-trend" id="statRevenueTrend">No sales yet</div></div>
+                    <div class="stat-card"><div class="stat-label">Active Listings</div><div class="stat-value" id="statListings">0</div><div class="stat-trend" id="statListingsTrend">Add your first product</div></div>
+                    <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value" id="statPendingOrders">0</div><div class="stat-trend">Awaiting fulfillment</div></div>
+                    <div class="stat-card"><div class="stat-label">Completed Orders</div><div class="stat-value" id="statCompletedOrders">0</div><div class="stat-trend">Successfully fulfilled</div></div>
+                </div>
+
+                <div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="margin-bottom:15px;">📋 Recent Activity</h3>
+                    <div id="recentActivity"><div class="loading-state"><div class="spinner"></div><p>Loading activity...</p></div></div>
                 </div>
             </div>
 
-            <div class="canvas">
-                <div class="page-content active" id="home">
-                    <h1 style="margin-bottom: 30px;">Dashboard Overview</h1>
-                    <div class="checklist">
-                        <h3 style="margin-bottom: 15px;">🎯 Setup Checklist</h3>
-                        <div class="checklist-item"><div class="checkbox"></div><span>Verify your email</span></div>
-                        <div class="checklist-item"><div class="checkbox"></div><span>Complete your Store Profile (Logo & Bio)</span></div>
-                        <div class="checklist-item"><div class="checkbox"></div><span>Connect your payout method</span></div>
-                        <div class="checklist-item"><div class="checkbox"></div><span>List your first product</span></div>
+            <!-- INVENTORY -->
+            <div class="page-content" id="inventory">
+                <h1 style="margin-bottom:30px;">Inventory Management</h1>
+                <div class="table-controls">
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" onclick="filterProducts('all',this)">All</div>
+                        <div class="filter-tab" onclick="filterProducts('active',this)">Active</div>
+                        <div class="filter-tab" onclick="filterProducts('draft',this)">Drafts</div>
+                        <div class="filter-tab" onclick="filterProducts('low',this)">Low Stock</div>
                     </div>
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value">KES 0</div><div class="stat-trend">No sales yet</div></div>
-                        <div class="stat-card"><div class="stat-label">Active Listings</div><div class="stat-value">0</div><div class="stat-trend">Add your first product</div></div>
-                        <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value">0</div><div class="stat-trend">No pending orders</div></div>
-                        <div class="stat-card"><div class="stat-label">Store Views</div><div class="stat-value">0</div><div class="stat-trend">No views yet</div></div>
-                    </div>
-                    <div class="chart-container"><h3 style="margin-bottom: 20px;">Sales Trend (Last 30 Days)</h3><div class="simple-chart">📈 No sales data yet</div></div>
-                    <div class="activity-feed">
-                        <h3 style="margin-bottom: 15px;">Recent Activity</h3>
-                        <div class="empty-state">
-                            <p style="font-size: 18px; margin-bottom: 10px;">👋 Welcome to your vendor dashboard!</p>
-                            <p>Get started by completing your store profile and listing your first product.</p>
-                        </div>
+                    <button class="quick-add-btn" onclick="openModal()">+ Add New Product</button>
+                </div>
+                <div class="product-table">
+                    <table>
+                        <thead><tr><th>Product Name</th><th>Price (KES)</th><th>Stock</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="productTableBody">
+                            <tr><td colspan="6"><div class="loading-state"><div class="spinner"></div><p>Loading products...</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ORDERS -->
+            <div class="page-content" id="orders">
+                <h1 style="margin-bottom:30px;">Order Management</h1>
+                <div class="table-controls">
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" onclick="filterVendorOrders('all',this)">All Orders</div>
+                        <div class="filter-tab" onclick="filterVendorOrders('pending',this)">Pending</div>
+                        <div class="filter-tab" onclick="filterVendorOrders('shipped',this)">Shipped</div>
+                        <div class="filter-tab" onclick="filterVendorOrders('completed',this)">Completed</div>
                     </div>
                 </div>
+                <div id="ordersContainer"><div class="loading-state"><div class="spinner"></div><p>Loading orders...</p></div></div>
+            </div>
 
-                <div class="page-content" id="inventory">
-                    <h1 style="margin-bottom: 30px;">Inventory Management</h1>
-                    <div class="table-controls">
-                        <div class="filter-tabs">
-                            <div class="filter-tab active">All Products</div>
-                            <div class="filter-tab">Out of Stock</div>
-                            <div class="filter-tab">Drafts</div>
-                            <div class="filter-tab">Published</div>
-                        </div>
-                        <button class="quick-add-btn" onclick="openModal()">+ Add New Product</button>
+            <!-- FINANCES -->
+            <div class="page-content" id="finances">
+                <h1 style="margin-bottom:30px;">Finances & Payouts</h1>
+                <div class="payout-grid">
+                    <div class="payout-card">
+                        <div class="payout-label">Available for Payout</div>
+                        <div class="payout-value" id="finAvailable">KES 0</div>
+                        <button class="btn-primary" id="payoutBtn" onclick="requestPayout()" disabled>Request Payout</button>
                     </div>
-                    <div class="product-table">
-                        <table>
-                            <thead><tr><th>Image</th><th>Product Name</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="6" class="empty-state">
-                                        <p style="padding: 40px;">No products listed yet. Click "Add New Product" to get started.</p>
-                                    </td>
-                                </tr>
+                    <div class="payout-card">
+                        <div class="payout-label">Pending Clearance</div>
+                        <div class="payout-value" id="finPending">KES 0</div>
+                        <div class="stat-trend">Clears within 2 business days</div>
+                    </div>
+                    <div class="payout-card">
+                        <div class="payout-label">Total Earned (All Time)</div>
+                        <div class="payout-value" id="finTotal">KES 0</div>
+                        <div class="stat-trend" id="finOrderCount">From 0 orders</div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3>Transaction History</h3>
+                    <div style="overflow-x:auto;">
+                        <table style="margin-top:15px;">
+                            <thead><tr><th>Date</th><th>Order ID</th><th>Gross</th><th>Platform Fee (5%)</th><th>Net Profit</th></tr></thead>
+                            <tbody id="transactionBody">
+                                <tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                <div class="page-content" id="orders">
-                    <h1 style="margin-bottom: 30px;">Order Management</h1>
-                    <div class="table-controls"><div class="filter-tabs"><div class="filter-tab active">Unfulfilled</div><div class="filter-tab">Shipped</div><div class="filter-tab">Completed</div></div></div>
-                    <div class="empty-state" style="background: white; padding: 60px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                        <p style="font-size: 18px; margin-bottom: 10px;">📦 No orders yet</p>
-                        <p>Your orders will appear here once customers start purchasing your products.</p>
-                    </div>
+                <div class="form-section">
+                    <h3>Payout Settings</h3>
+                    <div class="form-group"><label>Payout Method</label><select id="payoutMethod"><option value="mpesa">M-Pesa</option><option value="bank">Bank Account</option></select></div>
+                    <div class="form-group"><label>Account Number / M-Pesa Number</label><input type="text" id="payoutAccount" placeholder="e.g. 0742258137"></div>
+                    <button class="btn-primary" onclick="savePayoutSettings()">Save Settings</button>
                 </div>
+            </div>
 
-                <div class="page-content" id="finances">
-                    <h1 style="margin-bottom: 30px;">Finances & Payouts</h1>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Available for Payout</div>
-                            <div class="stat-value">KES 0</div>
-                            <button class="btn-primary" style="margin-top: 15px;" disabled>Request Payout</button>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Pending Clearance</div>
-                            <div class="stat-value">KES 0</div>
-                            <div class="stat-trend">No pending transactions</div>
-                        </div>
+            <!-- PROFILE -->
+            <div class="page-content" id="profile">
+                <h1 style="margin-bottom:30px;">Store Profile & Settings</h1>
+                <div class="form-section">
+                    <h3>Store Information</h3>
+                    <div class="form-group"><label>Store / Business Name</label><input type="text" id="profileStoreName" placeholder="Your Store Name"></div>
+                    <div class="form-group"><label>About Your Store</label><textarea id="profileDescription" placeholder="Tell customers about your store..."></textarea></div>
+                    <div class="form-group"><label>Business Category</label>
+                        <select id="profileCategory">
+                            <option value="">Select category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="fashion">Fashion & Accessories</option>
+                            <option value="home">Home & Living</option>
+                            <option value="food">Food & Beverage</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
-                    <div class="form-section">
-                        <h3>Transaction History</h3>
-                        <div style="overflow-x: auto;">
-                            <table style="margin-top: 20px;">
-                                <thead><tr><th>Date</th><th>Type</th><th>Gross Sale</th><th>Platform Fee</th><th>Net Profit</th></tr></thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="5" class="empty-state">
-                                            <p style="padding: 20px;">No transactions yet</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="form-section">
-                        <h3>Payout Settings</h3>
-                        <div class="form-group"><label>Payout Method</label><select><option>Bank Account</option><option>M-Pesa</option><option>PayPal</option></select></div>
-                        <div class="form-group"><label>Account Details</label><input type="text" placeholder="Account Number / M-Pesa Number / PayPal Email"></div>
-                        <button class="btn-primary">Save Settings</button>
-                    </div>
+                    <div class="form-group"><label>Phone Number</label><input type="text" id="profilePhone" placeholder="+254 700 000000"></div>
+                    <div class="form-group"><label>Business Email</label><input type="email" id="profileEmail" placeholder="business@email.com"></div>
+                    <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
                 </div>
-
-                <div class="page-content" id="profile">
-                    <h1 style="margin-bottom: 30px;">Store Profile & Settings</h1>
-                    <div class="form-section">
-                        <h3>Branding</h3>
-                        <div class="form-group"><label>Store Logo</label><div class="image-upload"><p>📸 Click to upload logo (max 2MB)</p></div></div>
-                        <div class="form-group"><label>Banner Image</label><div class="image-upload"><p>🖼️ Click to upload banner (1200x400px recommended)</p></div></div>
+                <div class="form-section">
+                    <h3>Policies</h3>
+                    <div class="form-group"><label>Return Policy</label><textarea id="profileReturnPolicy" placeholder="Describe your return and refund policy..."></textarea></div>
+                    <div class="form-group"><label>Shipping Policy</label><textarea id="profileShippingPolicy" placeholder="Describe your shipping times and methods..."></textarea></div>
+                    <div class="form-group"><label>Holiday Mode</label>
+                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:normal;">
+                            <input type="checkbox" id="holidayMode" style="width:auto;">
+                            <span>Temporarily pause all listings</span>
+                        </label>
                     </div>
-                    <div class="form-section">
-                        <h3>Store Information</h3>
-                        <div class="form-group"><label>Store Name</label><input type="text" placeholder="Your Store Name"></div>
-                        <div class="form-group"><label>About Me / Store Description</label><textarea placeholder="Tell customers about your store..."></textarea></div>
-                        <div class="form-group"><label>Store Category</label><select><option>Fashion & Accessories</option><option>Home & Living</option><option>Art & Collectibles</option><option>Jewelry</option><option>Other</option></select></div>
-                    </div>
-                    <div class="form-section">
-                        <h3>Social Proof</h3>
-                        <div class="form-group"><label>Instagram</label><input type="text" placeholder="@yourusername"></div>
-                        <div class="form-group"><label>Twitter / X</label><input type="text" placeholder="@yourusername"></div>
-                        <div class="form-group"><label>Website</label><input type="text" placeholder="https://yourwebsite.com"></div>
-                    </div>
-                    <div class="form-section">
-                        <h3>Store Settings</h3>
-                        <div class="form-group"><label>Holiday Mode</label><label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: normal;"><input type="checkbox" style="width: auto;"><span>Temporarily pause all listings</span></label></div>
-                        <div class="form-group"><label>Return Policy</label><textarea placeholder="Describe your return and refund policy..."></textarea></div>
-                        <div class="form-group"><label>Shipping Policy</label><textarea placeholder="Describe your shipping times and methods..."></textarea></div>
-                        <button class="btn-primary">Save Profile</button><button class="btn-secondary">Preview Storefront</button>
-                    </div>
+                    <button class="btn-primary" onclick="savePolicies()">Save Policies</button>
                 </div>
+            </div>
 
-                <div class="page-content" id="help">
-                    <h1 style="margin-bottom: 30px;">Help Center</h1>
-                    <div class="form-section">
-                        <h3>📚 Getting Started</h3>
-                        <ul style="line-height: 2;">
-                            <li><strong>How to list your first product</strong> - Step-by-step guide</li>
-                            <li><strong>Setting up shipping options</strong> - Configure your logistics</li>
-                            <li><strong>Understanding platform fees</strong> - Pricing breakdown</li>
-                            <li><strong>Managing inventory</strong> - Stock alerts and bulk updates</li>
-                        </ul>
-                    </div>
-                    <div class="form-section">
-                        <h3>💬 Contact Support</h3>
-                        <div class="form-group"><label>Subject</label><input type="text" placeholder="What do you need help with?"></div>
-                        <div class="form-group"><label>Message</label><textarea placeholder="Describe your issue or question..."></textarea></div>
-                        <button class="btn-primary">Send Message</button>
-                    </div>
-                    <div class="form-section">
-                        <h3>🎥 Video Tutorials</h3>
-                        <div class="video-grid">
-                            <div class="video-card"><div class="video-thumb">▶️</div><strong>Quick Start Guide</strong><p style="color: #718096; font-size: 14px;">5:30</p></div>
-                            <div class="video-card"><div class="video-thumb">▶️</div><strong>Optimizing Your Listings</strong><p style="color: #718096; font-size: 14px;">8:15</p></div>
-                            <div class="video-card"><div class="video-thumb">▶️</div><strong>Understanding Analytics</strong><p style="color: #718096; font-size: 14px;">6:45</p></div>
-                        </div>
+            <!-- HELP -->
+            <div class="page-content" id="help">
+                <h1 style="margin-bottom:30px;">Help Center</h1>
+                <div class="form-section">
+                    <h3>📚 Getting Started</h3>
+                    <ul class="help-list" style="padding-left:20px;">
+                        <li>How to list your first product — step-by-step guide</li>
+                        <li>Understanding platform fees — 5% on successful orders</li>
+                        <li>Managing your inventory and stock alerts</li>
+                        <li>How and when you get paid</li>
+                    </ul>
+                </div>
+                <div class="form-section">
+                    <h3>💬 Contact Quickshelf Support</h3>
+                    <div class="form-group"><label>Subject</label><input type="text" id="helpSubject" placeholder="What do you need help with?"></div>
+                    <div class="form-group"><label>Message</label><textarea id="helpMessage" placeholder="Describe your issue..."></textarea></div>
+                    <button class="btn-primary" onclick="sendSupportMessage()">Send via WhatsApp</button>
+                </div>
+                <div class="form-section">
+                    <h3>🎥 Video Tutorials</h3>
+                    <div class="video-grid">
+                        <div class="video-card"><div class="video-thumb">▶️</div><strong>Quick Start Guide</strong><p style="color:#718096;font-size:13px;margin-top:4px;">5:30</p></div>
+                        <div class="video-card"><div class="video-thumb">▶️</div><strong>Optimizing Listings</strong><p style="color:#718096;font-size:13px;margin-top:4px;">8:15</p></div>
+                        <div class="video-card"><div class="video-thumb">▶️</div><strong>Understanding Analytics</strong><p style="color:#718096;font-size:13px;margin-top:4px;">6:45</p></div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <div class="modal" id="addProductModal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>Add New Product</h2><span class="modal-close" onclick="closeModal()">&times;</span></div>
-            <div class="form-group"><label>Product Images</label><div class="image-upload"><p>📸 Upload product images (up to 5)</p><p style="font-size: 12px; color: #718096; margin-top: 5px;">JPG, PNG - Max 5MB each</p></div></div>
-            <div class="form-group"><label>Product Name *</label><input type="text" placeholder="e.g., Handmade Leather Wallet" required></div>
-            <div class="form-group"><label>Description *</label><textarea placeholder="Describe your product in detail..." required></textarea></div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="form-group"><label>Price (KES) *</label><input type="number" placeholder="0.00" step="0.01"></div>
-                <div class="form-group"><label>Stock Quantity *</label><input type="number" placeholder="0" min="0"></div>
-            </div>
-            <div class="form-group"><label>Category *</label><select><option>Select a category</option><option>Fashion & Accessories</option><option>Home & Living</option><option>Art & Collectibles</option><option>Jewelry</option><option>Other</option></select></div>
-            <div class="form-group"><label>Tags</label><input type="text" placeholder="e.g., handmade, leather, vintage"></div>
-            <div class="form-group"><label>Shipping Details</label><textarea placeholder="Weight, dimensions, shipping time..."></textarea></div>
-            <div class="form-group"><label>Status</label><select><option>Draft (save for later)</option><option>Active (publish immediately)</option></select></div>
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn-primary" style="flex: 1;" onclick="saveProduct()">Save Product</button>
-                <button class="btn-secondary" onclick="closeModal()">Cancel</button>
-            </div>
+        </div><!-- /canvas -->
+    </main>
+</div><!-- /dashboard -->
+
+<!-- Add Product Modal -->
+<div class="modal" id="addProductModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New Product</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="form-group"><label>Product Name *</label><input type="text" id="prodName" placeholder="e.g., Maize Flour 2kg"></div>
+        <div class="form-group"><label>Description *</label><textarea id="prodDesc" placeholder="Describe your product..."></textarea></div>
+        <div class="form-grid">
+            <div class="form-group"><label>Price (KES) *</label><input type="number" id="prodPrice" placeholder="0" min="0" step="0.01"></div>
+            <div class="form-group"><label>Stock Quantity *</label><input type="number" id="prodStock" placeholder="0" min="0"></div>
+        </div>
+        <div class="form-group"><label>Category *</label>
+            <select id="prodCategory">
+                <option value="">Select category</option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion & Accessories</option>
+                <option value="home">Home & Living</option>
+                <option value="food">Food & Beverage</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group"><label>Status</label>
+            <select id="prodStatus">
+                <option value="active">Active (publish now)</option>
+                <option value="draft">Draft (save for later)</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="btn-primary" style="flex:1;" id="saveProductBtn" onclick="saveProduct()">Save Product</button>
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
         </div>
     </div>
+</div>
 
-    <script>
-        // Go to home - Navigate back to index.html
-        function goHome() {
-            window.location.href = 'index.html';
+<div id="notification" class="notification"></div>
+
+<script>
+    // ============================================================
+    // BACKEND CONFIG — same URL as index.html
+    // ============================================================
+    const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
+
+    async function apiCall(action, data = {}) {
+        try {
+            const res = await fetch(API_BASE_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ action, ...data })
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return await res.json();
+        } catch (err) {
+            console.error('API Error:', err);
+            return { success: false, message: 'Connection error. Check your internet.' };
+        }
+    }
+
+    // ============================================================
+    // SESSION — matches exactly what index.html saves for vendors
+    // ============================================================
+    function store(k)      { try { return localStorage.getItem(k); } catch(e) { return null; } }
+    function storeSet(k,v) { try { localStorage.setItem(k,v); } catch(e) {} }
+    function storeRemove(k){ try { localStorage.removeItem(k); } catch(e) {} }
+
+    // Guard
+    if (store('quickshelfLoggedIn') !== 'true' || store('quickshelfUserType') !== 'vendor') {
+        window.location.href = 'index.html';
+    }
+
+    const sessionEmail = store('quickshelfUserEmail') || '';
+    const sessionRaw   = JSON.parse(store('quickshelfUserData') || '{}');
+
+    const vendorData = {
+        name:     sessionRaw.name  || sessionRaw.businessName || sessionRaw.storeName || 'Vendor',
+        email:    sessionRaw.email || sessionEmail,
+        phone:    sessionRaw.phone || sessionRaw.phoneNumber  || '',
+        category: sessionRaw.category || '',
+    };
+
+    // In-memory state
+    let products    = [];
+    let vendorOrders= [];
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    async function initDashboard() {
+        document.getElementById('vendorDisplayName').textContent  = vendorData.name;
+        document.getElementById('vendorDisplayEmail').textContent = vendorData.email;
+        document.getElementById('vendorWelcomeName').textContent  = vendorData.name.split(' ')[0];
+
+        // Pre-fill profile form
+        document.getElementById('profileStoreName').value  = vendorData.name;
+        document.getElementById('profileEmail').value      = vendorData.email;
+        document.getElementById('profilePhone').value      = vendorData.phone;
+        document.getElementById('profileCategory').value  = vendorData.category;
+
+        await Promise.all([fetchProducts(), fetchVendorOrders()]);
+    }
+
+    // ============================================================
+    // PRODUCTS
+    // ============================================================
+    async function fetchProducts() {
+        const res = await apiCall('getVendorProducts', { email: vendorData.email });
+        products = (res.success && Array.isArray(res.products)) ? res.products : [];
+        renderProducts(products);
+        updateHomeStats();
+    }
+
+    function renderProducts(list) {
+        const tbody = document.getElementById('productTableBody');
+        if (!list || list.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>📦 No products yet. Click "+ Add New Product" to start.</p></div></td></tr>`;
+            return;
+        }
+        tbody.innerHTML = list.map(p => {
+            const stock  = Number(p.stock || p.quantity || p.stockQuantity || 0);
+            const price  = Number(p.price || 0);
+            const status = (p.status || 'draft').toLowerCase();
+            const pid    = p.id || p.productId || '';
+            return `
+            <tr>
+                <td><strong>${p.name || p.productName || '—'}</strong></td>
+                <td>KES ${price.toLocaleString()}</td>
+                <td><span class="stock-badge ${stock < 5 ? 'stock-low' : 'stock-ok'}">${stock} units</span></td>
+                <td>${p.category || '—'}</td>
+                <td><span class="status-badge ${status === 'active' ? 'status-active' : 'status-draft'}">${status}</span></td>
+                <td style="display:flex;gap:6px;">
+                    <button class="action-btn" onclick="editProduct('${pid}')">Edit</button>
+                    <button class="action-btn danger" onclick="deleteProduct('${pid}')">Remove</button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    function filterProducts(type, el) {
+        el.parentElement.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        let filtered = products;
+        if (type === 'active') filtered = products.filter(p => (p.status||'').toLowerCase() === 'active');
+        if (type === 'draft')  filtered = products.filter(p => (p.status||'').toLowerCase() === 'draft');
+        if (type === 'low')    filtered = products.filter(p => Number(p.stock||p.quantity||0) < 5);
+        renderProducts(filtered);
+    }
+
+    async function saveProduct() {
+        const name     = document.getElementById('prodName').value.trim();
+        const desc     = document.getElementById('prodDesc').value.trim();
+        const price    = document.getElementById('prodPrice').value.trim();
+        const stock    = document.getElementById('prodStock').value.trim();
+        const category = document.getElementById('prodCategory').value;
+        const status   = document.getElementById('prodStatus').value;
+
+        if (!name || !desc || !price || !stock || !category) {
+            showNotification('Please fill in all required fields.', 'error');
+            return;
         }
 
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-                document.getElementById(this.getAttribute('data-page')).classList.add('active');
-            });
+        const btn = document.getElementById('saveProductBtn');
+        btn.disabled = true; btn.textContent = 'Saving...';
+
+        const res = await apiCall('addProduct', {
+            email: vendorData.email,
+            name, description: desc,
+            price: Number(price), stock: Number(stock),
+            category, status
         });
 
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                this.parentElement.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        btn.disabled = false; btn.textContent = 'Save Product';
 
-        function openModal() { document.getElementById('addProductModal').classList.add('active'); }
-        function closeModal() { document.getElementById('addProductModal').classList.remove('active'); }
-
-        document.getElementById('addProductModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.querySelectorAll('.checkbox').forEach(cb => {
-            cb.addEventListener('click', function() { this.classList.toggle('checked'); });
-        });
-
-        document.querySelectorAll('.image-upload').forEach(upload => {
-            upload.addEventListener('click', function() {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.multiple = this.textContent.includes('up to 5');
-                input.onchange = function(e) {
-                    Array.from(e.target.files).forEach(file => {
-                        if (file.size > 5 * 1024 * 1024) {
-                            alert('File too large. Maximum size is 5MB.');
-                            return;
-                        }
-                        console.log('File selected:', file.name);
-                    });
-                };
-                input.click();
-            });
-        });
-
-        document.querySelector('.notification-bell').addEventListener('click', function() {
-            alert('No new notifications');
-        });
-
-        document.querySelector('.search-bar input').addEventListener('input', function(e) {
-            console.log('Searching for:', e.target.value.toLowerCase());
-        });
-
-        function saveProduct() {
-            const modal = document.getElementById('addProductModal');
-            const requiredInputs = modal.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-            
-            requiredInputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#f56565';
-                } else {
-                    input.style.borderColor = '#e2e8f0';
-                }
-            });
-
-            if (isValid) {
-                alert('Product saved successfully!');
-                closeModal();
-            } else {
-                alert('Please fill in all required fields.');
-            }
+        if (res.success) {
+            showNotification('✅ Product saved successfully!', 'success');
+            closeModal();
+            // Clear form
+            ['prodName','prodDesc','prodPrice','prodStock'].forEach(id => { document.getElementById(id).value=''; });
+            document.getElementById('prodCategory').value = '';
+            await fetchProducts();
+        } else {
+            showNotification(res.message || 'Failed to save product.', 'error');
         }
+    }
 
-        let autoSaveTimer;
-        document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
-            input.addEventListener('input', function() {
-                clearTimeout(autoSaveTimer);
-                autoSaveTimer = setTimeout(() => {
-                    console.log('Draft auto-saved');
-                }, 2000);
-            });
+    async function deleteProduct(pid) {
+        if (!pid) return;
+        if (!confirm('Remove this product? This cannot be undone.')) return;
+        const res = await apiCall('deleteProduct', { productId: pid, email: vendorData.email });
+        if (res.success) {
+            showNotification('🗑️ Product removed.', 'info');
+            await fetchProducts();
+        } else {
+            showNotification(res.message || 'Could not remove product.', 'error');
+        }
+    }
+
+    function editProduct(pid) {
+        // Simple: just show notification to use form for now
+        showNotification('Edit feature — use the form to update this product directly.', 'info');
+    }
+
+    // ============================================================
+    // VENDOR ORDERS
+    // ============================================================
+    async function fetchVendorOrders() {
+        const res = await apiCall('getVendorOrders', { email: vendorData.email });
+        vendorOrders = (res.success && Array.isArray(res.orders)) ? res.orders : [];
+        renderVendorOrders(vendorOrders);
+        updateHomeStats();
+        updateFinances();
+    }
+
+    function renderVendorOrders(list) {
+        const container = document.getElementById('ordersContainer');
+        if (!list || list.length === 0) {
+            container.innerHTML = `<div class="empty-state" style="background:white;padding:60px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                <p style="font-size:18px;margin-bottom:8px;">📦 No orders yet</p>
+                <p>Your orders will appear here once customers purchase your products.</p>
+            </div>`;
+            return;
+        }
+        container.innerHTML = list.map(o => {
+            const oid     = o.id || o.orderId || '—';
+            const status  = (o.status || 'pending').toLowerCase();
+            const total   = Number(o.total || o.amount || 0);
+            const rawDate = o.date || o.createdAt || '';
+            const dateStr = rawDate ? new Date(rawDate).toLocaleDateString() : '—';
+            return `
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-id">📦 ${oid}</div>
+                    <span class="order-status status-${status === 'completed' ? 'completed' : status === 'shipped' ? 'shipped' : 'pending'}">
+                        ${status.charAt(0).toUpperCase() + status.slice(1)}
+                    </span>
+                </div>
+                <p style="color:#718096;font-size:14px;margin-bottom:8px;">📅 ${dateStr} ${total ? `· <strong>KES ${total.toLocaleString()}</strong>` : ''}</p>
+                ${o.customerName||o.customer ? `<p style="font-size:14px;margin-bottom:10px;">👤 ${o.customerName||o.customer}</p>` : ''}
+                ${status === 'pending' ? `<button class="action-btn" onclick="markShipped('${oid}')">Mark as Shipped</button>` : ''}
+                ${status === 'shipped' ? `<button class="action-btn" onclick="markCompleted('${oid}')">Mark Completed</button>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function filterVendorOrders(type, el) {
+        el.parentElement.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        const filtered = type === 'all' ? vendorOrders : vendorOrders.filter(o => (o.status||'').toLowerCase() === type);
+        renderVendorOrders(filtered);
+    }
+
+    async function markShipped(oid) {
+        const res = await apiCall('updateOrderStatus', { orderId: oid, status: 'shipped', email: vendorData.email });
+        if (res.success) { showNotification('📦 Order marked as shipped!', 'success'); await fetchVendorOrders(); }
+        else showNotification(res.message || 'Update failed.', 'error');
+    }
+
+    async function markCompleted(oid) {
+        const res = await apiCall('updateOrderStatus', { orderId: oid, status: 'completed', email: vendorData.email });
+        if (res.success) { showNotification('✅ Order completed!', 'success'); await fetchVendorOrders(); }
+        else showNotification(res.message || 'Update failed.', 'error');
+    }
+
+    // ============================================================
+    // HOME STATS + FINANCES
+    // ============================================================
+    function updateHomeStats() {
+        const activeListings  = products.filter(p => (p.status||'').toLowerCase() === 'active').length;
+        const pendingOrders   = vendorOrders.filter(o => (o.status||'').toLowerCase() === 'pending').length;
+        const completedOrders = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase())).length;
+        const revenue         = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()))
+                                            .reduce((s,o) => s + Number(o.total||o.amount||0), 0);
+
+        document.getElementById('statRevenue').textContent       = `KES ${revenue.toLocaleString()}`;
+        document.getElementById('statRevenueTrend').textContent  = completedOrders > 0 ? `From ${completedOrders} order(s)` : 'No sales yet';
+        document.getElementById('statListings').textContent      = activeListings;
+        document.getElementById('statListingsTrend').textContent = products.length > 0 ? `${products.length} total products` : 'Add your first product';
+        document.getElementById('statPendingOrders').textContent  = pendingOrders;
+        document.getElementById('statCompletedOrders').textContent= completedOrders;
+
+        // Recent activity
+        const activityEl = document.getElementById('recentActivity');
+        const recent = vendorOrders.slice(0, 5);
+        if (recent.length === 0) {
+            activityEl.innerHTML = `<div class="empty-state"><p>👋 Welcome! Get started by adding your first product.</p></div>`;
+        } else {
+            activityEl.innerHTML = recent.map(o => {
+                const oid = o.id || o.orderId || '—';
+                const total = Number(o.total||o.amount||0);
+                const rawDate = o.date || o.createdAt || '';
+                return `<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f7fafc;font-size:14px;">
+                    <span>📦 Order ${oid} ${o.customerName ? `from ${o.customerName}` : ''}</span>
+                    <span style="color:#718096;">${rawDate ? new Date(rawDate).toLocaleDateString() : ''} ${total ? `· KES ${total.toLocaleString()}` : ''}</span>
+                </div>`;
+            }).join('');
+        }
+    }
+
+    function updateFinances() {
+        const completedOrders = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()));
+        const totalRevenue    = completedOrders.reduce((s,o) => s + Number(o.total||o.amount||0), 0);
+        const fee             = totalRevenue * 0.05;
+        const net             = totalRevenue - fee;
+
+        document.getElementById('finTotal').textContent    = `KES ${net.toLocaleString()}`;
+        document.getElementById('finAvailable').textContent= `KES ${net.toLocaleString()}`;
+        document.getElementById('finPending').textContent  = `KES 0`;
+        document.getElementById('finOrderCount').textContent = `From ${completedOrders.length} completed order(s)`;
+
+        if (net > 0) document.getElementById('payoutBtn').disabled = false;
+
+        // Transaction table
+        const tbody = document.getElementById('transactionBody');
+        if (completedOrders.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr>`;
+        } else {
+            tbody.innerHTML = completedOrders.map(o => {
+                const gross = Number(o.total||o.amount||0);
+                const platformFee = gross * 0.05;
+                const netProfit   = gross - platformFee;
+                const rawDate = o.date || o.createdAt || '';
+                return `<tr>
+                    <td>${rawDate ? new Date(rawDate).toLocaleDateString() : '—'}</td>
+                    <td>${o.id||o.orderId||'—'}</td>
+                    <td>KES ${gross.toLocaleString()}</td>
+                    <td style="color:#f56565;">-KES ${platformFee.toLocaleString()}</td>
+                    <td style="color:#48bb78;font-weight:700;">KES ${netProfit.toLocaleString()}</td>
+                </tr>`;
+            }).join('');
+        }
+    }
+
+    // ============================================================
+    // PROFILE
+    // ============================================================
+    async function saveProfile() {
+        const name     = document.getElementById('profileStoreName').value.trim();
+        const desc     = document.getElementById('profileDescription').value.trim();
+        const category = document.getElementById('profileCategory').value;
+        const phone    = document.getElementById('profilePhone').value.trim();
+        const email    = document.getElementById('profileEmail').value.trim();
+
+        if (!name) { showNotification('Store name is required.', 'error'); return; }
+
+        const res = await apiCall('updateVendorProfile', { email: vendorData.email, name, description: desc, category, phone, newEmail: email });
+        if (res.success) {
+            vendorData.name = name;
+            vendorData.phone = phone;
+            document.getElementById('vendorDisplayName').textContent = name;
+            document.getElementById('vendorWelcomeName').textContent = name.split(' ')[0];
+            storeSet('quickshelfUserData', JSON.stringify({ ...sessionRaw, name, phone, category }));
+            showNotification('✅ Profile saved!', 'success');
+        } else {
+            showNotification(res.message || 'Could not save profile.', 'error');
+        }
+    }
+
+    async function savePolicies() {
+        const returnPolicy   = document.getElementById('profileReturnPolicy').value.trim();
+        const shippingPolicy = document.getElementById('profileShippingPolicy').value.trim();
+        const holiday        = document.getElementById('holidayMode').checked;
+        const res = await apiCall('updateVendorPolicies', { email: vendorData.email, returnPolicy, shippingPolicy, holidayMode: holiday });
+        if (res.success) showNotification('✅ Policies saved!', 'success');
+        else showNotification(res.message || 'Could not save policies.', 'error');
+    }
+
+    async function savePayoutSettings() {
+        const method  = document.getElementById('payoutMethod').value;
+        const account = document.getElementById('payoutAccount').value.trim();
+        if (!account) { showNotification('Please enter your account number.', 'error'); return; }
+        const res = await apiCall('updatePayoutSettings', { email: vendorData.email, method, account });
+        if (res.success) showNotification('✅ Payout settings saved!', 'success');
+        else showNotification(res.message || 'Could not save payout settings.', 'error');
+    }
+
+    async function requestPayout() {
+        const res = await apiCall('requestPayout', { email: vendorData.email });
+        if (res.success) showNotification('✅ Payout request submitted! We\'ll process it within 2 business days.', 'success');
+        else showNotification(res.message || 'Payout request failed.', 'error');
+    }
+
+    // ============================================================
+    // HELP / SUPPORT
+    // ============================================================
+    function sendSupportMessage() {
+        const subject = document.getElementById('helpSubject').value.trim();
+        const message = document.getElementById('helpMessage').value.trim();
+        if (!subject || !message) { showNotification('Please fill in both subject and message.', 'error'); return; }
+        const text = encodeURIComponent(`*Vendor Support Request*\n\nVendor: ${vendorData.name}\nEmail: ${vendorData.email}\n\nSubject: ${subject}\n\nMessage: ${message}`);
+        window.open(`https://wa.me/254742258137?text=${text}`, '_blank');
+        showNotification('📱 Opening WhatsApp...', 'info');
+    }
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(this.dataset.page).classList.add('active');
         });
+    });
 
-        console.log('✅ Vendor Dashboard Initialized');
-        console.log('✅ All features active: Navigation, Filters, Auto-save, Modals');
-        console.log('💰 Currency set to Kenyan Shillings (KES)');
-        console.log('🔄 Dashboard reset to zero state - ready for new vendors');
-        console.log('🏠 Back navigation to homepage enabled');
-    </script>
+    function openModal()  { document.getElementById('addProductModal').classList.add('active'); }
+    function closeModal() { document.getElementById('addProductModal').classList.remove('active'); }
+    document.getElementById('addProductModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+    function goHome() { window.location.href = 'index.html'; }
+
+    function logout() {
+        if (!confirm('Are you sure you want to logout?')) return;
+        ['quickshelfLoggedIn','quickshelfUserType','quickshelfUserPhone','quickshelfUserEmail','quickshelfUserData'].forEach(k => storeRemove(k));
+        showNotification('👋 Logged out', 'info');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+    }
+
+    function showNotification(msg, type = 'info') {
+        const n = document.getElementById('notification');
+        n.textContent = msg;
+        n.className = `notification show ${type}`;
+        setTimeout(() => n.classList.remove('show'), 4500);
+    }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
 </body>
 </html>
