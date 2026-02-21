@@ -50,9 +50,9 @@
         .analysis-card.pending { border-left-color: #f59e0b; }
         .analysis-card.cancelled { border-left-color: #f56565; }
         .analysis-icon { width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; }
-        .analysis-card.received .analysis-icon { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; }
-        .analysis-card.pending .analysis-icon { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
-        .analysis-card.cancelled .analysis-icon { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); color: white; }
+        .analysis-card.received .analysis-icon { background: linear-gradient(135deg, #48bb78, #38a169); color: white; }
+        .analysis-card.pending .analysis-icon { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .analysis-card.cancelled .analysis-icon { background: linear-gradient(135deg, #f56565, #e53e3e); color: white; }
         .analysis-number { font-size: 56px; font-weight: bold; margin-bottom: 10px; }
         .analysis-label { font-size: 20px; color: #718096; font-weight: 600; margin-bottom: 5px; }
         .analysis-sublabel { font-size: 14px; color: #a0aec0; }
@@ -111,12 +111,11 @@
         .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
         .empty-state h3 { font-size: 28px; margin-bottom: 12px; color: #4a5568; }
         .empty-state p { font-size: 16px; margin-bottom: 25px; }
-
         .loading-state { text-align: center; padding: 60px 20px; color: #718096; }
         .spinner { display: inline-block; width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .notification { position: fixed; top: 100px; right: 30px; background: #48bb78; color: white; padding: 18px 25px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 10000; display: none; font-weight: 600; animation: slideIn 0.4s; min-width: 300px; }
+        .notification { position: fixed; top: 100px; right: 30px; background: #48bb78; color: white; padding: 18px 25px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 10000; display: none; font-weight: 600; min-width: 300px; animation: slideIn 0.4s; }
         .notification.show { display: block; }
         .notification.error { background: #f56565; }
         @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -125,9 +124,9 @@
             .top-nav { padding: 15px 20px; }
             .welcome-section h1 { font-size: 30px; }
             .nav-tabs { flex-direction: column; }
-            .nav-tab { width: 100%; justify-content: center; }
-            .floating-order-btn { width: 160px; height: 55px; font-size: 16px; bottom: 20px; right: 20px; }
+            .nav-tab, .account-grid { width: 100%; }
             .account-grid { grid-template-columns: 1fr; }
+            .floating-order-btn { width: 160px; height: 55px; font-size: 16px; bottom: 20px; right: 20px; }
             .modal-content { padding: 25px; }
         }
     </style>
@@ -226,7 +225,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Order Details Modal -->
 <div class="modal" id="orderDetailsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -240,19 +239,11 @@
 <div id="notification" class="notification"></div>
 
 <script>
-    // ============================================================
-    // BACKEND CONFIG — same URL used by index.html
-    // ============================================================
     const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
 
     async function apiCall(action, data = {}) {
         try {
-            const res = await fetch(API_BASE_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify({ action, ...data })
-            });
+            const res = await fetch(API_BASE_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action, ...data }) });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             return await res.json();
         } catch (err) {
@@ -261,23 +252,23 @@
         }
     }
 
-    // ============================================================
-    // SESSION — matches exactly what index.html saves
-    // ============================================================
-    function store(key) { try { return localStorage.getItem(key); } catch(e) { return null; } }
-    function storeSet(key, val) { try { localStorage.setItem(key, val); } catch(e) {} }
-    function storeRemove(key) { try { localStorage.removeItem(key); } catch(e) {} }
+    const store = k => { try { return localStorage.getItem(k); } catch(e) { return null; } };
+    const storeSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} };
+    const storeRemove = k => { try { localStorage.removeItem(k); } catch(e) {} };
 
-    // Guard: kick out if not a logged-in customer
+    // Auth guard
     if (store('quickshelfLoggedIn') !== 'true' || store('quickshelfUserType') !== 'customer') {
         window.location.href = 'index.html';
     }
 
     const sessionPhone = store('quickshelfUserPhone') || '';
-    const sessionRaw   = JSON.parse(store('quickshelfUserData') || '{}');
+
+    // FIX #7: Safe JSON parse for user data
+    let sessionRaw = {};
+    try { sessionRaw = JSON.parse(store('quickshelfUserData') || '{}'); } catch(e) { sessionRaw = {}; }
 
     const customerData = {
-        name:  sessionRaw.name || sessionRaw.fullName || 'Customer',
+        name: sessionRaw.name || sessionRaw.fullName || 'Customer',
         phone: sessionRaw.phone || sessionRaw.phoneNumber || sessionPhone,
         email: sessionRaw.email || '',
         joinDate: sessionRaw.joinDate || sessionRaw.createdAt || '',
@@ -285,24 +276,25 @@
 
     let orders = [];
 
-    // ============================================================
-    // INIT
-    // ============================================================
-    async function initDashboard() {
-        // Header
-        document.getElementById('displayName').textContent  = customerData.name;
-        document.getElementById('displayPhone').textContent = customerData.phone;
-        document.getElementById('welcomeName').textContent  = customerData.name.split(' ')[0];
-        document.getElementById('userInitials').textContent = getInitials(customerData.name);
+    // FIX #7: Safe date formatter — never shows "Invalid Date"
+    function safeFormatDate(raw, opts) {
+        if (!raw) return '—';
+        try {
+            const d = new Date(raw);
+            if (isNaN(d.getTime())) return '—';
+            return d.toLocaleDateString('en-US', opts);
+        } catch(e) { return '—'; }
+    }
 
-        // Account tab
-        document.getElementById('accountName').textContent  = customerData.name;
+    async function initDashboard() {
+        document.getElementById('displayName').textContent = customerData.name;
+        document.getElementById('displayPhone').textContent = customerData.phone;
+        document.getElementById('welcomeName').textContent = customerData.name.split(' ')[0];
+        document.getElementById('userInitials').textContent = getInitials(customerData.name);
+        document.getElementById('accountName').textContent = customerData.name;
         document.getElementById('accountPhone').textContent = customerData.phone;
         document.getElementById('accountEmail').textContent = customerData.email || '—';
-        document.getElementById('memberSince').textContent  = customerData.joinDate
-            ? new Date(customerData.joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-            : 'N/A';
-
+        document.getElementById('memberSince').textContent = safeFormatDate(customerData.joinDate, { month: 'long', year: 'numeric' }) || 'N/A';
         await fetchOrders();
     }
 
@@ -312,9 +304,6 @@
         renderAll();
     }
 
-    // ============================================================
-    // RENDER
-    // ============================================================
     function statusNorm(raw) {
         const s = (raw || '').toLowerCase().trim();
         if (['received','delivered','completed'].includes(s)) return 'received';
@@ -323,23 +312,19 @@
     }
 
     function renderAll() {
-        const received  = orders.filter(o => statusNorm(o.status) === 'received').length;
-        const pending   = orders.filter(o => statusNorm(o.status) === 'pending').length;
+        const received = orders.filter(o => statusNorm(o.status) === 'received').length;
+        const pending = orders.filter(o => statusNorm(o.status) === 'pending').length;
         const cancelled = orders.filter(o => statusNorm(o.status) === 'cancelled').length;
 
-        document.getElementById('receivedCount').textContent  = received;
-        document.getElementById('pendingCount').textContent   = pending;
+        document.getElementById('receivedCount').textContent = received;
+        document.getElementById('pendingCount').textContent = pending;
         document.getElementById('cancelledCount').textContent = cancelled;
-
-        const lastDate = orders.length
-            ? new Date(orders[0].date || orders[0].createdAt || Date.now())
-                .toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' })
-            : 'Never';
-
         document.getElementById('statTotalOrders').textContent = orders.length;
-        document.getElementById('statDelivered').textContent   = received;
-        document.getElementById('statPending').textContent     = pending;
-        document.getElementById('statLastOrder').textContent   = lastDate;
+        document.getElementById('statDelivered').textContent = received;
+        document.getElementById('statPending').textContent = pending;
+
+        const lastRaw = orders.length ? (orders[0].date || orders[0].createdAt || '') : '';
+        document.getElementById('statLastOrder').textContent = safeFormatDate(lastRaw, { month:'short', day:'numeric', year:'numeric' }) || 'Never';
 
         renderList('recentOrdersList', orders.slice(0, 3));
         renderList('fullOrdersList', orders);
@@ -348,44 +333,36 @@
     function renderList(id, list) {
         const el = document.getElementById(id);
         if (!list || list.length === 0) {
-            el.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">📦</div>
-                    <h3>No Orders Yet</h3>
-                    <p>You haven't placed any orders yet. Start shopping now!</p>
-                    <button class="btn btn-primary" onclick="goToCatalogue()" style="margin-top:20px;padding:15px 40px;font-size:18px;">🛍️ Start Shopping</button>
-                </div>`;
+            el.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><h3>No Orders Yet</h3><p>You haven't placed any orders yet. Start shopping now!</p><button class="btn btn-primary" onclick="goToCatalogue()" style="margin-top:20px;padding:15px 40px;font-size:18px;">🛍️ Start Shopping</button></div>`;
             return;
         }
         el.innerHTML = list.map(o => orderCard(o)).join('');
     }
 
     function orderCard(o) {
-        const status    = statusNorm(o.status);
-        const labels    = { received: 'Delivered', pending: 'Processing', cancelled: 'Cancelled' };
-        const icons     = { received: '✅', pending: '⏳', cancelled: '❌' };
-        const oid       = o.id || o.orderId || o.orderID || '—';
-        const rawItems  = o.items || o.products || o.itemsList || '';
-        const items     = Array.isArray(rawItems) ? rawItems.map(i => i.name || i.product || i).join(', ') : String(rawItems);
-        const total     = o.total || o.amount || o.totalAmount || 0;
-        const rawDate   = o.date || o.createdAt || o.orderDate || '';
-        const dateStr   = rawDate ? new Date(rawDate).toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }) : '—';
+        const status = statusNorm(o.status);
+        const labels = { received: 'Delivered', pending: 'Processing', cancelled: 'Cancelled' };
+        const icons = { received: '✅', pending: '⏳', cancelled: '❌' };
+        const oid = o.id || o.orderId || o.orderID || '—';
+        const rawItems = o.items || o.products || o.itemsList || '';
+        const items = Array.isArray(rawItems) ? rawItems.map(i => i.name || i.product || i).join(', ') : String(rawItems);
+        const total = o.total || o.amount || o.totalAmount || 0;
+        const dateStr = safeFormatDate(o.date || o.createdAt || o.orderDate, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
-        return `
-        <div class="order-item ${status}" onclick="viewOrder('${oid}')">
+        return `<div class="order-item ${status}" onclick="viewOrder('${oid}')">
             <div class="order-header">
                 <div class="order-id">${icons[status]} ${oid}</div>
                 <span class="order-badge badge-${status}">${labels[status]}</span>
             </div>
             <div class="order-details">
                 <p><strong>📅 Date:</strong> ${dateStr}</p>
-                ${items  ? `<p><strong>📦 Items:</strong> ${items}</p>` : ''}
-                ${total  ? `<p><strong>💰 Total:</strong> KES ${Number(total).toLocaleString()}</p>` : ''}
+                ${items ? `<p><strong>📦 Items:</strong> ${items}</p>` : ''}
+                ${total ? `<p><strong>💰 Total:</strong> KES ${Number(total).toLocaleString()}</p>` : ''}
             </div>
             <div class="order-actions" onclick="event.stopPropagation()">
-                ${status === 'pending'  ? `<button class="btn btn-primary" onclick="trackOrder('${oid}')">📍 Track</button>` : ''}
+                ${status === 'pending' ? `<button class="btn btn-primary" onclick="trackOrder('${oid}')">📍 Track</button>` : ''}
                 ${status === 'received' ? `<button class="btn btn-primary" onclick="reorder('${oid}')">🔄 Reorder</button>` : ''}
-                ${status === 'pending'  ? `<button class="btn btn-danger"  onclick="cancelOrder('${oid}')">❌ Cancel</button>` : ''}
+                ${status === 'pending' ? `<button class="btn btn-danger" onclick="cancelOrder('${oid}')">❌ Cancel</button>` : ''}
                 <button class="btn btn-secondary" onclick="viewOrder('${oid}')">👁️ Details</button>
             </div>
         </div>`;
@@ -394,11 +371,11 @@
     function viewOrder(oid) {
         const o = orders.find(x => (x.id || x.orderId || x.orderID) === oid);
         if (!o) return;
-        const status   = statusNorm(o.status);
-        const labels   = { received: '✅ Delivered', pending: '⏳ Processing', cancelled: '❌ Cancelled' };
+        const status = statusNorm(o.status);
+        const labels = { received: '✅ Delivered', pending: '⏳ Processing', cancelled: '❌ Cancelled' };
         const rawItems = o.items || o.products || o.itemsList || '';
-        const total    = o.total || o.amount || o.totalAmount || 0;
-        const rawDate  = o.date || o.createdAt || o.orderDate || '';
+        const total = o.total || o.amount || o.totalAmount || 0;
+        const dateStr = safeFormatDate(o.date || o.createdAt || o.orderDate, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
         const itemsHTML = Array.isArray(rawItems)
             ? rawItems.map(i => `<div class="detail-row"><span class="detail-label">${i.name||i.product||i}${i.quantity?` x${i.quantity}`:''}</span><span class="detail-value">${i.price?`KES ${(i.price*(i.quantity||1)).toLocaleString()}`:''}</span></div>`).join('')
             : `<div class="detail-row"><span class="detail-label">${rawItems}</span><span></span></div>`;
@@ -407,7 +384,7 @@
             <div class="detail-section">
                 <h4>📋 Order Info</h4>
                 <div class="detail-row"><span class="detail-label">Order ID</span><span class="detail-value">${oid}</span></div>
-                <div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">${rawDate ? new Date(rawDate).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}) : '—'}</span></div>
+                <div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">${dateStr}</span></div>
                 <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${labels[status]}</span></div>
                 ${o.trackingNumber ? `<div class="detail-row"><span class="detail-label">Tracking #</span><span class="detail-value">${o.trackingNumber}</span></div>` : ''}
                 ${(o.deliveryAddress||o.shippingAddress) ? `<div class="detail-row"><span class="detail-label">Delivery To</span><span class="detail-value">${o.deliveryAddress||o.shippingAddress}</span></div>` : ''}
@@ -419,7 +396,7 @@
             </div>
             ${o.paymentMethod ? `<div class="detail-section"><h4>💳 Payment</h4><div class="detail-row"><span class="detail-label">Method</span><span class="detail-value">${o.paymentMethod}</span></div></div>` : ''}
             <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;">
-                ${status==='pending'  ? `<button class="btn btn-primary" style="flex:1" onclick="trackOrder('${oid}');closeModal()">📍 Track</button>` : ''}
+                ${status==='pending' ? `<button class="btn btn-primary" style="flex:1" onclick="trackOrder('${oid}');closeModal()">📍 Track</button>` : ''}
                 ${status==='received' ? `<button class="btn btn-primary" style="flex:1" onclick="reorder('${oid}');closeModal()">🔄 Reorder</button>` : ''}
                 <button class="btn btn-secondary" style="flex:1" onclick="closeModal()">Close</button>
             </div>`;
@@ -428,15 +405,12 @@
 
     function closeModal() { document.getElementById('orderDetailsModal').classList.remove('active'); }
 
-    // ============================================================
-    // ACTIONS
-    // ============================================================
     function filterOrders(status) {
         showSection('history');
-        const map = { received:'Received Orders', pending:'Pending Orders', cancelled:'Cancelled Orders' };
-        document.getElementById('historyTitle').textContent = map[status];
+        const labels = { received:'Received Orders', pending:'Pending Orders', cancelled:'Cancelled Orders' };
+        document.getElementById('historyTitle').textContent = labels[status];
         renderList('fullOrdersList', orders.filter(o => statusNorm(o.status) === status));
-        showNotification(`Showing ${map[status].toLowerCase()}`);
+        showNotification(`Showing ${labels[status].toLowerCase()}`);
     }
 
     function showSection(id) {
@@ -451,23 +425,18 @@
 
     async function cancelOrder(oid) {
         const reason = prompt('Why are you cancelling this order?\n(Changed my mind / Ordered by mistake / Other)');
-        if (!reason || !reason.trim()) return;
-        if (!confirm(`Cancel order ${oid}? This cannot be undone.`)) return;
+        if (!reason || !reason.trim() || !confirm(`Cancel order ${oid}? This cannot be undone.`)) return;
         showNotification('Cancelling order...');
         const res = await apiCall('cancelOrder', { orderId: oid, phone: customerData.phone, reason: reason.trim() });
-        if (res.success) {
-            showNotification(`✅ Order ${oid} cancelled`);
-            await fetchOrders();
-        } else {
-            showNotification(res.message || 'Could not cancel. Please contact support.', true);
-        }
+        if (res.success) { showNotification(`✅ Order ${oid} cancelled`); await fetchOrders(); }
+        else showNotification(res.message || 'Could not cancel. Please contact support.', true);
     }
 
     function trackOrder(oid) {
         const o = orders.find(x => (x.id||x.orderId||x.orderID) === oid);
         if (!o) return;
         const tracking = o.trackingNumber ? `Tracking #: ${o.trackingNumber}` : 'Tracking not available yet.';
-        const eta = o.estimatedDelivery ? `\nExpected: ${new Date(o.estimatedDelivery).toLocaleDateString()}` : '';
+        const eta = o.estimatedDelivery ? `\nExpected: ${safeFormatDate(o.estimatedDelivery, {})}` : '';
         showNotification(`📍 ${oid} — ${tracking}`);
         setTimeout(() => alert(`TRACKING: ${oid}\n${tracking}${eta}\n\nContact us on WhatsApp for live updates.`), 500);
     }
@@ -491,6 +460,7 @@
         }
     }
 
+    // FIX #1: Correct catalogue path (renamed from catalogue_.html to catalogue.html)
     function goToCatalogue() {
         showNotification('🛍️ Opening catalogue...');
         setTimeout(() => { window.location.href = 'catalogue.html'; }, 1000);
@@ -506,7 +476,8 @@
 
     function logout() {
         if (!confirm('Are you sure you want to logout?')) return;
-        ['quickshelfLoggedIn','quickshelfUserType','quickshelfUserPhone','quickshelfUserEmail','quickshelfUserData'].forEach(k => storeRemove(k));
+        // FIX: Also clear cart on logout
+        ['quickshelfLoggedIn','quickshelfUserType','quickshelfUserPhone','quickshelfUserEmail','quickshelfUserData','quickshelfCart'].forEach(k => storeRemove(k));
         showNotification('👋 Logged out');
         setTimeout(() => { window.location.href = 'index.html'; }, 1000);
     }
@@ -514,8 +485,7 @@
     function getInitials(name) {
         const p = name.trim().split(' ').filter(Boolean);
         if (!p.length) return 'U';
-        if (p.length === 1) return p[0][0].toUpperCase();
-        return (p[0][0] + p[p.length-1][0]).toUpperCase();
+        return p.length === 1 ? p[0][0].toUpperCase() : (p[0][0] + p[p.length-1][0]).toUpperCase();
     }
 
     function showNotification(msg, isError = false) {
@@ -526,7 +496,6 @@
     }
 
     document.getElementById('orderDetailsModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-
     document.addEventListener('DOMContentLoaded', initDashboard);
 </script>
 </body>

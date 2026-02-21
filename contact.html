@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Quickshelf | Empowering Kimana's Digital Future</title>
+    <title>Contact Us - Quickshelf</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #667eea;
-            --primary-dark: #5a67d8;
             --secondary: #764ba2;
             --accent: #f093fb;
-            --success: #48bb78;
             --white: #ffffff;
             --dark: #0F172A;
             --gray: #64748B;
@@ -20,120 +18,66 @@
             --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--light);
             color: var(--dark);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* ========== GLASS NAVIGATION ========== */
+        /* Navbar */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(102, 126, 234, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s, box-shadow 0.3s;
         }
 
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
 
         .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 800;
+            display: flex; align-items: center; gap: 0.75rem;
+            font-size: 1.5rem; font-weight: 800;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-            text-decoration: none;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            cursor: pointer; text-decoration: none;
         }
 
-        .nav-brand i {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .nav-brand i { font-size: 1.8rem; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            align-items: center;
-        }
+        .nav-menu { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
 
-        .nav-link {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s ease;
-        }
+        .nav-link { color: var(--dark); text-decoration: none; font-weight: 600; font-size: 0.95rem; position: relative; transition: color 0.3s; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link.active-page { color: var(--primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active-page::after { width: 100%; }
 
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* ========== GLASSMORPHISM HERO ========== */
+        /* Hero */
         .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8rem 2rem 4rem;
-            overflow: hidden;
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 8rem 2rem 4rem; overflow: hidden;
         }
 
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            content: ''; position: absolute; inset: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            z-index: -2;
+            animation: gradientShift 15s ease infinite; z-index: -2;
+        }
+
+        .hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(240,147,251,0.15) 0%, transparent 50%);
+            z-index: -1;
         }
 
         @keyframes gradientShift {
@@ -142,438 +86,129 @@
             100% { background-position: 0% 50%; }
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.15) 0%, transparent 50%);
-            z-index: -1;
-        }
-
         .vision-mission-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 4rem 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            animation: floatIn 1s ease-out;
+            max-width: 900px; margin: 0 auto;
+            background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-radius: 30px; padding: 4rem 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: floatIn 1s ease-out;
         }
 
-        @keyframes floatIn {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes floatIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            color: var(--white);
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(255,255,255,0.25); backdrop-filter: blur(10px);
+            padding: 0.75rem 1.5rem; border-radius: 50px; color: var(--white);
+            font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .vision-title, .mission-title {
-            color: var(--white);
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
+        .vision-title, .mission-title { color: var(--white); font-size: 2.5rem; font-weight: 900; margin-bottom: 1.5rem; text-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+        .vision-text, .mission-text { color: rgba(255,255,255,0.95); font-size: 1.25rem; line-height: 1.8; margin-bottom: 3rem; }
+        .mission-section { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); }
 
-        .vision-text, .mission-text {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin-bottom: 3rem;
-        }
+        /* Contact Section */
+        .contact-section { padding: 6rem 2rem; background: var(--white); }
 
-        .mission-section {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        .section-header { text-align: center; max-width: 800px; margin: 0 auto 4rem; }
+        .section-title { font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.2rem; color: var(--gray); }
 
-        /* ========== INTERACTIVE CONTACT CARDS ========== */
-        .contact-section {
-            padding: 6rem 2rem;
-            background: var(--white);
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 4rem;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-        }
-
-        .contact-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
+        .contact-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
 
         .contact-card {
-            position: relative;
-            background: var(--white);
-            padding: 3rem 2rem;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.12);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            overflow: hidden;
+            position: relative; background: var(--white); padding: 3rem 2rem;
+            border-radius: 24px; box-shadow: 0 10px 40px rgba(102,126,234,0.12);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; overflow: hidden;
         }
 
-        .contact-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            border-radius: 24px;
-        }
-
-        .contact-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
-        }
+        .contact-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); opacity: 0; transition: opacity 0.4s; border-radius: 24px; }
+        .contact-card:hover::before { opacity: 0.05; }
+        .contact-card:hover { transform: translateY(-12px); box-shadow: 0 20px 60px rgba(102,126,234,0.25); }
 
         .contact-icon-wrapper {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
+            position: relative; width: 80px; height: 80px; margin: 0 auto 1.5rem;
+            display: flex; align-items: center; justify-content: center; border-radius: 20px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.3); transition: all 0.4s;
         }
+        .contact-card:hover .contact-icon-wrapper { transform: scale(1.1); box-shadow: 0 15px 40px rgba(102,126,234,0.5); }
+        .contact-icon-wrapper i { font-size: 2rem; color: var(--white); }
 
-        .contact-card:hover .contact-icon-wrapper {
-            transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-        }
-
-        .contact-icon-wrapper i {
-            font-size: 2rem;
-            color: var(--white);
-        }
-
-        .contact-card h3 {
-            position: relative;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .contact-card p {
-            position: relative;
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            line-height: 1.6;
-        }
+        .contact-card h3 { position: relative; font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 1rem; text-align: center; }
+        .contact-card p { position: relative; color: var(--gray); margin-bottom: 1.5rem; text-align: center; line-height: 1.6; }
 
         .contact-value {
-            position: relative;
-            display: inline-block;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            position: relative; display: inline-block; font-size: 1.1rem; font-weight: 700;
+            color: var(--primary); text-decoration: none; padding: 0.75rem 1.5rem;
+            background: rgba(102,126,234,0.1); border-radius: 12px; transition: all 0.3s;
         }
+        .contact-value:hover { background: rgba(102,126,234,0.2); transform: scale(1.05); }
+        .contact-meta { position: relative; display: block; margin-top: 1rem; font-size: 0.9rem; color: var(--gray); text-align: center; }
 
-        .contact-value:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: scale(1.05);
-        }
+        /* FAQ */
+        .faq-section { padding: 6rem 2rem; background: var(--light); }
+        .faq-container { max-width: 900px; margin: 0 auto; }
 
-        .contact-meta {
-            position: relative;
-            display: block;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-            text-align: center;
-        }
+        .faq-item { background: var(--white); margin-bottom: 1.5rem; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: all 0.3s; }
+        .faq-item:hover { box-shadow: 0 8px 30px rgba(102,126,234,0.15); }
 
-        /* ========== MODERN FAQ ACCORDION ========== */
-        .faq-section {
-            padding: 6rem 2rem;
-            background: var(--light);
-        }
+        .faq-question { padding: 2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; transition: all 0.3s; }
+        .faq-item.active .faq-question { background: linear-gradient(135deg, rgba(102,126,234,0.05) 0%, rgba(118,75,162,0.05) 100%); }
+        .faq-question h4 { font-size: 1.15rem; font-weight: 700; color: var(--dark); flex: 1; }
 
-        .faq-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .faq-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: var(--white); border-radius: 12px; font-size: 1.2rem; transition: all 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
 
-        .faq-item {
-            background: var(--white);
-            margin-bottom: 1.5rem;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-content { padding: 0 2rem 2rem; color: var(--gray); font-size: 1.05rem; line-height: 1.8; }
 
-        .faq-item:hover {
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
-        }
-
-        .faq-question {
-            padding: 2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .faq-item.active .faq-question {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-        }
-
-        .faq-question h4 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--dark);
-            flex: 1;
-        }
-
-        .faq-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--white);
-            border-radius: 12px;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-        }
-
-        .faq-answer-content {
-            padding: 0 2rem 2rem;
-            color: var(--gray);
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        /* ========== FLOATING ACTION BUTTONS ========== */
-        .floating-actions {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 999;
-        }
+        /* Floating Actions */
+        .floating-actions { position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999; }
 
         .float-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.5rem;
-            text-decoration: none;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: pulse 2s infinite;
         }
-
-        .float-btn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-        }
-
-        .whatsapp-btn {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-        }
-
-        .support-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        }
+        .float-btn:hover { transform: scale(1.15); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+        .whatsapp-btn { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); }
+        .support-btn { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); }
 
         @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-            }
-            50% {
-                box-shadow: 0 8px 40px rgba(102, 126, 234, 0.5);
-            }
+            0%, 100% { box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+            50% { box-shadow: 0 8px 40px rgba(102,126,234,0.5); }
         }
 
-        /* ========== FOOTER ========== */
-        .footer {
-            background: var(--dark);
-            color: var(--white);
-            padding: 3rem 2rem 1.5rem;
-            text-align: center;
-        }
+        /* Footer */
+        .footer { background: var(--dark); color: var(--white); padding: 3rem 2rem 1.5rem; text-align: center; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-brand { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .footer-text { color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 0.95rem; }
+        .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 0.9rem; }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .footer-text {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-
-            .vision-title, .mission-title {
-                font-size: 2rem;
-            }
-
-            .vision-text, .mission-text {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 2.25rem;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .floating-actions {
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-
-            .float-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 1.3rem;
-            }
-
-            .vision-mission-card {
-                padding: 2.5rem 1.5rem;
-            }
+            .nav-menu { display: none; }
+            .vision-title, .mission-title { font-size: 2rem; }
+            .vision-text, .mission-text { font-size: 1.1rem; }
+            .section-title { font-size: 2.25rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .vision-mission-card { padding: 2.5rem 1.5rem; }
+            .float-btn { width: 55px; height: 55px; font-size: 1.3rem; }
         }
 
         @media (max-width: 480px) {
-            .hero {
-                padding: 6rem 1rem 3rem;
-            }
-
-            .vision-title, .mission-title {
-                font-size: 1.75rem;
-            }
-
-            .section-title {
-                font-size: 1.85rem;
-            }
-
-            .contact-section, .faq-section {
-                padding: 4rem 1rem;
-            }
+            .hero { padding: 6rem 1rem 3rem; }
+            .vision-title, .mission-title { font-size: 1.75rem; }
+            .section-title { font-size: 1.85rem; }
+            .contact-section, .faq-section { padding: 4rem 1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Glass Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
                 <i class="fas fa-box-open"></i>
@@ -581,12 +216,12 @@
             </a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="#" class="nav-link">Contact</a></li>
+                <!-- FIX #14: removed href="#" — current page gets active-page class instead -->
+                <li><a href="contact.html" class="nav-link active-page">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Glassmorphism Hero with Vision & Mission -->
     <section class="hero">
         <div class="vision-mission-card">
             <div class="hero-badge">
@@ -595,62 +230,39 @@
             </div>
 
             <div class="vision-section">
-                <h1 class="vision-title">
-                    <i class="fas fa-lightbulb"></i> Our Vision
-                </h1>
-                <p class="vision-text">
-                    To revolutionize commerce in rural Kenya by making every local shop in Kimana as efficient as a tech startup in Nairobi—because great business tools shouldn't be a city privilege.
-                </p>
+                <h1 class="vision-title"><i class="fas fa-lightbulb"></i> Our Vision</h1>
+                <p class="vision-text">To revolutionize commerce in rural Kenya by making every local shop in Kimana as efficient as a tech startup in Nairobi—because great business tools shouldn't be a city privilege.</p>
             </div>
 
             <div class="mission-section">
-                <h1 class="mission-title">
-                    <i class="fas fa-rocket"></i> Our Mission
-                </h1>
-                <p class="mission-text">
-                    We're building the supply chain superhighway for Kimana's entrepreneurs. From the mama selling groceries to the hardware store owner, we connect everyone to reliable suppliers, fast delivery, and smart inventory management—turning local hustle into unstoppable businesses. Same-day delivery, zero hassle, 100% growth.
-                </p>
+                <h1 class="mission-title"><i class="fas fa-rocket"></i> Our Mission</h1>
+                <p class="mission-text">We're building the supply chain superhighway for Kimana's entrepreneurs. From the mama selling groceries to the hardware store owner, we connect everyone to reliable suppliers, fast delivery, and smart inventory management—turning local hustle into unstoppable businesses. Same-day delivery, zero hassle, 100% growth.</p>
             </div>
         </div>
     </section>
 
-    <!-- Interactive Contact Cards -->
     <section class="contact-section">
         <div class="section-header">
             <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">
-                We're here to help businesses in Kimana thrive. Reach out anytime.
-            </p>
+            <p class="section-subtitle">We're here to help businesses in Kimana thrive. Reach out anytime.</p>
         </div>
-
         <div class="contact-grid">
-            <!-- Phone Card -->
             <div class="contact-card">
-                <div class="contact-icon-wrapper">
-                    <i class="fas fa-phone-alt"></i>
-                </div>
+                <div class="contact-icon-wrapper"><i class="fas fa-phone-alt"></i></div>
                 <h3>Call Us Directly</h3>
                 <p>Speak with our team instantly. We're available to support Kimana businesses.</p>
                 <a href="tel:+254742258137" class="contact-value">+254 742 258137</a>
                 <span class="contact-meta">Mon-Sat, 8AM-7PM EAT</span>
             </div>
-
-            <!-- Email Card -->
             <div class="contact-card">
-                <div class="contact-icon-wrapper">
-                    <i class="fas fa-envelope"></i>
-                </div>
+                <div class="contact-icon-wrapper"><i class="fas fa-envelope"></i></div>
                 <h3>Email Support</h3>
                 <p>Send us your questions anytime. We typically respond within hours.</p>
                 <a href="mailto:josephflynn774@gmail.com" class="contact-value">josephflynn774@gmail.com</a>
                 <span class="contact-meta">Response in 2-4 hours</span>
             </div>
-
-            <!-- Location Card -->
             <div class="contact-card">
-                <div class="contact-icon-wrapper">
-                    <i class="fas fa-map-marked-alt"></i>
-                </div>
+                <div class="contact-icon-wrapper"><i class="fas fa-map-marked-alt"></i></div>
                 <h3>Our Service Area</h3>
                 <p>Proudly serving the heart of Oloitokitok with fast, reliable delivery.</p>
                 <span class="contact-value">Kimana Town, Oloitokitok</span>
@@ -659,94 +271,64 @@
         </div>
     </section>
 
-    <!-- Modern FAQ Accordion -->
     <section class="faq-section">
         <div class="section-header">
             <h2 class="section-title">Frequently Asked Questions</h2>
-            <p class="section-subtitle">
-                Everything you need to know about Quickshelf's operations in Kimana.
-            </p>
+            <p class="section-subtitle">Everything you need to know about Quickshelf's operations in Kimana.</p>
         </div>
-
         <div class="faq-container">
-            <!-- FAQ 1 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h4>📍 What areas do you deliver to in Oloitokitok?</h4>
-                    <div class="faq-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        We primarily serve <strong>Kimana Town</strong> and the surrounding areas within Oloitokitok Sub-County. Our delivery network covers local shops, schools, and businesses within a 15km radius. Same-day delivery is available for orders placed before 2PM. We're expanding our reach—if you're outside our current zone, contact us and we'll work something out!
-                    </div>
+                    <div class="faq-answer-content">We primarily serve <strong>Kimana Town</strong> and surrounding areas within Oloitokitok Sub-County. Our delivery network covers local shops, schools, and businesses within a 15km radius. Same-day delivery is available for orders placed before 2PM. We're expanding—if you're outside our current zone, contact us and we'll work something out!</div>
                 </div>
             </div>
 
-            <!-- FAQ 2 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h4>🏪 How can I join Quickshelf as a vendor?</h4>
-                    <div class="faq-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Joining as a vendor is simple! Call us at <strong>+254 742 258137</strong> or email <strong>josephflynn774@gmail.com</strong>. We'll schedule a quick meeting (can be at your shop in Kimana), explain our platform, and get you onboarded within 48 hours. You'll need a valid business license, M-Pesa account, and inventory list. No upfront fees—we only take a small commission on successful orders.
-                    </div>
+                    <div class="faq-answer-content">Joining as a vendor is simple! Call us at <strong>+254 742 258137</strong> or email <strong>josephflynn774@gmail.com</strong>. We'll schedule a quick meeting at your shop in Kimana, explain our platform, and get you onboarded within 48 hours. You'll need a valid business license, M-Pesa account, and inventory list. No upfront fees—we only take a small commission on successful orders.</div>
                 </div>
             </div>
 
-            <!-- FAQ 3 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h4>💳 What payment methods do you accept?</h4>
-                    <div class="faq-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        We accept <strong>M-Pesa</strong> (most popular in Kimana), bank transfers, and cash on delivery for local orders. For businesses, we offer flexible payment terms including 30-day credit lines for verified vendors. All transactions are secure, and you'll receive instant SMS confirmations for every payment.
-                    </div>
+                    <div class="faq-answer-content">We accept <strong>M-Pesa</strong> (most popular in Kimana), bank transfers, and cash on delivery for local orders. For businesses, we offer flexible payment terms including 30-day credit lines for verified vendors. All transactions are secure with instant SMS confirmations.</div>
                 </div>
             </div>
 
-            <!-- FAQ 4 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h4>⏰ What are your operating hours in Kimana?</h4>
-                    <div class="faq-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Our customer support is available <strong>Monday to Saturday, 8AM-7PM EAT</strong>. However, our platform works 24/7—you can place orders anytime! Orders placed outside business hours will be processed first thing the next morning. For urgent issues, WhatsApp us at <strong>+254 742 258137</strong> and we'll respond ASAP.
-                    </div>
+                    <div class="faq-answer-content">Our customer support is available <strong>Monday to Saturday, 8AM-7PM EAT</strong>. However, our platform works 24/7—you can place orders anytime! Orders placed outside business hours will be processed first thing the next morning. For urgent issues, WhatsApp us at <strong>+254 742 258137</strong>.</div>
                 </div>
             </div>
 
-            <!-- FAQ 5 -->
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h4>📦 How do I track my order?</h4>
-                    <div class="faq-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+                    <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        Every order gets a unique tracking ID sent via SMS. You can track your order in real-time through our customer dashboard or by calling <strong>+254 742 258137</strong>. For local Kimana deliveries, we'll also send you the rider's contact so you can coordinate directly. You'll receive updates at every stage: Order Confirmed → Being Prepared → Out for Delivery → Delivered.
-                    </div>
+                    <div class="faq-answer-content">Every order gets a unique tracking ID sent via SMS. Track in real-time through our customer dashboard or by calling <strong>+254 742 258137</strong>. For local Kimana deliveries, we'll also send you the rider's contact for direct coordination. You'll receive updates at every stage: Order Confirmed → Being Prepared → Out for Delivery → Delivered.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Floating Action Buttons -->
     <div class="floating-actions">
         <a href="https://wa.me/254742258137" class="float-btn whatsapp-btn" target="_blank" aria-label="WhatsApp Support">
             <i class="fab fa-whatsapp"></i>
@@ -756,69 +338,27 @@
         </a>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-brand">
-                <i class="fas fa-box-open"></i>
-                <span>Quickshelf</span>
-            </div>
-            <p class="footer-text">
-                Empowering Kimana Town with world-class supply chain technology.<br>
-                Proudly serving Oloitokitok Sub-County.
-            </p>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Quickshelf. All rights reserved. | Built with ❤️ for Kimana</p>
-            </div>
+            <div class="footer-brand"><i class="fas fa-box-open"></i><span>Quickshelf</span></div>
+            <p class="footer-text">Empowering Kimana Town with world-class supply chain technology.<br>Proudly serving Oloitokitok Sub-County.</p>
+            <div class="footer-bottom"><p>&copy; 2025 Quickshelf. All rights reserved. | Built with ❤️ for Kimana</p></div>
         </div>
     </footer>
 
     <script>
-        // FAQ Accordion Toggle
-        function toggleFaq(element) {
-            const faqItem = element.parentElement;
-            const wasActive = faqItem.classList.contains('active');
-
-            // Close all FAQs
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Open clicked FAQ if it wasn't already active
-            if (!wasActive) {
-                faqItem.classList.add('active');
-            }
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
         }
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add scroll effect to navbar
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.8)';
-                navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.05)';
-            }
+            const navbar = document.getElementById('navbar');
+            navbar.style.background = window.scrollY > 100 ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)';
+            navbar.style.boxShadow = window.scrollY > 100 ? '0 4px 30px rgba(0,0,0,0.1)' : '0 4px 30px rgba(0,0,0,0.05)';
         });
-
-        console.log('✅ Quickshelf Contact Page Initialized');
-        console.log('📍 Serving: Kimana Town, Oloitokitok');
-        console.log('📞 Support: +254 742 258137');
     </script>
 </body>
 </html>

@@ -7,30 +7,33 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2d3748; }
+
         .dashboard { display: flex; min-height: 100vh; }
         .sidebar { width: 260px; background: #1a202c; color: white; padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 200; }
+        .main-content { flex: 1; margin-left: 260px; }
+
         .logo { padding: 0 20px 30px; font-size: 22px; font-weight: bold; color: #667eea; cursor: pointer; transition: opacity 0.3s; }
         .logo:hover { opacity: 0.8; }
         .logo-sub { font-size: 11px; color: #a0aec0; font-weight: normal; margin-top: 4px; }
         .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s; color: #a0aec0; border-left: 3px solid transparent; }
         .nav-item:hover, .nav-item.active { background: #2d3748; color: white; border-left-color: #667eea; }
-        .main-content { flex: 1; margin-left: 260px; }
+
         .topbar { background: white; padding: 15px 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .topbar-left { display: flex; align-items: center; gap: 15px; }
-        .vendor-name { font-weight: 700; font-size: 16px; color: #2d3748; }
+        .vendor-name { font-weight: 700; font-size: 16px; }
         .vendor-email { font-size: 12px; color: #718096; }
         .topbar-actions { display: flex; gap: 12px; align-items: center; }
-        .home-btn { background: #e2e8f0; color: #4a5568; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 6px; font-size: 14px; }
+        .home-btn { background: #e2e8f0; color: #4a5568; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
         .home-btn:hover { background: #cbd5e0; transform: translateY(-1px); }
         .quick-add-btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
         .quick-add-btn:hover { background: #5a67d8; transform: translateY(-1px); }
         .logout-btn { background: white; color: #f56565; border: 2px solid #f56565; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-size: 14px; }
         .logout-btn:hover { background: #f56565; color: white; }
+
         .canvas { padding: 30px; }
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* Stats */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s; border-left: 5px solid #667eea; }
         .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
@@ -38,7 +41,6 @@
         .stat-value { font-size: 32px; font-weight: bold; color: #2d3748; }
         .stat-trend { font-size: 12px; color: #a0aec0; margin-top: 5px; }
 
-        /* Checklist */
         .checklist { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
         .checklist-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid #f7fafc; }
         .checklist-item:last-child { border-bottom: none; }
@@ -46,7 +48,6 @@
         .checkbox.checked { background: #48bb78; border-color: #48bb78; }
         .checkbox.checked::after { content: "✓"; position: absolute; color: white; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 14px; }
 
-        /* Tables */
         .table-controls { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
         .filter-tab { padding: 8px 16px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 500; }
@@ -56,6 +57,7 @@
         thead { background: #f7fafc; }
         th { padding: 14px 16px; text-align: left; font-weight: 700; color: #4a5568; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 14px 16px; border-top: 1px solid #e2e8f0; font-size: 14px; }
+
         .stock-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .stock-low { background: #fed7d7; color: #c53030; }
         .stock-ok { background: #c6f6d5; color: #22543d; }
@@ -67,7 +69,6 @@
         .action-btn.danger { background: #fed7d7; color: #c53030; }
         .action-btn.danger:hover { background: #f56565; color: white; }
 
-        /* Forms */
         .form-section { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
         .form-section h3 { margin-bottom: 20px; color: #2d3748; font-size: 20px; }
         .form-group { margin-bottom: 20px; }
@@ -81,7 +82,6 @@
         .btn-primary:disabled { background: #a0aec0; cursor: not-allowed; transform: none; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; border: none; padding: 12px 28px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; margin-left: 10px; }
 
-        /* Order cards */
         .order-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 15px; border-left: 4px solid #667eea; }
         .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .order-id { font-weight: 700; font-size: 16px; }
@@ -90,37 +90,33 @@
         .status-shipped { background: #bee3f8; color: #2c5282; }
         .status-completed { background: #c6f6d5; color: #22543d; }
 
-        /* Empty / loading */
         .empty-state { text-align: center; padding: 50px 20px; color: #718096; }
         .empty-state p { font-size: 16px; margin-bottom: 8px; }
         .loading-state { text-align: center; padding: 50px 20px; color: #718096; }
         .spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 35px; border-radius: 15px; max-width: 650px; width: 90%; max-height: 90vh; overflow-y: auto; animation: modalIn 0.3s; }
         @keyframes modalIn { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
+        .modal-title { font-size: 22px; font-weight: bold; }
         .modal-close { cursor: pointer; font-size: 26px; color: #718096; background: none; border: none; transition: color 0.2s; }
         .modal-close:hover { color: #f56565; }
 
-        /* Notification */
-        .notification { position: fixed; top: 85px; right: 25px; color: white; padding: 16px 22px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 9999; display: none; font-weight: 600; animation: notifIn 0.4s; min-width: 280px; font-size: 14px; }
+        .notification { position: fixed; top: 85px; right: 25px; color: white; padding: 16px 22px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 9999; display: none; font-weight: 600; min-width: 280px; font-size: 14px; animation: notifIn 0.4s; }
         .notification.show { display: block; }
         .notification.success { background: #48bb78; }
         .notification.error { background: #f56565; }
         .notification.info { background: #667eea; }
         @keyframes notifIn { from { transform: translateX(350px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Finances */
         .payout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .payout-card { background: white; padding: 28px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         .payout-label { color: #718096; font-size: 13px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
         .payout-value { font-size: 30px; font-weight: bold; color: #2d3748; margin-bottom: 15px; }
 
-        /* Help */
         .help-list { line-height: 2.2; }
         .help-list li { cursor: pointer; color: #667eea; transition: color 0.2s; }
         .help-list li:hover { color: #5a67d8; }
@@ -131,8 +127,7 @@
 
         @media (max-width: 768px) {
             .sidebar { width: 65px; }
-            .sidebar .logo span:not(.logo-sub) { display: none; }
-            .nav-item span:last-child { display: none; }
+            .sidebar .logo span:not(.logo-sub), .nav-item span:last-child { display: none; }
             .main-content { margin-left: 65px; }
             .form-grid { grid-template-columns: 1fr; }
             .topbar { flex-wrap: wrap; gap: 10px; }
@@ -167,18 +162,16 @@
             </div>
             <div class="topbar-actions">
                 <button class="home-btn" onclick="goHome()">🏠 Home</button>
-                <button class="quick-add-btn" onclick="openModal()">+ Add Product</button>
+                <button class="quick-add-btn" onclick="openModal('add')">+ Add Product</button>
                 <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
 
         <div class="canvas">
-
             <!-- HOME -->
             <div class="page-content active" id="home">
                 <h1 style="margin-bottom:8px;">Dashboard Overview</h1>
                 <p style="color:#718096;margin-bottom:30px;">Welcome back, <strong id="vendorWelcomeName">Vendor</strong>!</p>
-
                 <div class="checklist">
                     <h3 style="margin-bottom:15px;font-size:18px;">🎯 Setup Checklist</h3>
                     <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Complete your Store Profile</span></div>
@@ -186,14 +179,12 @@
                     <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Set up your payout method</span></div>
                     <div class="checklist-item"><div class="checkbox" onclick="this.classList.toggle('checked')"></div><span>Share your store link</span></div>
                 </div>
-
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value" id="statRevenue">KES 0</div><div class="stat-trend" id="statRevenueTrend">No sales yet</div></div>
                     <div class="stat-card"><div class="stat-label">Active Listings</div><div class="stat-value" id="statListings">0</div><div class="stat-trend" id="statListingsTrend">Add your first product</div></div>
                     <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-value" id="statPendingOrders">0</div><div class="stat-trend">Awaiting fulfillment</div></div>
                     <div class="stat-card"><div class="stat-label">Completed Orders</div><div class="stat-value" id="statCompletedOrders">0</div><div class="stat-trend">Successfully fulfilled</div></div>
                 </div>
-
                 <div style="background:white;padding:25px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     <h3 style="margin-bottom:15px;">📋 Recent Activity</h3>
                     <div id="recentActivity"><div class="loading-state"><div class="spinner"></div><p>Loading activity...</p></div></div>
@@ -210,14 +201,12 @@
                         <div class="filter-tab" onclick="filterProducts('draft',this)">Drafts</div>
                         <div class="filter-tab" onclick="filterProducts('low',this)">Low Stock</div>
                     </div>
-                    <button class="quick-add-btn" onclick="openModal()">+ Add New Product</button>
+                    <button class="quick-add-btn" onclick="openModal('add')">+ Add New Product</button>
                 </div>
                 <div class="product-table">
                     <table>
                         <thead><tr><th>Product Name</th><th>Price (KES)</th><th>Stock</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
-                        <tbody id="productTableBody">
-                            <tr><td colspan="6"><div class="loading-state"><div class="spinner"></div><p>Loading products...</p></div></td></tr>
-                        </tbody>
+                        <tbody id="productTableBody"><tr><td colspan="6"><div class="loading-state"><div class="spinner"></div><p>Loading products...</p></div></td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -261,9 +250,7 @@
                     <div style="overflow-x:auto;">
                         <table style="margin-top:15px;">
                             <thead><tr><th>Date</th><th>Order ID</th><th>Gross</th><th>Platform Fee (5%)</th><th>Net Profit</th></tr></thead>
-                            <tbody id="transactionBody">
-                                <tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr>
-                            </tbody>
+                            <tbody id="transactionBody"><tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr></tbody>
                         </table>
                     </div>
                 </div>
@@ -337,18 +324,19 @@
                     </div>
                 </div>
             </div>
-
-        </div><!-- /canvas -->
+        </div>
     </main>
-</div><!-- /dashboard -->
+</div>
 
-<!-- Add Product Modal -->
+<!-- Add / Edit Product Modal (FIX #5: unified modal for both add and edit) -->
 <div class="modal" id="addProductModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>Add New Product</h2>
+            <h2 class="modal-title" id="productModalTitle">Add New Product</h2>
             <button class="modal-close" onclick="closeModal()">&times;</button>
         </div>
+        <!-- Hidden field to track edit mode -->
+        <input type="hidden" id="editProductId" value="">
         <div class="form-group"><label>Product Name *</label><input type="text" id="prodName" placeholder="e.g., Maize Flour 2kg"></div>
         <div class="form-group"><label>Description *</label><textarea id="prodDesc" placeholder="Describe your product..."></textarea></div>
         <div class="form-grid">
@@ -381,16 +369,12 @@
 <div id="notification" class="notification"></div>
 
 <script>
-    // ============================================================
-    // BACKEND CONFIG — same URL as index.html
-    // ============================================================
     const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
 
     async function apiCall(action, data = {}) {
         try {
             const res = await fetch(API_BASE_URL, {
-                method: 'POST',
-                mode: 'cors',
+                method: 'POST', mode: 'cors',
                 headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify({ action, ...data })
             });
@@ -402,52 +386,42 @@
         }
     }
 
-    // ============================================================
-    // SESSION — matches exactly what index.html saves for vendors
-    // ============================================================
-    function store(k)      { try { return localStorage.getItem(k); } catch(e) { return null; } }
-    function storeSet(k,v) { try { localStorage.setItem(k,v); } catch(e) {} }
-    function storeRemove(k){ try { localStorage.removeItem(k); } catch(e) {} }
+    const store = k => { try { return localStorage.getItem(k); } catch(e) { return null; } };
+    const storeSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} };
+    const storeRemove = k => { try { localStorage.removeItem(k); } catch(e) {} };
 
-    // Guard
+    // Auth guard
     if (store('quickshelfLoggedIn') !== 'true' || store('quickshelfUserType') !== 'vendor') {
         window.location.href = 'index.html';
     }
 
     const sessionEmail = store('quickshelfUserEmail') || '';
-    const sessionRaw   = JSON.parse(store('quickshelfUserData') || '{}');
+    // FIX #12: Safe JSON parse
+    let sessionRaw = {};
+    try { sessionRaw = JSON.parse(store('quickshelfUserData') || '{}'); } catch(e) { sessionRaw = {}; }
 
     const vendorData = {
-        name:     sessionRaw.name  || sessionRaw.businessName || sessionRaw.storeName || 'Vendor',
-        email:    sessionRaw.email || sessionEmail,
-        phone:    sessionRaw.phone || sessionRaw.phoneNumber  || '',
+        name: sessionRaw.name || sessionRaw.businessName || sessionRaw.storeName || 'Vendor',
+        email: sessionRaw.email || sessionEmail,
+        phone: sessionRaw.phone || sessionRaw.phoneNumber || '',
         category: sessionRaw.category || '',
     };
 
-    // In-memory state
-    let products    = [];
-    let vendorOrders= [];
+    let products = [];
+    let vendorOrders = [];
+    let editingProductId = null; // FIX #5: track which product is being edited
 
-    // ============================================================
-    // INIT
-    // ============================================================
     async function initDashboard() {
-        document.getElementById('vendorDisplayName').textContent  = vendorData.name;
+        document.getElementById('vendorDisplayName').textContent = vendorData.name;
         document.getElementById('vendorDisplayEmail').textContent = vendorData.email;
-        document.getElementById('vendorWelcomeName').textContent  = vendorData.name.split(' ')[0];
-
-        // Pre-fill profile form
-        document.getElementById('profileStoreName').value  = vendorData.name;
-        document.getElementById('profileEmail').value      = vendorData.email;
-        document.getElementById('profilePhone').value      = vendorData.phone;
-        document.getElementById('profileCategory').value  = vendorData.category;
-
+        document.getElementById('vendorWelcomeName').textContent = vendorData.name.split(' ')[0];
+        document.getElementById('profileStoreName').value = vendorData.name;
+        document.getElementById('profileEmail').value = vendorData.email;
+        document.getElementById('profilePhone').value = vendorData.phone;
+        document.getElementById('profileCategory').value = vendorData.category;
         await Promise.all([fetchProducts(), fetchVendorOrders()]);
     }
 
-    // ============================================================
-    // PRODUCTS
-    // ============================================================
     async function fetchProducts() {
         const res = await apiCall('getVendorProducts', { email: vendorData.email });
         products = (res.success && Array.isArray(res.products)) ? res.products : [];
@@ -462,12 +436,11 @@
             return;
         }
         tbody.innerHTML = list.map(p => {
-            const stock  = Number(p.stock || p.quantity || p.stockQuantity || 0);
-            const price  = Number(p.price || 0);
+            const stock = Number(p.stock || p.quantity || p.stockQuantity || 0);
+            const price = Number(p.price || 0);
             const status = (p.status || 'draft').toLowerCase();
-            const pid    = p.id || p.productId || '';
-            return `
-            <tr>
+            const pid = p.id || p.productId || '';
+            return `<tr>
                 <td><strong>${p.name || p.productName || '—'}</strong></td>
                 <td>KES ${price.toLocaleString()}</td>
                 <td><span class="stock-badge ${stock < 5 ? 'stock-low' : 'stock-ok'}">${stock} units</span></td>
@@ -484,44 +457,70 @@
     function filterProducts(type, el) {
         el.parentElement.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
-        let filtered = products;
-        if (type === 'active') filtered = products.filter(p => (p.status||'').toLowerCase() === 'active');
-        if (type === 'draft')  filtered = products.filter(p => (p.status||'').toLowerCase() === 'draft');
-        if (type === 'low')    filtered = products.filter(p => Number(p.stock||p.quantity||0) < 5);
+        const filtered = type === 'all' ? products
+            : type === 'active' ? products.filter(p => (p.status||'').toLowerCase() === 'active')
+            : type === 'draft'  ? products.filter(p => (p.status||'').toLowerCase() === 'draft')
+            : products.filter(p => Number(p.stock||p.quantity||0) < 5);
         renderProducts(filtered);
     }
 
+    // FIX #5: openModal now supports 'add' and 'edit' modes
+    function openModal(mode = 'add', pid = null) {
+        editingProductId = null;
+        document.getElementById('editProductId').value = '';
+        document.getElementById('productModalTitle').textContent = 'Add New Product';
+        document.getElementById('saveProductBtn').textContent = 'Save Product';
+        // Clear fields
+        ['prodName','prodDesc','prodPrice','prodStock'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('prodCategory').value = '';
+        document.getElementById('prodStatus').value = 'active';
+
+        if (mode === 'edit' && pid) {
+            const p = products.find(x => (x.id || x.productId) === pid);
+            if (!p) { showNotification('Product not found.', 'error'); return; }
+            editingProductId = pid;
+            document.getElementById('editProductId').value = pid;
+            document.getElementById('productModalTitle').textContent = 'Edit Product';
+            document.getElementById('saveProductBtn').textContent = 'Update Product';
+            document.getElementById('prodName').value = p.name || p.productName || '';
+            document.getElementById('prodDesc').value = p.description || p.desc || '';
+            document.getElementById('prodPrice').value = p.price || '';
+            document.getElementById('prodStock').value = p.stock || p.quantity || p.stockQuantity || '';
+            document.getElementById('prodCategory').value = p.category || '';
+            document.getElementById('prodStatus').value = (p.status || 'active').toLowerCase();
+        }
+        document.getElementById('addProductModal').classList.add('active');
+    }
+
+    function closeModal() { document.getElementById('addProductModal').classList.remove('active'); editingProductId = null; }
+
     async function saveProduct() {
-        const name     = document.getElementById('prodName').value.trim();
-        const desc     = document.getElementById('prodDesc').value.trim();
-        const price    = document.getElementById('prodPrice').value.trim();
-        const stock    = document.getElementById('prodStock').value.trim();
+        const name = document.getElementById('prodName').value.trim();
+        const desc = document.getElementById('prodDesc').value.trim();
+        const price = document.getElementById('prodPrice').value.trim();
+        const stock = document.getElementById('prodStock').value.trim();
         const category = document.getElementById('prodCategory').value;
-        const status   = document.getElementById('prodStatus').value;
+        const status = document.getElementById('prodStatus').value;
 
         if (!name || !desc || !price || !stock || !category) {
-            showNotification('Please fill in all required fields.', 'error');
-            return;
+            showNotification('Please fill in all required fields.', 'error'); return;
         }
 
         const btn = document.getElementById('saveProductBtn');
         btn.disabled = true; btn.textContent = 'Saving...';
 
-        const res = await apiCall('addProduct', {
-            email: vendorData.email,
-            name, description: desc,
-            price: Number(price), stock: Number(stock),
-            category, status
-        });
+        // FIX #5: Use updateProduct action when editing, addProduct when adding
+        const isEdit = !!editingProductId;
+        const action = isEdit ? 'updateProduct' : 'addProduct';
+        const payload = { email: vendorData.email, name, description: desc, price: Number(price), stock: Number(stock), category, status };
+        if (isEdit) payload.productId = editingProductId;
 
-        btn.disabled = false; btn.textContent = 'Save Product';
+        const res = await apiCall(action, payload);
+        btn.disabled = false; btn.textContent = isEdit ? 'Update Product' : 'Save Product';
 
         if (res.success) {
-            showNotification('✅ Product saved successfully!', 'success');
+            showNotification(`✅ Product ${isEdit ? 'updated' : 'saved'} successfully!`, 'success');
             closeModal();
-            // Clear form
-            ['prodName','prodDesc','prodPrice','prodStock'].forEach(id => { document.getElementById(id).value=''; });
-            document.getElementById('prodCategory').value = '';
             await fetchProducts();
         } else {
             showNotification(res.message || 'Failed to save product.', 'error');
@@ -529,25 +528,17 @@
     }
 
     async function deleteProduct(pid) {
-        if (!pid) return;
-        if (!confirm('Remove this product? This cannot be undone.')) return;
+        if (!pid || !confirm('Remove this product? This cannot be undone.')) return;
         const res = await apiCall('deleteProduct', { productId: pid, email: vendorData.email });
-        if (res.success) {
-            showNotification('🗑️ Product removed.', 'info');
-            await fetchProducts();
-        } else {
-            showNotification(res.message || 'Could not remove product.', 'error');
-        }
+        if (res.success) { showNotification('🗑️ Product removed.', 'info'); await fetchProducts(); }
+        else showNotification(res.message || 'Could not remove product.', 'error');
     }
 
+    // FIX #5: editProduct now opens the modal pre-filled
     function editProduct(pid) {
-        // Simple: just show notification to use form for now
-        showNotification('Edit feature — use the form to update this product directly.', 'info');
+        openModal('edit', pid);
     }
 
-    // ============================================================
-    // VENDOR ORDERS
-    // ============================================================
     async function fetchVendorOrders() {
         const res = await apiCall('getVendorOrders', { email: vendorData.email });
         vendorOrders = (res.success && Array.isArray(res.orders)) ? res.orders : [];
@@ -559,27 +550,20 @@
     function renderVendorOrders(list) {
         const container = document.getElementById('ordersContainer');
         if (!list || list.length === 0) {
-            container.innerHTML = `<div class="empty-state" style="background:white;padding:60px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                <p style="font-size:18px;margin-bottom:8px;">📦 No orders yet</p>
-                <p>Your orders will appear here once customers purchase your products.</p>
-            </div>`;
+            container.innerHTML = `<div class="empty-state" style="background:white;padding:60px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"><p style="font-size:18px;">📦 No orders yet</p><p>Your orders will appear here once customers purchase your products.</p></div>`;
             return;
         }
         container.innerHTML = list.map(o => {
-            const oid     = o.id || o.orderId || '—';
-            const status  = (o.status || 'pending').toLowerCase();
-            const total   = Number(o.total || o.amount || 0);
-            const rawDate = o.date || o.createdAt || '';
-            const dateStr = rawDate ? new Date(rawDate).toLocaleDateString() : '—';
-            return `
-            <div class="order-card">
+            const oid = o.id || o.orderId || '—';
+            const status = (o.status || 'pending').toLowerCase();
+            const total = Number(o.total || o.amount || 0);
+            const dateStr = (o.date || o.createdAt) ? new Date(o.date || o.createdAt).toLocaleDateString() : '—';
+            return `<div class="order-card">
                 <div class="order-header">
                     <div class="order-id">📦 ${oid}</div>
-                    <span class="order-status status-${status === 'completed' ? 'completed' : status === 'shipped' ? 'shipped' : 'pending'}">
-                        ${status.charAt(0).toUpperCase() + status.slice(1)}
-                    </span>
+                    <span class="order-status status-${status === 'completed' ? 'completed' : status === 'shipped' ? 'shipped' : 'pending'}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
                 </div>
-                <p style="color:#718096;font-size:14px;margin-bottom:8px;">📅 ${dateStr} ${total ? `· <strong>KES ${total.toLocaleString()}</strong>` : ''}</p>
+                <p style="color:#718096;font-size:14px;margin-bottom:8px;">📅 ${dateStr}${total ? ` · <strong>KES ${total.toLocaleString()}</strong>` : ''}</p>
                 ${o.customerName||o.customer ? `<p style="font-size:14px;margin-bottom:10px;">👤 ${o.customerName||o.customer}</p>` : ''}
                 ${status === 'pending' ? `<button class="action-btn" onclick="markShipped('${oid}')">Mark as Shipped</button>` : ''}
                 ${status === 'shipped' ? `<button class="action-btn" onclick="markCompleted('${oid}')">Mark Completed</button>` : ''}
@@ -590,8 +574,7 @@
     function filterVendorOrders(type, el) {
         el.parentElement.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
-        const filtered = type === 'all' ? vendorOrders : vendorOrders.filter(o => (o.status||'').toLowerCase() === type);
-        renderVendorOrders(filtered);
+        renderVendorOrders(type === 'all' ? vendorOrders : vendorOrders.filter(o => (o.status||'').toLowerCase() === type));
     }
 
     async function markShipped(oid) {
@@ -606,94 +589,78 @@
         else showNotification(res.message || 'Update failed.', 'error');
     }
 
-    // ============================================================
-    // HOME STATS + FINANCES
-    // ============================================================
     function updateHomeStats() {
-        const activeListings  = products.filter(p => (p.status||'').toLowerCase() === 'active').length;
-        const pendingOrders   = vendorOrders.filter(o => (o.status||'').toLowerCase() === 'pending').length;
-        const completedOrders = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase())).length;
-        const revenue         = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()))
-                                            .reduce((s,o) => s + Number(o.total||o.amount||0), 0);
+        const activeListings = products.filter(p => (p.status||'').toLowerCase() === 'active').length;
+        const pendingOrders = vendorOrders.filter(o => (o.status||'').toLowerCase() === 'pending').length;
+        const completed = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()));
+        const revenue = completed.reduce((s, o) => s + Number(o.total||o.amount||0), 0);
 
-        document.getElementById('statRevenue').textContent       = `KES ${revenue.toLocaleString()}`;
-        document.getElementById('statRevenueTrend').textContent  = completedOrders > 0 ? `From ${completedOrders} order(s)` : 'No sales yet';
-        document.getElementById('statListings').textContent      = activeListings;
+        document.getElementById('statRevenue').textContent = `KES ${revenue.toLocaleString()}`;
+        document.getElementById('statRevenueTrend').textContent = completed.length > 0 ? `From ${completed.length} order(s)` : 'No sales yet';
+        document.getElementById('statListings').textContent = activeListings;
         document.getElementById('statListingsTrend').textContent = products.length > 0 ? `${products.length} total products` : 'Add your first product';
-        document.getElementById('statPendingOrders').textContent  = pendingOrders;
-        document.getElementById('statCompletedOrders').textContent= completedOrders;
+        document.getElementById('statPendingOrders').textContent = pendingOrders;
+        document.getElementById('statCompletedOrders').textContent = completed.length;
 
-        // Recent activity
         const activityEl = document.getElementById('recentActivity');
         const recent = vendorOrders.slice(0, 5);
-        if (recent.length === 0) {
-            activityEl.innerHTML = `<div class="empty-state"><p>👋 Welcome! Get started by adding your first product.</p></div>`;
-        } else {
-            activityEl.innerHTML = recent.map(o => {
+        activityEl.innerHTML = recent.length === 0
+            ? `<div class="empty-state"><p>👋 Welcome! Get started by adding your first product.</p></div>`
+            : recent.map(o => {
                 const oid = o.id || o.orderId || '—';
                 const total = Number(o.total||o.amount||0);
                 const rawDate = o.date || o.createdAt || '';
                 return `<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f7fafc;font-size:14px;">
-                    <span>📦 Order ${oid} ${o.customerName ? `from ${o.customerName}` : ''}</span>
-                    <span style="color:#718096;">${rawDate ? new Date(rawDate).toLocaleDateString() : ''} ${total ? `· KES ${total.toLocaleString()}` : ''}</span>
+                    <span>📦 Order ${oid}${o.customerName ? ` from ${o.customerName}` : ''}</span>
+                    <span style="color:#718096;">${rawDate ? new Date(rawDate).toLocaleDateString() : ''}${total ? ` · KES ${total.toLocaleString()}` : ''}</span>
                 </div>`;
             }).join('');
-        }
     }
 
     function updateFinances() {
-        const completedOrders = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()));
-        const totalRevenue    = completedOrders.reduce((s,o) => s + Number(o.total||o.amount||0), 0);
-        const fee             = totalRevenue * 0.05;
-        const net             = totalRevenue - fee;
+        const completed = vendorOrders.filter(o => ['completed','received','delivered'].includes((o.status||'').toLowerCase()));
+        const totalRevenue = completed.reduce((s, o) => s + Number(o.total||o.amount||0), 0);
+        const net = totalRevenue * 0.95;
 
-        document.getElementById('finTotal').textContent    = `KES ${net.toLocaleString()}`;
-        document.getElementById('finAvailable').textContent= `KES ${net.toLocaleString()}`;
-        document.getElementById('finPending').textContent  = `KES 0`;
-        document.getElementById('finOrderCount').textContent = `From ${completedOrders.length} completed order(s)`;
-
+        document.getElementById('finTotal').textContent = `KES ${net.toLocaleString()}`;
+        document.getElementById('finAvailable').textContent = `KES ${net.toLocaleString()}`;
+        document.getElementById('finPending').textContent = `KES 0`;
+        document.getElementById('finOrderCount').textContent = `From ${completed.length} completed order(s)`;
         if (net > 0) document.getElementById('payoutBtn').disabled = false;
 
-        // Transaction table
         const tbody = document.getElementById('transactionBody');
-        if (completedOrders.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr>`;
-        } else {
-            tbody.innerHTML = completedOrders.map(o => {
+        tbody.innerHTML = completed.length === 0
+            ? `<tr><td colspan="5"><div class="empty-state"><p>No transactions yet</p></div></td></tr>`
+            : completed.map(o => {
                 const gross = Number(o.total||o.amount||0);
-                const platformFee = gross * 0.05;
-                const netProfit   = gross - platformFee;
+                const fee = gross * 0.05;
                 const rawDate = o.date || o.createdAt || '';
                 return `<tr>
                     <td>${rawDate ? new Date(rawDate).toLocaleDateString() : '—'}</td>
                     <td>${o.id||o.orderId||'—'}</td>
                     <td>KES ${gross.toLocaleString()}</td>
-                    <td style="color:#f56565;">-KES ${platformFee.toLocaleString()}</td>
-                    <td style="color:#48bb78;font-weight:700;">KES ${netProfit.toLocaleString()}</td>
+                    <td style="color:#f56565;">-KES ${fee.toLocaleString()}</td>
+                    <td style="color:#48bb78;font-weight:700;">KES ${(gross - fee).toLocaleString()}</td>
                 </tr>`;
             }).join('');
-        }
     }
 
-    // ============================================================
-    // PROFILE
-    // ============================================================
     async function saveProfile() {
-        const name     = document.getElementById('profileStoreName').value.trim();
-        const desc     = document.getElementById('profileDescription').value.trim();
-        const category = document.getElementById('profileCategory').value;
-        const phone    = document.getElementById('profilePhone').value.trim();
-        const email    = document.getElementById('profileEmail').value.trim();
-
+        const name = document.getElementById('profileStoreName').value.trim();
         if (!name) { showNotification('Store name is required.', 'error'); return; }
-
-        const res = await apiCall('updateVendorProfile', { email: vendorData.email, name, description: desc, category, phone, newEmail: email });
+        const res = await apiCall('updateVendorProfile', {
+            email: vendorData.email,
+            name,
+            description: document.getElementById('profileDescription').value.trim(),
+            category: document.getElementById('profileCategory').value,
+            phone: document.getElementById('profilePhone').value.trim(),
+            newEmail: document.getElementById('profileEmail').value.trim()
+        });
         if (res.success) {
             vendorData.name = name;
-            vendorData.phone = phone;
             document.getElementById('vendorDisplayName').textContent = name;
             document.getElementById('vendorWelcomeName').textContent = name.split(' ')[0];
-            storeSet('quickshelfUserData', JSON.stringify({ ...sessionRaw, name, phone, category }));
+            storeSet('quickshelfUserData', JSON.stringify({ ...sessionRaw, name }));
             showNotification('✅ Profile saved!', 'success');
         } else {
             showNotification(res.message || 'Could not save profile.', 'error');
@@ -701,19 +668,20 @@
     }
 
     async function savePolicies() {
-        const returnPolicy   = document.getElementById('profileReturnPolicy').value.trim();
-        const shippingPolicy = document.getElementById('profileShippingPolicy').value.trim();
-        const holiday        = document.getElementById('holidayMode').checked;
-        const res = await apiCall('updateVendorPolicies', { email: vendorData.email, returnPolicy, shippingPolicy, holidayMode: holiday });
+        const res = await apiCall('updateVendorPolicies', {
+            email: vendorData.email,
+            returnPolicy: document.getElementById('profileReturnPolicy').value.trim(),
+            shippingPolicy: document.getElementById('profileShippingPolicy').value.trim(),
+            holidayMode: document.getElementById('holidayMode').checked
+        });
         if (res.success) showNotification('✅ Policies saved!', 'success');
         else showNotification(res.message || 'Could not save policies.', 'error');
     }
 
     async function savePayoutSettings() {
-        const method  = document.getElementById('payoutMethod').value;
         const account = document.getElementById('payoutAccount').value.trim();
         if (!account) { showNotification('Please enter your account number.', 'error'); return; }
-        const res = await apiCall('updatePayoutSettings', { email: vendorData.email, method, account });
+        const res = await apiCall('updatePayoutSettings', { email: vendorData.email, method: document.getElementById('payoutMethod').value, account });
         if (res.success) showNotification('✅ Payout settings saved!', 'success');
         else showNotification(res.message || 'Could not save payout settings.', 'error');
     }
@@ -724,9 +692,6 @@
         else showNotification(res.message || 'Payout request failed.', 'error');
     }
 
-    // ============================================================
-    // HELP / SUPPORT
-    // ============================================================
     function sendSupportMessage() {
         const subject = document.getElementById('helpSubject').value.trim();
         const message = document.getElementById('helpMessage').value.trim();
@@ -736,9 +701,6 @@
         showNotification('📱 Opening WhatsApp...', 'info');
     }
 
-    // ============================================================
-    // NAVIGATION
-    // ============================================================
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -748,8 +710,6 @@
         });
     });
 
-    function openModal()  { document.getElementById('addProductModal').classList.add('active'); }
-    function closeModal() { document.getElementById('addProductModal').classList.remove('active'); }
     document.getElementById('addProductModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
     function goHome() { window.location.href = 'index.html'; }
