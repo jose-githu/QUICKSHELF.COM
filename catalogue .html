@@ -45,6 +45,7 @@
         .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.3s; cursor: pointer; position: relative; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
         .product-image { width: 100%; height: 250px; object-fit: cover; background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; font-size: 80px; color: #a0aec0; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
         .product-badge { position: absolute; top: 15px; right: 15px; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
         .product-badge.new { background: #48bb78; }
         .product-badge.sale { background: #f59e0b; }
@@ -52,20 +53,20 @@
         .product-vendor { color: #718096; font-size: 13px; margin-bottom: 8px; font-weight: 600; }
         .product-name { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #2d3748; line-height: 1.4; }
         .product-description { color: #718096; font-size: 14px; margin-bottom: 15px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .product-rating { display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
-        .stars { color: #f59e0b; font-size: 14px; }
-        .rating-count { color: #718096; font-size: 13px; }
         .product-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #e2e8f0; }
         .product-price { font-size: 24px; font-weight: bold; color: #667eea; }
         .add-to-cart-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 5px; font-size: 14px; }
         .add-to-cart-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .out-of-stock { background: #e2e8f0; color: #718096; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: not-allowed; }
+
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 15px; height: 350px; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
         .empty-state { text-align: center; padding: 80px 20px; color: #a0aec0; }
         .empty-icon { font-size: 120px; margin-bottom: 20px; opacity: 0.5; }
         .empty-state h3 { font-size: 28px; margin-bottom: 12px; color: #4a5568; }
         .empty-state p { font-size: 16px; margin-bottom: 25px; }
 
-        /* Cart Sidebar */
         .cart-sidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.2); transition: right 0.3s; z-index: 2000; display: flex; flex-direction: column; }
         .cart-sidebar.open { right: 0; }
         .cart-header { padding: 25px; border-bottom: 2px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
@@ -74,7 +75,8 @@
         .close-cart:hover { background: #f56565; color: white; transform: rotate(90deg); }
         .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
         .cart-item { display: flex; gap: 15px; padding: 15px; background: #f7fafc; border-radius: 12px; margin-bottom: 15px; }
-        .cart-item-image { width: 80px; height: 80px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .cart-item-image { width: 80px; height: 80px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; }
+        .cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
         .cart-item-info { flex: 1; }
         .cart-item-name { font-weight: bold; margin-bottom: 5px; }
         .cart-item-price { color: #667eea; font-weight: bold; margin-bottom: 10px; }
@@ -88,11 +90,9 @@
         .cart-total { display: flex; justify-content: space-between; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
         .checkout-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
         .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
-        .checkout-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .cart-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
         .cart-overlay.show { display: block; }
 
-        /* Product Detail Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: modalSlide 0.3s; }
@@ -104,12 +104,10 @@
         .modal-icon { font-size: 90px; text-align: center; margin-bottom: 20px; }
         .modal-vendor { color: #718096; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
         .modal-description { color: #4a5568; line-height: 1.7; margin-bottom: 20px; font-size: 15px; }
-        .modal-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
         .modal-price { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 25px; }
         .modal-add-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
         .modal-add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
 
-        /* Checkout Modal */
         .checkout-modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: modalSlide 0.3s; }
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #4a5568; }
@@ -162,7 +160,7 @@
 
     <section class="search-section">
         <div class="search-bar">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for products..." onkeyup="searchProducts()">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for products...">
             <button class="search-btn" onclick="searchProducts()">Search</button>
         </div>
         <div class="categories">
@@ -172,7 +170,7 @@
             <button class="category-btn" onclick="filterCategory('home', event)">🏠 Home & Living</button>
             <button class="category-btn" onclick="filterCategory('beauty', event)">💄 Beauty</button>
             <button class="category-btn" onclick="filterCategory('sports', event)">⚽ Sports</button>
-            <button class="category-btn" onclick="filterCategory('books', event)">📚 Books</button>
+            <button class="category-btn" onclick="filterCategory('food', event)">🍎 Food & Grocery</button>
         </div>
     </section>
 
@@ -184,7 +182,6 @@
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="name">Name: A-Z</option>
-                <option value="rating">Top Rated</option>
             </select>
         </div>
         <div class="products-grid" id="productsGrid"></div>
@@ -204,7 +201,7 @@
         </div>
     </div>
 
-    <!-- FIX #15: Product Detail Modal (replaces alert) -->
+    <!-- Product Detail Modal -->
     <div class="modal" id="productModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -213,14 +210,13 @@
             </div>
             <div class="modal-icon" id="modalProductIcon"></div>
             <div class="modal-vendor" id="modalProductVendor"></div>
-            <div class="modal-rating" id="modalProductRating"></div>
             <p class="modal-description" id="modalProductDesc"></p>
             <div class="modal-price" id="modalProductPrice"></div>
             <button class="modal-add-btn" id="modalAddBtn" onclick="addToCartFromModal()">➕ Add to Cart</button>
         </div>
     </div>
 
-    <!-- FIX #3: Checkout Modal — collects delivery info & submits order to API -->
+    <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
         <div class="checkout-modal-content">
             <div class="modal-header">
@@ -242,7 +238,6 @@
                     <option value="">Select payment method</option>
                     <option value="mpesa">M-Pesa</option>
                     <option value="cash">Cash on Delivery</option>
-                    <option value="bank">Bank Transfer</option>
                 </select>
             </div>
             <div class="form-group">
@@ -256,138 +251,208 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw0ottrIns0t_ecJ6JwesPNee38Qx09OKuCv4wMY1fcfxkL0Cle1ZElPGivmhgAtYc6/exec';
+        // ── CONFIG ────────────────────────────────────────────────────────────
+        // Using localhost since PocketBase is running on the same phone via Termux
+        const PB_BASE_URL = 'http://127.0.0.1:8090';
 
-        // FIX #3: Login guard — redirect unauthenticated users
-        const store = k => { try { return localStorage.getItem(k); } catch(e) { return null; } };
-        const storeSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} };
-        const storeRemove = k => { try { localStorage.removeItem(k); } catch(e) {} };
+        // ── SESSION HELPERS ───────────────────────────────────────────────────
+        const store       = k => { try { return localStorage.getItem(k); } catch(e) { return null; } };
+        const storeSet    = (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} };
 
+        // Auth guard — redirect to login if not logged in
         if (store('quickshelfLoggedIn') !== 'true') {
             window.location.href = 'index.html';
         }
 
-        // Load customer session
         let sessionRaw = {};
         try { sessionRaw = JSON.parse(store('quickshelfUserData') || '{}'); } catch(e) {}
-        const customerPhone = store('quickshelfUserPhone') || sessionRaw.phone || sessionRaw.phoneNumber || '';
-        const customerName = sessionRaw.name || sessionRaw.fullName || '';
+        const customerPhone = store('quickshelfUserPhone') || sessionRaw.phone || '';
+        const pbToken       = store('quickshelfPBToken') || '';
 
-        async function apiCall(action, data = {}) {
+        const CATEGORY_NAMES = {
+            electronics: 'Electronics', fashion: 'Fashion', home: 'Home & Living',
+            beauty: 'Beauty', sports: 'Sports', food: 'Food & Grocery'
+        };
+
+        // ── STATE ─────────────────────────────────────────────────────────────
+        let allProducts      = [];
+        let currentCategory  = 'all';
+        let sortOrder        = 'featured';
+
+        // ── IMAGE HELPER ──────────────────────────────────────────────────────
+        // Returns either a real image URL (if product has one) or a fallback emoji
+        function getProductImage(p) {
+            if (p.image) {
+                return `${PB_BASE_URL}/api/files/products_/${p.id}/${p.image}`;
+            }
+            // Fallback emoji by category
+            const emojis = { electronics: '📱', fashion: '👗', home: '🏠', beauty: '💄', sports: '⚽', food: '🍎' };
+            return emojis[p.category_] || emojis[p.category] || '📦';
+        }
+
+        function renderImage(p, size = 'card') {
+            const src = getProductImage(p);
+            if (src.startsWith('http')) {
+                return `<img src="${src}" alt="${p.name}" onerror="this.parentElement.innerHTML='📦'">`;
+            }
+            return src; // emoji string
+        }
+
+        // ── FETCH PRODUCTS ────────────────────────────────────────────────────
+        async function fetchProducts(category = '', search = '') {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = Array(8).fill('<div class="skeleton"></div>').join('');
+
+            let filters = ['is_available=true'];
+
+            // Match your PocketBase field names (category_ has trailing underscore)
+            if (category && category !== 'all') {
+                filters.push(`category_='${category}'`);
+            }
+            if (search) {
+                filters.push(`(name_~'${search}'||description_~'${search}')`);
+            }
+
+            const filterStr = `&filter=(${filters.join('&&')})`;
+            const sortStr   = buildSortParam(sortOrder);
+
             try {
-                const res = await fetch(API_BASE_URL, { method: 'POST', mode: 'cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ action, ...data }) });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return await res.json();
+                const res = await fetch(
+                    `${PB_BASE_URL}/api/collections/products_/records?perPage=100&expand=vendor${filterStr}${sortStr}`
+                );
+                if (!res.ok) throw new Error(`Server error: ${res.status}`);
+                const data = await res.json();
+                return data.items || [];
             } catch (err) {
-                console.error('API Error:', err);
-                return { success: false, message: 'Connection error.' };
+                console.error('Products fetch error:', err);
+                showNotification('⚠️ Could not load products. Is PocketBase running?', true);
+                return [];
             }
         }
 
-        const CATEGORY_NAMES = { electronics:'Electronics', fashion:'Fashion', home:'Home & Living', beauty:'Beauty', sports:'Sports', books:'Books' };
+        function buildSortParam(order) {
+            const map = {
+                'featured':   '',
+                'price-low':  '&sort=price',
+                'price-high': '&sort=-price',
+                'name':       '&sort=name_',
+            };
+            return map[order] || '';
+        }
 
-        const allProducts = [
-            { id:1, name:'Wireless Bluetooth Headphones', vendor:'TechStore Kenya', price:3500, category:'electronics', description:'High-quality wireless headphones with noise cancellation and 20-hour battery life', rating:4.5, reviews:128, badge:'new', icon:'🎧' },
-            { id:2, name:'Smart Watch Pro', vendor:'Gadget Hub', price:8500, category:'electronics', description:'Feature-rich smartwatch with health tracking, GPS, and waterproof design', rating:4.8, reviews:245, badge:'sale', icon:'⌚' },
-            { id:3, name:'Premium Leather Wallet', vendor:'Fashion Kenya', price:2500, category:'fashion', description:'Genuine leather wallet with RFID protection and multiple card slots', rating:4.6, reviews:89, badge:'', icon:'👛' },
-            { id:4, name:'Cotton T-Shirt Pack (3pcs)', vendor:'Style Market', price:1800, category:'fashion', description:'100% cotton comfortable t-shirts in assorted colors, perfect for casual wear', rating:4.3, reviews:156, badge:'sale', icon:'👕' },
-            { id:5, name:'Portable Bluetooth Speaker', vendor:'Sound Pro', price:4200, category:'electronics', description:'Waterproof portable speaker with deep bass and 12-hour playtime', rating:4.7, reviews:201, badge:'new', icon:'🔊' },
-            { id:6, name:'Ceramic Coffee Mug Set', vendor:'Home Essentials', price:1200, category:'home', description:'Set of 4 elegant ceramic mugs, microwave and dishwasher safe', rating:4.4, reviews:67, badge:'', icon:'☕' },
-            { id:7, name:'Yoga Mat Premium', vendor:'FitLife Kenya', price:2800, category:'sports', description:'Non-slip yoga mat with extra cushioning, includes carrying strap', rating:4.6, reviews:143, badge:'', icon:'🧘' },
-            { id:8, name:'Face Care Kit', vendor:'Beauty Bliss', price:3200, category:'beauty', description:'Complete skincare set with cleanser, toner, moisturizer, and serum', rating:4.9, reviews:312, badge:'new', icon:'💆' },
-            { id:9, name:'LED Desk Lamp', vendor:'Home Bright', price:1950, category:'home', description:'Adjustable LED lamp with touch control and multiple brightness levels', rating:4.5, reviews:98, badge:'', icon:'💡' },
-            { id:10, name:'Running Shoes', vendor:'Sport World', price:5500, category:'sports', description:'Lightweight running shoes with breathable mesh and cushioned sole', rating:4.7, reviews:178, badge:'sale', icon:'👟' },
-            { id:11, name:'Bestseller Novel Collection', vendor:'Book Haven', price:2200, category:'books', description:'Set of 3 award-winning novels from top contemporary authors', rating:4.8, reviews:234, badge:'', icon:'📖' },
-            { id:12, name:'Designer Sunglasses', vendor:'Eyewear Plus', price:3800, category:'fashion', description:'UV-protected polarized sunglasses with stylish frames', rating:4.4, reviews:91, badge:'new', icon:'🕶️' },
-            { id:13, name:'Phone Power Bank 20000mAh', vendor:'Power Tech', price:2900, category:'electronics', description:'High-capacity power bank with fast charging and dual USB ports', rating:4.6, reviews:267, badge:'', icon:'🔋' },
-            { id:14, name:'Aromatherapy Diffuser', vendor:'Wellness Store', price:2400, category:'home', description:'Ultrasonic essential oil diffuser with LED lights and timer', rating:4.7, reviews:154, badge:'sale', icon:'🕯️' },
-            { id:15, name:'Dumbbell Set', vendor:'FitGear Kenya', price:4800, category:'sports', description:'Adjustable dumbbell set with weight plates and storage case', rating:4.5, reviews:121, badge:'', icon:'🏋️' },
-            { id:16, name:'Makeup Brush Set', vendor:'Glam Beauty', price:1650, category:'beauty', description:'Professional 12-piece makeup brush set with elegant case', rating:4.6, reviews:189, badge:'new', icon:'💄' }
-        ];
+        async function loadAndDisplay(category = currentCategory, search = '') {
+            const products = await fetchProducts(category, search);
+            allProducts = products;
+            displayProducts(products);
+        }
 
-        let displayedProducts = [...allProducts];
-        let cart = [];
-        let currentCategory = 'all';
-        let activeProductId = null;
-
-        // FIX #10: Load cart only for the current user — keyed by phone
-        const cartKey = `quickshelfCart_${customerPhone}`;
-        try { cart = JSON.parse(store(cartKey)) || []; } catch(e) { cart = []; }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Pre-fill checkout phone field
-            document.getElementById('checkoutPhone').value = customerPhone;
-            displayProducts(displayedProducts);
-            updateCartDisplay();
-        });
-
+        // ── RENDER PRODUCTS ───────────────────────────────────────────────────
         function displayProducts(products) {
             const grid = document.getElementById('productsGrid');
-            if (products.length === 0) {
-                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🔍</div><h3>No Products Found</h3><p>Try adjusting your search or filters</p></div>`;
+            if (!products.length) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+                    <div class="empty-icon">🔍</div>
+                    <h3>No Products Found</h3>
+                    <p>Try adjusting your search or filters</p>
+                </div>`;
                 return;
             }
-            grid.innerHTML = products.map(p => `
-                <div class="product-card" onclick="viewProduct(${p.id})">
-                    ${p.badge ? `<div class="product-badge ${p.badge}">${p.badge.toUpperCase()}</div>` : ''}
-                    <div class="product-image">${p.icon}</div>
+
+            grid.innerHTML = products.map(p => {
+                // Field names match your PocketBase collection (trailing underscores)
+                const vendorName = p.expand?.vendor?.shop_name || 'Quickshelf Vendor';
+                const imgSrc     = getProductImage(p);
+                const inStock    = (p.stock_ ?? p.stock ?? 1) > 0;
+                const name       = p.name_ || p.name || 'Product';
+                const desc       = p.description_ || p.description || '';
+                const price      = p.price || 0;
+
+                const imageHtml = imgSrc.startsWith('http')
+                    ? `<img src="${imgSrc}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='📦'">`
+                    : imgSrc;
+
+                const btnHtml = inStock
+                    ? `<button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">➕ Add</button>`
+                    : `<span class="out-of-stock">Out of Stock</span>`;
+
+                return `
+                <div class="product-card" onclick="viewProduct('${p.id}')">
+                    <div class="product-image">${imageHtml}</div>
                     <div class="product-info">
-                        <div class="product-vendor">by ${p.vendor}</div>
-                        <h3 class="product-name">${p.name}</h3>
-                        <p class="product-description">${p.description}</p>
-                        <div class="product-rating">
-                            <span class="stars">${'⭐'.repeat(Math.floor(p.rating))}</span>
-                            <span class="rating-count">(${p.reviews})</span>
-                        </div>
+                        <div class="product-vendor">by ${vendorName}</div>
+                        <h3 class="product-name">${name}</h3>
+                        <p class="product-description">${desc}</p>
                         <div class="product-footer">
-                            <div class="product-price">KES ${p.price.toLocaleString()}</div>
-                            <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${p.id})">➕ Add</button>
+                            <div class="product-price">KES ${Number(price).toLocaleString()}</div>
+                            ${btnHtml}
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
+        // ── FILTERS & SEARCH ──────────────────────────────────────────────────
         function filterCategory(category, e) {
             currentCategory = category;
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             e.target.closest('.category-btn').classList.add('active');
-            displayedProducts = category === 'all' ? [...allProducts] : allProducts.filter(p => p.category === category);
-            document.getElementById('sectionTitle').textContent = category === 'all' ? 'All Products' : (CATEGORY_NAMES[category] || category);
-            displayProducts(displayedProducts);
+            document.getElementById('sectionTitle').textContent =
+                category === 'all' ? 'All Products' : (CATEGORY_NAMES[category] || category);
+            document.getElementById('searchInput').value = '';
+            loadAndDisplay(category, '');
         }
+
+        let searchTimer;
+        document.addEventListener('DOMContentLoaded', () => {
+            if (customerPhone) document.getElementById('checkoutPhone').value = customerPhone;
+            loadAndDisplay('all', '');
+            updateCartDisplay();
+
+            document.getElementById('searchInput').addEventListener('input', () => {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(searchProducts, 400);
+            });
+        });
 
         function searchProducts() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const base = currentCategory === 'all' ? allProducts : allProducts.filter(p => p.category === currentCategory);
-            displayedProducts = !term ? [...base] : base.filter(p =>
-                p.name.toLowerCase().includes(term) ||
-                p.description.toLowerCase().includes(term) ||
-                p.vendor.toLowerCase().includes(term)
-            );
-            displayProducts(displayedProducts);
+            const term = document.getElementById('searchInput').value.trim();
+            loadAndDisplay(currentCategory, term);
         }
 
-        function sortProducts(sortBy) {
-            const sortFns = {
-                'price-low': (a, b) => a.price - b.price,
-                'price-high': (a, b) => b.price - a.price,
-                'name': (a, b) => a.name.localeCompare(b.name),
-                'rating': (a, b) => b.rating - a.rating,
-            };
-            if (sortFns[sortBy]) displayedProducts.sort(sortFns[sortBy]);
-            else displayedProducts = [...allProducts];
-            displayProducts(displayedProducts);
+        async function sortProducts(order) {
+            sortOrder = order;
+            await loadAndDisplay(currentCategory, document.getElementById('searchInput').value.trim());
         }
 
-        function addToCart(id) {
-            const product = allProducts.find(p => p.id === id);
-            const existing = cart.find(item => item.id === id);
-            if (existing) existing.quantity++;
-            else cart.push({ ...product, quantity: 1 });
+        // ── CART ──────────────────────────────────────────────────────────────
+        let cart = [];
+        const cartKey = `quickshelfCart_${customerPhone || 'guest'}`;
+        try { cart = JSON.parse(store(cartKey)) || []; } catch(e) { cart = []; }
+
+        function addToCart(productId) {
+            const p = allProducts.find(x => x.id === productId);
+            if (!p) return;
+
+            const stock = p.stock_ ?? p.stock ?? 999;
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                if (existing.quantity >= stock) {
+                    showNotification('⚠️ Not enough stock available', true);
+                    return;
+                }
+                existing.quantity++;
+            } else {
+                cart.push({
+                    id: p.id,
+                    name: p.name_ || p.name,
+                    price: p.price,
+                    image: getProductImage(p),
+                    quantity: 1
+                });
+            }
             saveCart();
             updateCartDisplay();
-            showNotification(`✅ ${product.name} added to cart!`);
+            showNotification(`✅ ${p.name_ || p.name} added to cart!`);
         }
 
         function removeFromCart(id) {
@@ -406,27 +471,31 @@
         }
 
         function updateCartDisplay() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             document.getElementById('cartCount').textContent = count;
             document.getElementById('cartTotal').textContent = `KES ${total.toLocaleString()}`;
+
+            const imgHtml = img => img && img.startsWith('http')
+                ? `<img src="${img}" style="width:100%;height:100%;object-fit:cover;" onerror="this.textContent='📦'">`
+                : (img || '📦');
+
             document.getElementById('cartItemsList').innerHTML = cart.length === 0
                 ? `<div class="empty-state"><div class="empty-icon">🛒</div><h3>Your cart is empty</h3><p>Add some products to get started</p></div>`
                 : cart.map(item => `
                     <div class="cart-item">
-                        <div class="cart-item-image">${item.icon}</div>
+                        <div class="cart-item-image">${imgHtml(item.image)}</div>
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">KES ${item.price.toLocaleString()}</div>
+                            <div class="cart-item-price">KES ${Number(item.price).toLocaleString()}</div>
                             <div class="cart-item-controls">
-                                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
+                                <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
                                 <span class="qty-display">${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                                <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
                             </div>
                         </div>
-                        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-                    </div>
-                `).join('');
+                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+                    </div>`).join('');
         }
 
         function toggleCart() {
@@ -434,22 +503,34 @@
             document.getElementById('cartOverlay').classList.toggle('show');
         }
 
-        // FIX #10: Cart keyed per user
         function saveCart() {
             try { storeSet(cartKey, JSON.stringify(cart)); } catch(e) {}
         }
 
-        // FIX #15: Product detail modal instead of alert
+        // ── PRODUCT DETAIL MODAL ──────────────────────────────────────────────
+        let activeProductId = null;
+
         function viewProduct(id) {
-            const p = allProducts.find(p => p.id === id);
+            const p = allProducts.find(x => x.id === id);
             if (!p) return;
             activeProductId = id;
-            document.getElementById('modalProductName').textContent = p.name;
-            document.getElementById('modalProductIcon').textContent = p.icon;
-            document.getElementById('modalProductVendor').textContent = `by ${p.vendor}`;
-            document.getElementById('modalProductRating').innerHTML = `<span style="color:#f59e0b;">${'⭐'.repeat(Math.floor(p.rating))}</span><span style="color:#718096;font-size:14px;margin-left:6px;">(${p.reviews} reviews)</span>`;
-            document.getElementById('modalProductDesc').textContent = p.description;
-            document.getElementById('modalProductPrice').textContent = `KES ${p.price.toLocaleString()}`;
+            const vendorName = p.expand?.vendor?.shop_name || 'Quickshelf Vendor';
+            const imgSrc     = getProductImage(p);
+            const name       = p.name_ || p.name || 'Product';
+            const desc       = p.description_ || p.description || '';
+
+            document.getElementById('modalProductName').textContent   = name;
+            document.getElementById('modalProductVendor').textContent = `by ${vendorName}`;
+            document.getElementById('modalProductDesc').textContent   = desc;
+            document.getElementById('modalProductPrice').textContent  = `KES ${Number(p.price).toLocaleString()}`;
+
+            const iconEl = document.getElementById('modalProductIcon');
+            if (imgSrc.startsWith('http')) {
+                iconEl.innerHTML = `<img src="${imgSrc}" style="width:200px;height:200px;object-fit:cover;border-radius:12px;" onerror="this.parentElement.textContent='📦'">`;
+            } else {
+                iconEl.textContent = imgSrc;
+            }
+
             document.getElementById('productModal').classList.add('active');
         }
 
@@ -464,18 +545,15 @@
             activeProductId = null;
         }
 
-        // FIX #3: Real checkout modal with API order submission
+        // ── CHECKOUT ──────────────────────────────────────────────────────────
         function openCheckoutModal() {
-            if (cart.length === 0) { showNotification('⚠️ Your cart is empty!', true); return; }
-            // Build order summary
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const summaryHTML = `
+            if (!cart.length) { showNotification('⚠️ Your cart is empty!', true); return; }
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            document.getElementById('orderSummaryList').innerHTML = `
                 <h4>Order Summary</h4>
-                ${cart.map(item => `<div class="summary-item"><span>${item.name} × ${item.quantity}</span><span>KES ${(item.price * item.quantity).toLocaleString()}</span></div>`).join('')}
-                <div class="summary-item"><span>Total</span><span>KES ${total.toLocaleString()}</span></div>
-            `;
-            document.getElementById('orderSummaryList').innerHTML = summaryHTML;
-            toggleCart(); // close cart sidebar first
+                ${cart.map(i => `<div class="summary-item"><span>${i.name} × ${i.quantity}</span><span>KES ${(i.price * i.quantity).toLocaleString()}</span></div>`).join('')}
+                <div class="summary-item"><span>Total</span><span>KES ${total.toLocaleString()}</span></div>`;
+            toggleCart();
             document.getElementById('checkoutModal').classList.add('active');
         }
 
@@ -485,53 +563,87 @@
 
         async function placeOrder() {
             const address = document.getElementById('checkoutAddress').value.trim();
-            const phone = document.getElementById('checkoutPhone').value.trim();
+            const phone   = document.getElementById('checkoutPhone').value.trim();
             const payment = document.getElementById('checkoutPayment').value;
-            const notes = document.getElementById('checkoutNotes').value.trim();
 
             if (!address) { showNotification('⚠️ Please enter your delivery address', true); return; }
-            if (!phone) { showNotification('⚠️ Please enter your phone number', true); return; }
+            if (!phone)   { showNotification('⚠️ Please enter your phone number', true); return; }
             if (!payment) { showNotification('⚠️ Please select a payment method', true); return; }
 
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const orderItems = cart.map(item => ({ name: item.name, price: item.price, quantity: item.quantity, vendor: item.vendor }));
+            const total   = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const headers = {
+                'Content-Type': 'application/json',
+                ...(pbToken ? { 'Authorization': pbToken } : {})
+            };
 
             const btn = document.getElementById('placeOrderBtn');
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-inline"></span> Placing Order...';
 
-            const res = await apiCall('placeOrder', {
-                phone: customerPhone,
-                customerName,
-                items: orderItems,
-                total,
-                deliveryAddress: address,
-                paymentMethod: payment,
-                notes,
-                date: new Date().toISOString()
-            });
+            try {
+                // Step 1 — Create order record
+                const orderRes = await fetch(`${PB_BASE_URL}/api/collections/orders/records`, {
+                    method: 'POST', headers,
+                    body: JSON.stringify({
+                        total_amount:     total,
+                        status:           'pending',
+                        payment_status:   'unpaid',
+                        delivery_address: address,
+                        phone:            phone,
+                    })
+                });
+                const orderData = await orderRes.json();
+                if (!orderRes.ok || !orderData.id) throw new Error(orderData.message || 'Order creation failed');
 
-            btn.disabled = false;
-            btn.innerHTML = '✅ Place Order';
+                const orderId = orderData.id;
 
-            if (res.success) {
-                // Clear cart after successful order
+                // Step 2 — Save each cart item as order_item record
+                for (const item of cart) {
+                    await fetch(`${PB_BASE_URL}/api/collections/order_items/records`, {
+                        method: 'POST', headers,
+                        body: JSON.stringify({
+                            order:    orderId,
+                            product:  item.id,
+                            quantity: item.quantity,
+                            price:    item.price,
+                        })
+                    });
+                }
+
+                // Step 3 — Deduct stock for each product
+                for (const item of cart) {
+                    const product = allProducts.find(p => p.id === item.id);
+                    if (product) {
+                        const currentStock = product.stock_ ?? product.stock ?? 0;
+                        const newStock     = Math.max(0, currentStock - item.quantity);
+                        await fetch(`${PB_BASE_URL}/api/collections/products_/records/${item.id}`, {
+                            method: 'PATCH', headers,
+                            body: JSON.stringify({ stock_: newStock })
+                        });
+                    }
+                }
+
+                // Step 4 — Clear cart and redirect
                 cart = [];
                 saveCart();
                 updateCartDisplay();
                 closeCheckoutModal();
-                showNotification(`🎉 Order placed! ID: ${res.orderId || 'Confirmed'}. Check your dashboard for updates.`);
-                // Optionally redirect to dashboard after a moment
+                showNotification(`🎉 Order placed! ID: ${orderId.slice(0,8)}. Check your dashboard.`);
                 setTimeout(() => {
-                    if (confirm('Order placed successfully! Go to your dashboard to track it?')) {
+                    if (confirm('Order placed! Go to your dashboard to track it?')) {
                         window.location.href = 'customer-dashboard.html';
                     }
                 }, 2000);
-            } else {
-                showNotification(res.message || '❌ Order failed. Please try again or contact support.', true);
+
+            } catch (err) {
+                showNotification(`❌ ${err.message || 'Order failed. Please try again.'}`, true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '✅ Place Order';
             }
         }
 
+        // ── HELPERS ───────────────────────────────────────────────────────────
         function showNotification(msg, isError = false) {
             const n = document.getElementById('notification');
             n.textContent = msg;
@@ -539,11 +651,10 @@
             setTimeout(() => n.classList.remove('show'), 4000);
         }
 
-        function goHome() { window.location.href = 'index.html'; }
+        function goHome()        { window.location.href = 'index.html'; }
         function goToDashboard() { window.location.href = 'customer-dashboard.html'; }
 
-        // Close modals on backdrop click
-        document.getElementById('productModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeProductModal(); });
+        document.getElementById('productModal').addEventListener('click',  e => { if (e.target === e.currentTarget) closeProductModal(); });
         document.getElementById('checkoutModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeCheckoutModal(); });
     </script>
 </body>
